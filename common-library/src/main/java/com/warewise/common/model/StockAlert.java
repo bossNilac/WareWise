@@ -57,4 +57,14 @@ public class StockAlert {
         this.createdAt = createdAt;
         this.resolved = resolved;
     }
+
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + productID+",";
+        output = output + threshold+",";
+        output = output + createdAt+",";
+        output = output + resolved+",";
+        return output;
+    }
 }

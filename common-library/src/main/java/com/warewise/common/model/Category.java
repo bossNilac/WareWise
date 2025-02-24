@@ -4,13 +4,11 @@ public class Category {
     private int ID;
     private String name;
     private String description;
-    private String createdAt;
 
-    public Category(int ID, String name, String description, String  createdAt) {
+    public Category(int ID, String name, String description) {
         this.ID = ID;
         this.name = name;
         this.description = description;
-        this.createdAt = createdAt;
     }
 
     public int getID() {
@@ -37,11 +35,12 @@ public class Category {
         this.description = description;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + name+",";
+        output = output + description+",";
+        return output;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
 }

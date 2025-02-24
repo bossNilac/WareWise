@@ -16,6 +16,7 @@ public class User {
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
+
     }
 
     public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username) {

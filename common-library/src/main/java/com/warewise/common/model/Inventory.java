@@ -99,6 +99,17 @@ public class Inventory {
         this.lastUpdated = lastUpdated;
     }
 
-
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + name+",";
+        output = output + description+",";
+        output = output + items.toString()+",";
+        output = output + quantity+",";
+        output = output + price +",";
+        output = output + supplyID+",";
+        output = output + lastUpdated;
+        return output;
+    }
 
 }

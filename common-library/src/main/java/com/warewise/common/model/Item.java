@@ -78,4 +78,16 @@ public class Item {
         this.category = category;
     }
 
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + orderID+",";
+        output = output + productID+",";
+        output = output + quantity+",";
+        output = output + price+",";
+        output = output + total+",";
+        output = output + category;
+        return output;
+    }
+
 }

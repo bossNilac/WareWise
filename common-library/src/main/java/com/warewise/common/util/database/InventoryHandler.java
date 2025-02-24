@@ -12,15 +12,22 @@ import java.util.List;
 public class InventoryHandler {
 
     public void addInventory(Inventory inventory) {
-        String sql = "INSERT INTO inventory (product_name, description, category, stock_quantity, price, supplier_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO inventory (product_id,product_name, description, category, stock_quantity, price, supplier_id) VALUES (?,?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, inventory.getName()); // Assuming the first item's name is used
-            stmt.setString(2, inventory.getItems().get(0).getCategory().getDescription());
-            stmt.setString(3, inventory.getItems().get(0).getCategory().getName());
-            stmt.setInt(4, inventory.getQuantity());
-            stmt.setDouble(5, inventory.getPrice());
-            stmt.setInt(6, inventory.getSupplyID());
+            stmt.setInt(1, inventory.getID());
+            stmt.setString(2, inventory.getName());
+            // Use inventory's own description instead of the first item's category description
+            stmt.setString(3, inventory.getDescription());
+            // Derive category from the first item if available; otherwise, set to null
+            String categoryName = null;
+            if (inventory.getItems() != null && !inventory.getItems().isEmpty()) {
+                categoryName = inventory.getItems().get(0).getCategory().getName();
+            }
+            stmt.setString(4, categoryName);
+            stmt.setInt(5, inventory.getQuantity());
+            stmt.setDouble(6, inventory.getPrice());
+            stmt.setInt(7, inventory.getSupplyID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,7 +40,11 @@ public class InventoryHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, inventory.getName());
             stmt.setString(2, inventory.getDescription());
-            stmt.setString(3, inventory.getItems().get(0).getCategory().getName());
+            String categoryName = null;
+            if (inventory.getItems() != null && !inventory.getItems().isEmpty()) {
+                categoryName = inventory.getItems().get(0).getCategory().getName();
+            }
+            stmt.setString(3, categoryName);
             stmt.setInt(4, inventory.getQuantity());
             stmt.setDouble(5, inventory.getPrice());
             stmt.setInt(6, inventory.getSupplyID());
@@ -71,7 +82,9 @@ public class InventoryHandler {
                 int supplierID = resultSet.getInt("supplier_id");
                 String lastUpdated = resultSet.getString("last_updated");
 
-                Inventory inventory = new Inventory(id, description,productName, null,stockQuantity,price,supplierID,lastUpdated);
+                // Since we don't have the items list stored in the table,
+                // we pass null or create it later if needed.
+                Inventory inventory = new Inventory(id, productName, description, null, stockQuantity, price, supplierID, lastUpdated);
                 inventoryList.add(inventory);
             }
         } catch (SQLException e) {

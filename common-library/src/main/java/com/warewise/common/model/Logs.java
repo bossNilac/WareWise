@@ -54,4 +54,13 @@ public class Logs {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
+
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + userID+",";
+        output = output + description+",";
+        output = output + createdAt+",";
+        return output;
+    }
 }

@@ -77,4 +77,18 @@ public class Order {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+
+    public String toString(){
+        String output = "";
+        output = output + ID +",";
+        output = output + customerName+",";
+        output = output + customerEmail+",";
+        output = output + status+",";
+        output = output + createdAt+",";
+        output = output + updatedAt+",";
+        output = output + items.toString()+",";
+        return output;
+    }
+
 }

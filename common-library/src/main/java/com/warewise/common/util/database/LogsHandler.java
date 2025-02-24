@@ -1,12 +1,6 @@
 package com.warewise.common.util.database;
 
-import com.warewise.common.model.Category;
-import com.warewise.common.model.Inventory;
-import com.warewise.common.model.Item;
 import com.warewise.common.model.Logs;
-import com.warewise.common.model.Order;
-import com.warewise.common.model.StockAlert;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,60 +8,66 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryHandler {
+public class LogsHandler {
 
-    public void addCategory(Category category) {
-        String sql = "INSERT INTO categories (category_id,category_name, description) VALUES (?,?, ?)";
+    public void addLog(Logs log) {
+        String sql = "INSERT INTO logs (log_id,user_id, action, description) VALUES (?,?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, category.getID());
-            stmt.setString(2, category.getName());
-            stmt.setString(3, category.getDescription());
+            stmt.setInt(1, log.getID());
+            stmt.setInt(2, log.getUserID());
+            stmt.setString(3, log.getAction());
+            stmt.setString(4, log.getDescription());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateCategory(Category category) {
-        String sql = "UPDATE categories SET category_name = ?, description = ? WHERE category_id = ?";
+    public void updateLog(Logs log) {
+        String sql = "UPDATE logs SET user_id = ?, action = ?, description = ? WHERE log_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, category.getName());
-            stmt.setString(2, category.getDescription());
-            stmt.setInt(3, category.getID());
+            stmt.setInt(1, log.getUserID());
+            stmt.setString(2, log.getAction());
+            stmt.setString(3, log.getDescription());
+            stmt.setInt(4, log.getID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteCategory(Category category) {
-        String sql = "DELETE FROM categories WHERE category_id = ?";
+    public void deleteLog(Logs log) {
+        String sql = "DELETE FROM logs WHERE log_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, category.getID());
+            stmt.setInt(1, log.getID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<Category> loadCategories() {
-        String sql = "SELECT * FROM categories";
-        List<Category> categories = new ArrayList<>();
+    public List<Logs> loadLogs() {
+        String sql = "SELECT * FROM logs";
+        List<Logs> logsList = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet resultSet = stmt.executeQuery()) {
             while (resultSet.next()) {
-                int id = resultSet.getInt("category_id");
-                String name = resultSet.getString("category_name");
+                int id = resultSet.getInt("log_id");
+                int userId = resultSet.getInt("user_id");
+                String action = resultSet.getString("action");
                 String description = resultSet.getString("description");
-                categories.add(new Category(id, name, description));
+                String createdAt = resultSet.getString("created_at");
+
+                Logs log = new Logs(id, userId, action, description, createdAt);
+                logsList.add(log);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return categories;
+        return logsList;
     }
 }
