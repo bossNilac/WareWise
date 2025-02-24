@@ -1,6 +1,8 @@
-package com.warewise.common.util.database;
+package com.warewise.common.util.database.handler;
 
 import com.warewise.common.model.User;
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
 import com.warewise.common.util.enums.UserRole;
 
 import java.sql.Connection;
@@ -9,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Handler;
 
 public class UserHandler {
 
@@ -56,6 +56,7 @@ public class UserHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, user.getID());
             stmt.executeUpdate();
+            SequenceManager.getInstance().onDelete(TableName.USERS.getTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

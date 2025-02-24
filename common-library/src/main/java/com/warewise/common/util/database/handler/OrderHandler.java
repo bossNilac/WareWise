@@ -1,8 +1,10 @@
-package com.warewise.common.util.database;
+package com.warewise.common.util.database.handler;
 
 import com.warewise.common.model.Order;
-import com.warewise.common.model.Item;
+import com.warewise.common.util.database.SequenceManager;
 import com.warewise.common.util.enums.OrderStatus;
+import com.warewise.common.util.enums.TableName;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,6 +49,7 @@ public class OrderHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, order.getID());
             stmt.executeUpdate();
+            SequenceManager.getInstance().onDelete(TableName.ORDERS.getTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

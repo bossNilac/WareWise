@@ -1,5 +1,8 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
+
 public class Logs {
     private int ID;
     private int userID;
@@ -9,6 +12,13 @@ public class Logs {
 
     public Logs(int ID, int userID, String action, String description, String createdAt) {
         this.ID = ID;
+        this.userID = userID;
+        this.action = action;
+        this.description = description;
+        this.createdAt = createdAt;
+    }
+    public Logs(int userID, String action, String description, String createdAt) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.LOGS.getTableName()));
         this.userID = userID;
         this.action = action;
         this.description = description;

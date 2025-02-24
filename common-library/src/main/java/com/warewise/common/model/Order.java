@@ -1,6 +1,9 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
 import com.warewise.common.util.enums.OrderStatus;
+import com.warewise.common.util.enums.TableName;
+
 import java.util.List;
 
 public class Order {
@@ -67,6 +70,15 @@ public class Order {
         this.customerEmail = customerEmail;
         this.status = status;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Order(String customerName, String customerEmail, OrderStatus status,
+                 String createdAt, String updatedAt) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.ORDERS.getTableName()));
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.status = status;
         this.updatedAt = updatedAt;
     }
 

@@ -1,11 +1,8 @@
-package com.warewise.common.util.database;
+package com.warewise.common.util.database.handler;
 
 import com.warewise.common.model.Category;
-import com.warewise.common.model.Inventory;
-import com.warewise.common.model.Item;
-import com.warewise.common.model.Logs;
-import com.warewise.common.model.Order;
-import com.warewise.common.model.StockAlert;
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,6 +45,7 @@ public class CategoryHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, category.getID());
             stmt.executeUpdate();
+            SequenceManager.getInstance().onDelete(TableName.CATEGORIES.getTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,8 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
+
 public class Item {
     private int ID;
     private int orderID;
@@ -20,7 +23,15 @@ public class Item {
         this.category = category;
     }
 
-
+    public Item(int orderID, int productID, int quantity, double price, double total, Category category) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.ORDER_ITEMS.getTableName()));
+        this.orderID = orderID;
+        this.productID = productID;
+        this.quantity = quantity;
+        this.price = price;
+        this.total = total;
+        this.category = category;
+    }
 
     public int getID() {
         return ID;

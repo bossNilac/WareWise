@@ -1,4 +1,4 @@
-package com.warewise.common.util.database;
+package com.warewise.common.util.database.handler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

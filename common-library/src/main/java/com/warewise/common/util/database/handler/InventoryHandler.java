@@ -1,7 +1,9 @@
-package com.warewise.common.util.database;
+package com.warewise.common.util.database.handler;
 
 import com.warewise.common.model.Inventory;
-import com.warewise.common.model.Item;
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,6 +63,7 @@ public class InventoryHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, inventory.getID());
             stmt.executeUpdate();
+            SequenceManager.getInstance().onDelete(TableName.INVENTORY.getTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,8 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
+
 public class Supplier {
     private int ID;
     private String name;
@@ -18,6 +21,7 @@ public class Supplier {
 
     public Supplier( String name, String contactEmail, String contactPhoneNo, String address) {
         this.name = name;
+        this.setID(SequenceManager.getInstance().getNextId(TableName.SUPPLIERS.getTableName()));
         this.contactEmail = contactEmail;
         this.contactPhoneNo = contactPhoneNo;
         this.address = address;

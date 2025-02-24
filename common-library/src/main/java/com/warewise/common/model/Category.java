@@ -1,5 +1,8 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
+
 public class Category {
     private int ID;
     private String name;
@@ -7,6 +10,12 @@ public class Category {
 
     public Category(int ID, String name, String description) {
         this.ID = ID;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Category(String name, String description) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.CATEGORIES.getTableName()));
         this.name = name;
         this.description = description;
     }

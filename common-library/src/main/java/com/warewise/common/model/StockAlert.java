@@ -1,6 +1,8 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
 import com.warewise.common.util.enums.StockAlertStatus;
+import com.warewise.common.util.enums.TableName;
 
 public class StockAlert {
     private int ID;
@@ -52,6 +54,15 @@ public class StockAlert {
     public StockAlert(int ID, int productID, StockAlertStatus threshold, String createdAt,
                       String resolved) {
         this.ID = ID;
+        this.productID = productID;
+        this.threshold = threshold;
+        this.createdAt = createdAt;
+        this.resolved = resolved;
+    }
+
+    public StockAlert(int productID, StockAlertStatus threshold, String createdAt,
+                      String resolved) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.STOCK_ALERTS.getTableName()));
         this.productID = productID;
         this.threshold = threshold;
         this.createdAt = createdAt;

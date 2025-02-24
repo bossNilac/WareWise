@@ -1,5 +1,7 @@
 package com.warewise.common.model;
 
+import com.warewise.common.util.database.SequenceManager;
+import com.warewise.common.util.enums.TableName;
 import com.warewise.common.util.enums.UserRole;
 
 public class User {
@@ -16,7 +18,7 @@ public class User {
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
-
+        this.setID(SequenceManager.getInstance().getNextId(TableName.USERS.getTableName()));
     }
 
     public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username) {
