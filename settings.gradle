@@ -1,2 +1,3 @@
 rootProject.name = 'WareWise'
+include 'server', 'admin-console-tui', 'admin-console-gui', 'client-gui', 'common-library'
 
