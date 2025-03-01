@@ -1,8 +1,9 @@
 package com.warewise.server.service;
 
 import com.warewise.common.util.protocol.Protocol;
-import com.warewise.server.server.Server;
-import com.warewise.server.server.ServerConnection;
+import com.warewise.common.encryption.Encrypt;
+import com.warewise.server.server.*;
+import com.warewise.server.server.util.ServerUtil;
 
 /**
  * A concrete ServiceHandler for authentication-related commands.
@@ -54,18 +55,29 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                     sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
                     break;
                 }
-                if (params.length >= 1) {
+                if (params.length == 2) {
                     String username = params[0];
+                    String password_hash = params[1];
                     if (server.isLoggedIn(username)) {
-                        sendCommand(Protocol.LOGIN_FAILURE, "User already logged in");
+                        sendCommand(Protocol.LOGIN_FAILURE, "User already logged in on another device");
                     } else {
-                        registeredUser = username;
-                        sendCommand(Protocol.LOGIN);
-                        server.addToList(username);
-                        System.out.println("User connected: " + username);
+                        if (ServerUtil.userExists(username)) {
+                            String storedHash = null;
+                            if (Encrypt.verifyPassword(storedHash, password_hash)) {
+                                registeredUser = username;
+                                sendCommand(Protocol.LOGIN_SUCCESS);
+                                server.addToList(username);
+                                System.out.println("User connected: " + username);
+                            } else {
+                                sendCommand(Protocol.LOGIN_FAILURE, "Wrong password");
+                            }
+                        }else {
+                            sendCommand(Protocol.LOGIN_FAILURE, "Wrong username");
+                        }
+
                     }
                 } else {
-                    sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN");
+                    sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");
                 }
                 break;
 

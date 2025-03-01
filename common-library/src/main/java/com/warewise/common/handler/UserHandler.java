@@ -1,9 +1,9 @@
-package com.warewise.server.database.handler;
+package com.warewise.common.handler;
 
 import com.warewise.common.model.User;
+import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
 import com.warewise.common.util.enums.UserRole;
-import com.warewise.common.util.SequenceManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserHandler {
+
+
 
     public void addUser(User user) {
         String sql = "INSERT INTO users (username, password_hash, role, email) VALUES (?, ?, ?, ?)";

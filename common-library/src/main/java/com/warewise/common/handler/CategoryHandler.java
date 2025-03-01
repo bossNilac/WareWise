@@ -1,4 +1,4 @@
-package com.warewise.server.database.handler;
+package com.warewise.common.handler;
 
 import com.warewise.common.model.Category;
 import com.warewise.common.util.SequenceManager;

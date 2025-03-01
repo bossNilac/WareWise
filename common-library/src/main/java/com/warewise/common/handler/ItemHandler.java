@@ -1,4 +1,4 @@
-package com.warewise.server.database.handler;
+package com.warewise.common.handler;
 
 
 

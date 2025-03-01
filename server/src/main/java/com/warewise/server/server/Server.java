@@ -1,13 +1,13 @@
 package com.warewise.server.server;
 
+import com.warewise.common.model.*;
 import com.warewise.server.server.networking.SocketServer;
+import com.warewise.server.server.util.DataBaseLoader;
 import com.warewise.server.service.ServiceHandler;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,7 +20,19 @@ public class Server extends SocketServer {
     // A simple set of logged-in usernames.
     private final Set<String> list = Collections.synchronizedSet(new java.util.HashSet<>());
 
+    // Fields for storing data from the database
+    private final List<User> users = new ArrayList<>();
+    private final List<Category> categories = new ArrayList<>();
+    private final List<Inventory> inventories = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
+    private final List<Logs> logs = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
+    private final List<StockAlert> stockAlertList = new ArrayList<>();
+    private final List<Supplier> suppliers = new ArrayList<>();
+
+
     protected Server(int port) throws IOException {
+
         super(port);
     }
 
@@ -117,6 +129,47 @@ public class Server extends SocketServer {
 
     public boolean isLoggedIn(String username) {
         return list.contains(username);
+    }
+
+    public void setUserData(List<User> userData) {
+        this.users.clear();
+        this.users.addAll(userData);
+    }
+
+    public void setCategoryData(List<Category> categoryData) {
+        this.categories.clear();
+        this.categories.addAll(categoryData);
+    }
+
+
+    public void setInventoryData(List<Inventory> inventoryData) {
+        this.inventories.clear();
+        this.inventories.addAll(inventoryData);
+    }
+
+    public void setItemData(List<Item> itemData) {
+        this.items.clear();
+        this.items.addAll(itemData);
+    }
+
+    public void setLogsData(List<Logs> logData) {
+        this.logs.clear();
+        this.logs.addAll(logData);
+    }
+
+    public void setOrderData(List<Order> orderData) {
+        this.orders.clear();
+        this.orders.addAll(orderData);
+    }
+
+    public void setStockData(List<StockAlert> stockData) {
+        this.stockAlertList.clear();
+        this.stockAlertList.addAll(stockData);
+    }
+
+    public void setSupplierData(List<Supplier> supplierData) {
+        this.suppliers.clear();
+        this.suppliers.addAll(supplierData);
     }
 }
 
