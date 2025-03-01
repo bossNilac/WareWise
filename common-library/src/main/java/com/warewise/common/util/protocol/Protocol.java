@@ -14,6 +14,7 @@ public final class Protocol {
     // ---- Authentication Commands ----
     // ============================
     public static final String LOGIN = "LOGIN";               // LOGIN~username~password
+    public static final String HELLO = "HELLO";               // HELLO
     public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS"; // LOGIN_SUCCESS~role
     public static final String LOGIN_FAILURE = "LOGIN_FAILURE"; // LOGIN_FAILURE~reason
     public static final String LOGOUT = "LOGOUT";             // LOGOUT~userID

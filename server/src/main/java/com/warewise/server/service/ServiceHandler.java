@@ -1,27 +1,33 @@
 package com.warewise.server.service;
 
+import com.warewise.common.util.protocol.Protocol;
+import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
-import com.warewise.server.server.ThreadPoolSocketServer;
 
+/**
+ * Abstract base class defining a generic service handler.
+ * Every service-specific handler must implement these three methods.
+ */
 public abstract class ServiceHandler {
-    protected ServerConnection connection;
+    protected final Server server;
 
-    /**
-     * Associates this handler with its ServerConnection.
-     */
+    public ServerConnection getConnection() {
+        return connection;
+    }
 
-    public ServiceHandler(ServerConnection connection){
+    protected final ServerConnection connection;
+
+    public ServiceHandler(Server server, ServerConnection connection) {
+        this.server = server;
         this.connection = connection;
     }
 
-    /**
-     * Handles a generic message. If the client is registered, it echoes the message.
-     * Otherwise, prompts the client to register.
-     */
-    public abstract void handleMessage(String message);
+    // Sends a command with its parameters to the client.
+    public abstract void sendCommand(String command, String... params);
 
-    /**
-     * Handles a client disconnect.
-     */
+    // Handles the disconnection of the client.
     public abstract void handleDisconnect();
+
+    // Handles an incoming command with its parameters.
+    public abstract void handleCommand(String command, String[] params);
 }

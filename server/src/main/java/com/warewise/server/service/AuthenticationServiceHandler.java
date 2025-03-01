@@ -1,0 +1,78 @@
+package com.warewise.server.service;
+
+import com.warewise.common.util.protocol.Protocol;
+import com.warewise.server.server.Server;
+import com.warewise.server.server.ServerConnection;
+
+/**
+ * A concrete ServiceHandler for authentication-related commands.
+ * It implements HELLO and LOGIN using the protocol.
+ */
+public class AuthenticationServiceHandler extends ServiceHandler {
+
+    private boolean receivedHello = false;
+    private String registeredUser = null;
+
+    public AuthenticationServiceHandler(Server server, ServerConnection connection) {
+        super(server, connection);
+    }
+
+    @Override
+    public void sendCommand(String command, String... params) {
+        // Build the protocol message (command + separator + each parameter)
+        StringBuilder sb = new StringBuilder(command);
+        for (String param : params) {
+            sb.append(Protocol.SEPARATOR).append(param);
+        }
+        connection.sendMessage(sb.toString());
+    }
+
+    @Override
+    public void handleDisconnect() {
+        // Cleanup logic upon disconnection.
+        System.out.println("Handling disconnect in AuthenticationServiceHandler.");
+        if (registeredUser != null) {
+            server.removeFromList(registeredUser);
+        }
+        server.removeClient(this);
+    }
+
+    @Override
+    public void handleCommand(String command, String[] params) {
+        switch (command) {
+            case Protocol.HELLO:
+                if (!receivedHello) {
+                    sendCommand(Protocol.HELLO, server.getHello());
+                    receivedHello = true;
+                } else {
+                    sendCommand(Protocol.ERRORTAG, "HELLO command already received");
+                }
+                break;
+
+            case Protocol.LOGIN:
+                if (!receivedHello) {
+                    sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
+                    break;
+                }
+                if (params.length >= 1) {
+                    String username = params[0];
+                    if (server.isLoggedIn(username)) {
+                        sendCommand(Protocol.LOGIN_FAILURE, "User already logged in");
+                    } else {
+                        registeredUser = username;
+                        sendCommand(Protocol.LOGIN);
+                        server.addToList(username);
+                        System.out.println("User connected: " + username);
+                    }
+                } else {
+                    sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN");
+                }
+                break;
+
+            // Add additional cases here for other commands as needed.
+            default:
+                sendCommand(Protocol.ERRORTAG, "Invalid command");
+                break;
+        }
+    }
+}
