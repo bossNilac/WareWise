@@ -2,6 +2,7 @@ package com.warewise.server.database.handler;
 
 import com.warewise.common.model.Logs;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.SequenceManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

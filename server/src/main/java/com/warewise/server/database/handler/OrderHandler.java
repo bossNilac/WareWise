@@ -3,6 +3,7 @@ package com.warewise.server.database.handler;
 import com.warewise.common.model.Order;
 import com.warewise.common.util.enums.OrderStatus;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.SequenceManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

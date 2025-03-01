@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.warewise'
+group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,13 +10,17 @@ repositories {
 }
 
 dependencies {
-        // Other dependencies...
-    implementation group: 'de.mkammerer', name: 'argon2-jvm', version: '2.1'
-    implementation 'org.xerial:sqlite-jdbc:3.42.0.0' // Add the SQLite JDBC driver
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation group: 'de.mkammerer', name: 'argon2-jvm', version: '2.1'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    archiveBaseName = 'common-library'
+    archiveVersion = '1.0.0'
 }

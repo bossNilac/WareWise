@@ -1,6 +1,7 @@
 package com.warewise.server.database.handler;
 
 import com.warewise.common.model.Category;
+import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
 
 import java.sql.Connection;

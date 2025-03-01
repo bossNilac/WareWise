@@ -1,5 +1,0 @@
-2025-02-25 01:15:13 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
-2025-02-25 01:15:13 [main] INFO  com.warewise.server.logs.AppLogger - Application started
-2025-02-25 01:15:13 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
-2025-02-25 01:15:13 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
-2025-02-25 01:15:13 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
