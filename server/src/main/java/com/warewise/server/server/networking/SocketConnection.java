@@ -9,7 +9,7 @@ import java.net.Socket;
  * This class is not thread-safe.
  */
 public abstract class SocketConnection {
-    private final Socket socket;
+    protected final Socket socket;
     private final BufferedReader in;
     private final BufferedWriter out;
     private boolean started = false;

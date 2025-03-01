@@ -1,20 +1,27 @@
 package com.warewise.server.server;
 
-import com.warewise.server.server.ClientHandler;
 import com.warewise.server.server.networking.SocketConnection;
+import com.warewise.server.service.AuthHandler;
+import com.warewise.server.service.ServiceHandler;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 public class ServerConnection extends SocketConnection implements Runnable {
-    private final ClientHandler clientHandler;
 
     /**
      * Constructs a new ServerConnection with the given socket and client handler.
      */
-    public ServerConnection(Socket socket, ClientHandler clientHandler) throws IOException {
+
+    private ThreadPoolSocketServer server;
+    private AuthHandler authHandler;
+
+
+    public ServerConnection(Socket socket,ThreadPoolSocketServer server) throws IOException {
         super(socket);
-        this.clientHandler = clientHandler;
+        this.server = server;
+        authHandler=new AuthHandler(this);
     }
 
     /**
@@ -25,18 +32,11 @@ public class ServerConnection extends SocketConnection implements Runnable {
         receiveMessages();
     }
 
-    /**
-     * If the message starts with "USER ", treat it as a registration command.
-     * Otherwise, pass it to the client handler for generic processing.
-     */
+
+
     @Override
     public void handleMessage(String message) {
-        if (message.startsWith("USER ")) {
-            String user = message.substring(5).trim();
-            clientHandler.handleRegistration(user);
-        } else {
-            clientHandler.handleMessage(message);
-        }
+
     }
 
     /**
@@ -44,6 +44,11 @@ public class ServerConnection extends SocketConnection implements Runnable {
      */
     @Override
     public void handleDisconnect() {
-        clientHandler.handleDisconnect();
+
     }
+
+    public ThreadPoolSocketServer getServer() {
+        return server;
+    }
+
 }

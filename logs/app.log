@@ -1,0 +1,58 @@
+2025-02-25 00:58:25 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 00:58:25 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 00:58:25 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 00:58:25 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 00:59:37 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 00:59:37 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 00:59:37 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 00:59:37 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:00:26 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:00:26 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:00:26 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:00:26 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:00:26 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:01:50 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:01:50 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:01:50 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:01:50 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:01:50 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:03:49 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:03:49 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:03:49 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:03:49 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:03:49 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:04:50 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:04:50 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:04:50 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:04:50 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:04:50 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:06:03 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:06:03 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:06:03 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:06:03 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:06:03 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:07:06 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:07:06 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:07:06 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:07:06 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:07:06 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:08:15 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:08:15 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:08:15 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:08:15 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:08:15 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:09:13 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:09:13 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:09:13 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:09:13 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:09:13 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:09:42 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:09:42 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:09:42 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:09:42 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:09:42 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!
+2025-02-25 01:12:07 [main] TRACE com.warewise.server.logs.AppLogger - This is a TRACE message
+2025-02-25 01:12:07 [main] INFO  com.warewise.server.logs.AppLogger - Application started
+2025-02-25 01:12:07 [main] WARN  com.warewise.server.logs.AppLogger - This is a WARNING
+2025-02-25 01:12:07 [main] ERROR com.warewise.server.logs.AppLogger - An ERROR occurred
+2025-02-25 01:12:07 [main] ERROR com.warewise.server.logs.AppLogger - FATAL: System failure detected!

@@ -1,6 +1,6 @@
 package com.warewise.common.model;
 
-import com.warewise.common.util.database.SequenceManager;
+import com.warewise.server.database.handler.SequenceManager;
 import com.warewise.common.util.enums.TableName;
 
 public class Item {

@@ -1,6 +1,6 @@
 package com.warewise.common.model;
 
-import com.warewise.common.util.database.SequenceManager;
+import com.warewise.server.database.handler.SequenceManager;
 import com.warewise.common.util.enums.TableName;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class Inventory {
 
     public Inventory(String name, String description , List<Item> items, int quantity, double price, int supplyID,
                      String lastUpdated) {
-        this.setID(SequenceManager.getInstance().getNextId(TableName.INVENTORY.getTableName()));
+        this.setID(com.warewise.server.database.handler.SequenceManager.getInstance().getNextId(TableName.INVENTORY.getTableName()));
         this.description = description;
         this.name = name;
         this.items = items;
