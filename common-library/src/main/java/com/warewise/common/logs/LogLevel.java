@@ -1,4 +1,4 @@
-package com.warewise.server.logs;
+package com.warewise.common.logs;
 
 public enum LogLevel {
     TRACE(1),

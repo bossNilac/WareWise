@@ -25,7 +25,7 @@ public class Encrypt {
 
     // Verify the password (during login)
     public static boolean verifyPassword(String storedHash, String inputPassword) {
-        Argon2 argon2 = Argon2Factory.create();
+        Argon2 argon2 = Argon2Factory.create((Argon2Factory.Argon2Types.ARGON2d));
         return argon2.verify(storedHash, pepper+inputPassword);
     }
 

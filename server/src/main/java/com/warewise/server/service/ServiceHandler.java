@@ -3,6 +3,7 @@ package com.warewise.server.service;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
+import com.warewise.server.server.util.ServerUtil;
 
 /**
  * Abstract base class defining a generic service handler.
@@ -10,6 +11,7 @@ import com.warewise.server.server.ServerConnection;
  */
 public abstract class ServiceHandler {
     protected final Server server;
+    protected ServerUtil serverUtil;
 
     public ServerConnection getConnection() {
         return connection;
@@ -19,6 +21,7 @@ public abstract class ServiceHandler {
 
     public ServiceHandler(Server server, ServerConnection connection) {
         this.server = server;
+        this.serverUtil = new ServerUtil(server);
         this.connection = connection;
     }
 

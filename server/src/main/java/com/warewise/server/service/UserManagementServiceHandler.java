@@ -70,7 +70,7 @@ public class UserManagementServiceHandler extends ServiceHandler {
             case Protocol.LIST_USERS:
                 // For example, we return a comma-separated list of users.
                 System.out.println("Listing users.");
-                String users = String.join(",", server.getList());
+                String users = String.join(",", server.getUserList());
                 sendCommand(Protocol.LIST_USERS, users);
                 break;
             default:

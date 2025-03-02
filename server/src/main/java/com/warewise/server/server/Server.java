@@ -18,7 +18,7 @@ public class Server extends SocketServer {
     // Store active connections.
     private final Set<ServerConnection> connections = Collections.newSetFromMap(new ConcurrentHashMap<>());
     // A simple set of logged-in usernames.
-    private final Set<String> list = Collections.synchronizedSet(new java.util.HashSet<>());
+    private final Set<String> userList = Collections.synchronizedSet(new java.util.HashSet<>());
 
     // Fields for storing data from the database
     private final List<User> users = new ArrayList<>();
@@ -32,11 +32,24 @@ public class Server extends SocketServer {
 
 
     protected Server(int port) throws IOException {
-
         super(port);
     }
 
+    private static String uiHeader =
+    """
+            ██╗    ██╗ █████╗ ██████╗ ███████╗██╗    ██╗██╗███████╗███████╗
+            ██║    ██║██╔══██╗██╔══██╗██╔════╝██║    ██║██║██╔════╝██╔════╝
+            ██║ █╗ ██║███████║██████╔╝█████╗  ██║ █╗ ██║██║███████╗█████╗ \s
+            ██║███╗██║██╔══██║██╔══██╗██╔══╝  ██║███╗██║██║╚════██║██╔══╝ \s
+            ╚███╔███╔╝██║  ██║██║  ██║███████╗╚███╔███╔╝██║███████║███████╗
+             ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝╚══════╝╚══════╝
+    """;
+
+
+
+
     public static void main(String[] args) {
+        System.out.println(uiHeader);
         Scanner sc = new Scanner(System.in);
         int port = 0;
         boolean validPort = false;
@@ -59,6 +72,8 @@ public class Server extends SocketServer {
         try {
             Server server = new Server(port);
             System.out.println("Server started on port " + server.getPort() + ".");
+            new DataBaseLoader(server).loadDataFromDB();
+            System.out.println("Loaded data.");
             server.acceptConnections();
         } catch (IOException e) {
             System.out.println("Port " + port + " is already in use.");
@@ -110,9 +125,9 @@ public class Server extends SocketServer {
 
     // Getters and utility methods.
 
-    public Set<String> getList() {
+    public Set<String> getUserList() {
         System.out.println("Sending list of logged in users.");
-        return list;
+        return userList;
     }
 
     public String getHello() {
@@ -120,15 +135,15 @@ public class Server extends SocketServer {
     }
 
     public void addToList(String username) {
-        list.add(username);
+        userList.add(username);
     }
 
     public void removeFromList(String username) {
-        list.remove(username);
+        userList.remove(username);
     }
 
     public boolean isLoggedIn(String username) {
-        return list.contains(username);
+        return userList.contains(username);
     }
 
     public void setUserData(List<User> userData) {
@@ -170,6 +185,38 @@ public class Server extends SocketServer {
     public void setSupplierData(List<Supplier> supplierData) {
         this.suppliers.clear();
         this.suppliers.addAll(supplierData);
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public List<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public List<Logs> getLogs() {
+        return logs;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<StockAlert> getStockAlertList() {
+        return stockAlertList;
+    }
+
+    public List<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 }
 
