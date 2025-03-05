@@ -27,6 +27,6 @@ test {
 
 jar {
     archiveBaseName = 'common-library'
-    archiveVersion = '0.0.2.1'
+    archiveVersion = '0.0.2.3'
 
 }

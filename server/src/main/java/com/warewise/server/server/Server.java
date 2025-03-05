@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Now it tracks ServerConnection objects (each of which internally manages its own set of ServiceHandlers).
  */
 public class Server extends SocketServer {
+    private static DataBaseLoader dbLoader;
     // Store active connections.
     private final Set<ServerConnection> connections = Collections.newSetFromMap(new ConcurrentHashMap<>());
     // A simple set of logged-in usernames.
@@ -72,12 +73,17 @@ public class Server extends SocketServer {
         try {
             Server server = new Server(port);
             System.out.println("Server started on port " + server.getPort() + ".");
-            new DataBaseLoader(server).loadDataFromDB();
+            dbLoader = new DataBaseLoader(server);
+            dbLoader.loadDataFromDB();
             System.out.println("Loaded data.");
             server.acceptConnections();
         } catch (IOException e) {
             System.out.println("Port " + port + " is already in use.");
         }
+    }
+
+    public  DataBaseLoader getDbLoader() {
+        return dbLoader;
     }
 
 
@@ -120,7 +126,7 @@ public class Server extends SocketServer {
      */
     public void removeClient(ServiceHandler handler) {
         connections.remove(handler.getConnection());
-        System.out.println("Removed client connection.");
+//        System.out.println("Removed client connection.");
     }
 
     // Getters and utility methods.

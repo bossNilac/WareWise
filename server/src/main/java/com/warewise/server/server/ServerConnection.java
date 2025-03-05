@@ -17,6 +17,7 @@ import java.util.Arrays;
  */
 public class ServerConnection extends SocketConnection implements Runnable {
     private final Socket socket;
+
     // Instantiate all service handlers for this connection.
     private final AuthenticationServiceHandler authHandler;
     private final UserManagementServiceHandler userHandler;
@@ -134,4 +135,9 @@ public class ServerConnection extends SocketConnection implements Runnable {
         super.sendMessage(message);
         return true;
     }
+
+    public AuthenticationServiceHandler getAuthHandler() {
+        return authHandler;
+    }
+
 }

@@ -29,5 +29,8 @@ public class Encrypt {
         return argon2.verify(storedHash, pepper+inputPassword);
     }
 
+    public static void main(String[] args) {
+        System.out.println(hashPassword("calin123"));
+    }
 
 }

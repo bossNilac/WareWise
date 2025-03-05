@@ -93,8 +93,7 @@ public class SequenceManager implements Runnable {
     public synchronized void updateSequenceAfterDelete(String table) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             int nextId = getNextAvailableId(conn, table);
-            sequences.put(table, nextId);
-            System.out.println("Updated sequence for " + table + " after delete: " + nextId);
+            sequences.put(table, nextId -1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,8 +104,33 @@ public class SequenceManager implements Runnable {
         running = false;
     }
 
+    public void updateSequenceIdTable(String tableName)  {
+        String sql = "UPDATE sqlite_sequence" + " SET seq = ?" +" WHERE name = ?";
+
+        try (PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            int ID = sequences.get(tableName)  ;
+            preparedStatement.setInt(1, ID);
+            preparedStatement.setString(2, tableName);
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println("Updated sequence for table: " + tableName + " to " + ID);
+            } else {
+                System.out.println("No rows updated. Table may not exist: " + tableName);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public void onDelete(String tableName) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         updateSequenceAfterDelete(tableName);
+        updateSequenceIdTable(tableName);
     }
 
 }

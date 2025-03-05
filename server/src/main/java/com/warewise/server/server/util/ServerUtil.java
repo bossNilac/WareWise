@@ -20,6 +20,15 @@ public class ServerUtil {
         return null;
     }
 
+    public User userExists(User user) {
+        for (User listUser : server.getUsers()){
+            if (listUser.equals(user)){
+                return user;
+            }
+        }
+        return null;
+    }
+
 
 
 }

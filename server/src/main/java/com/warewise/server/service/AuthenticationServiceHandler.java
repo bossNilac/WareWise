@@ -1,6 +1,7 @@
 package com.warewise.server.service;
 
 import com.warewise.common.model.User;
+import com.warewise.common.util.enums.UserRole;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.common.encryption.Encrypt;
 import com.warewise.server.server.*;
@@ -13,6 +14,7 @@ public class AuthenticationServiceHandler extends ServiceHandler {
 
     private boolean receivedHello = false;
     private String registeredUser = null;
+    private UserRole role;
 
     public AuthenticationServiceHandler(Server server, ServerConnection connection) {
         super(server, connection);
@@ -66,6 +68,7 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                             String storedHash = user.getPasswordHash() ;
                             if (Encrypt.verifyPassword(storedHash, password_hash)) {
                                 registeredUser = username;
+                                role = user.getRole();
                                 sendCommand(Protocol.LOGIN_SUCCESS);
                                 server.addToList(username);
                                 System.out.println("User connected: " + username);
@@ -106,5 +109,17 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                 sendCommand(Protocol.ERRORTAG, "Invalid command");
                 break;
         }
+    }
+
+    public boolean isReceivedHello() {
+        return receivedHello;
+    }
+
+    public String getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 }
