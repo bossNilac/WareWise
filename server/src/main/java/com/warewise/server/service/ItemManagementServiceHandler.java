@@ -1,11 +1,14 @@
 package com.warewise.server.service;
 
+import com.warewise.common.logs.AppLogger;
+import com.warewise.common.logs.LogLevel;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
 import com.warewise.common.model.Item;
 import com.warewise.common.model.Category;
 import com.warewise.common.util.enums.UserRole;
+import com.warewise.server.server.util.ServerUtil;
 
 import java.util.stream.Collectors;
 
@@ -27,12 +30,13 @@ public class ItemManagementServiceHandler extends ServiceHandler {
     @Override
     public void handleCommand(String command, String[] params) {
         String connectionUser = connection.getAuthHandler().getRegisteredUser();
+        String response = null;
 //        UserRole connectionRole = connection.getAuthHandler().getRole();
 
         switch (command) {
             case Protocol.ADD_ITEM:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 6) {
                         int itemID = Integer.parseInt(params[0]);
@@ -43,23 +47,23 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                         int categoryName =  Integer.parseInt(params[5]);
 
                         Category category = serverUtil.categoryExists(categoryName);
-                        if (category == null) {
-                            sendCommand(Protocol.ERRORTAG, "Invalid category");
-                            break;
-                        }
+//                        if (category == null) {
+//                            response=sendCommand(Protocol.ERRORTAG, "Invalid category");
+//                            break;
+//                        }
 
                         Item item = new Item(itemID,orderID, inventoryId, quantity, price, category);
                         server.getDbLoader().addItem(item);
-                        sendCommand(Protocol.ADD_ITEM, "Item added successfully: " + item.getID());
+                        response=sendCommand(Protocol.ADD_ITEM, "Item added successfully: " + item.getID());
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_ITEM");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_ITEM");
                     }
                 }
                 break;
 
             case Protocol.UPDATE_ITEM:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 6) {
                         int itemID = Integer.parseInt(params[0]);
@@ -73,22 +77,22 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                         if (item != null) {
                             System.out.println("Updating item " + itemID );
                             if (server.getDbLoader().updateItem(item, orderID, inventoryId,quantity,price,category)) {
-                                sendCommand(Protocol.UPDATE_ITEM, "Item " + itemID + " updated successfully");
+                                response=sendCommand(Protocol.UPDATE_ITEM, "Item " + itemID + " updated successfully");
                             } else {
-                                sendCommand(Protocol.ERRORTAG, "No changes detected for item " + itemID);
+                                response=sendCommand(Protocol.ERRORTAG, "No changes detected for item " + itemID);
                             }
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Item does not exist, use ADD_ITEM");
+                            response=sendCommand(Protocol.ERRORTAG, "Item does not exist, use ADD_ITEM");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_ITEM");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_ITEM");
                     }
                 }
                 break;
 
             case Protocol.DELETE_ITEM:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 1) {
                         int itemID = Integer.parseInt(params[0]);
@@ -97,12 +101,12 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                         if (item != null) {
                             System.out.println("Deleting item: " + itemID);
                             server.getDbLoader().deleteItem(item);
-                            sendCommand(Protocol.DELETE_ITEM, "Item " + itemID + " deleted successfully");
+                            response=sendCommand(Protocol.DELETE_ITEM, "Item " + itemID + " deleted successfully");
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Item does not exist");
+                            response=sendCommand(Protocol.ERRORTAG, "Item does not exist");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_ITEM");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_ITEM");
                     }
                 }
                 break;
@@ -112,12 +116,13 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                 String items = server.getItems().stream()
                         .map(Item::toString)
                         .collect(Collectors.joining(";"));
-                sendCommand(Protocol.LIST_ITEMS, items);
+                response=sendCommand(Protocol.LIST_ITEMS, items);
                 break;
 
             default:
-                sendCommand(Protocol.ERRORTAG, "Invalid command in ItemManagementServiceHandler");
+                response=sendCommand(Protocol.ERRORTAG, "Invalid command in ItemManagementServiceHandler");
                 break;
         }
+    AppLogger.log(LogLevel.INFO, ServerUtil.SENT_COMMAND+response);
     }
 }

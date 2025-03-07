@@ -1,10 +1,13 @@
 package com.warewise.server.service;
 
+import com.warewise.common.logs.AppLogger;
+import com.warewise.common.logs.LogLevel;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
 import com.warewise.common.model.Order;
 import com.warewise.common.util.enums.OrderStatus;
+import com.warewise.server.server.util.ServerUtil;
 
 import java.util.stream.Collectors;
 
@@ -26,11 +29,12 @@ public class OrderManagementServiceHandler extends ServiceHandler {
     @Override
     public void handleCommand(String command, String[] params) {
         String connectionUser = connection.getAuthHandler().getRegisteredUser();
+        String response = null;
 
         switch (command) {
             case Protocol.CREATE_ORDER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 5) {
                         String customerName = params[0];
@@ -41,16 +45,16 @@ public class OrderManagementServiceHandler extends ServiceHandler {
 
                         Order order = new Order(customerName, customerEmail, status, createdAt, updatedAt);
                         server.getDbLoader().addOrder(order);
-                        sendCommand(Protocol.CREATE_ORDER, "Order added successfully: " + order.getID());
+                        response=sendCommand(Protocol.CREATE_ORDER, "Order added successfully: " + order.getID());
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_ORDER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_ORDER");
                     }
                 }
                 break;
 
             case Protocol.UPDATE_ORDER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 5) {
                         int orderID = Integer.parseInt(params[0]);
@@ -63,22 +67,22 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                         if (order != null) {
                             System.out.println("Updating order " + orderID);
                             if (server.getDbLoader().updateOrder(order, customerName, customerEmail, status, updatedAt)) {
-                                sendCommand(Protocol.UPDATE_ORDER, "Order " + orderID + " updated successfully");
+                                response=sendCommand(Protocol.UPDATE_ORDER, "Order " + orderID + " updated successfully");
                             } else {
-                                sendCommand(Protocol.ERRORTAG, "No changes detected for order " + orderID);
+                                response=sendCommand(Protocol.ERRORTAG, "No changes detected for order " + orderID);
                             }
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Order does not exist, use ADD_ORDER");
+                            response=sendCommand(Protocol.ERRORTAG, "Order does not exist, use ADD_ORDER");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_ORDER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_ORDER");
                     }
                 }
                 break;
 
             case Protocol.DELETE_ORDER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 1) {
                         int orderID = Integer.parseInt(params[0]);
@@ -87,12 +91,12 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                         if (order != null) {
                             System.out.println("Deleting order: " + orderID);
                             server.getDbLoader().deleteOrder(order);
-                            sendCommand(Protocol.DELETE_ORDER, "Order " + orderID + " deleted successfully");
+                            response=sendCommand(Protocol.DELETE_ORDER, "Order " + orderID + " deleted successfully");
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Order does not exist");
+                            response=sendCommand(Protocol.ERRORTAG, "Order does not exist");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_ORDER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_ORDER");
                     }
                 }
                 break;
@@ -102,12 +106,13 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                 String orders = server.getOrders().stream()
                         .map(Order::toString)
                         .collect(Collectors.joining(";"));
-                sendCommand(Protocol.LIST_ORDERS, orders);
+                response=sendCommand(Protocol.LIST_ORDERS, orders);
                 break;
 
             default:
-                sendCommand(Protocol.ERRORTAG, "Invalid command in OrderManagementServiceHandler");
+                response=sendCommand(Protocol.ERRORTAG, "Invalid command in OrderManagementServiceHandler");
                 break;
         }
+    AppLogger.log(LogLevel.INFO, ServerUtil.SENT_COMMAND+response);
     }
 }

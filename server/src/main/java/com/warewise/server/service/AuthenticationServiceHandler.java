@@ -5,6 +5,8 @@ import com.warewise.common.util.enums.UserRole;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.common.encryption.Encrypt;
 import com.warewise.server.server.*;
+import com.warewise.common.logs.*;
+import com.warewise.server.server.util.ServerUtil;
 
 /**
  * A concrete ServiceHandler for authentication-related commands.
@@ -32,26 +34,28 @@ public class AuthenticationServiceHandler extends ServiceHandler {
 
     @Override
     public void handleCommand(String command, String[] params) {
+        String response = null;
+        AppLogger.log(LogLevel.INFO, ServerUtil.RECEIVED_COMMAND+command);
         switch (command) {
             case Protocol.HELLO:
                 if (!receivedHello) {
-                    sendCommand(Protocol.HELLO, server.getHello());
-                    receivedHello = true;
+                     response=sendCommand(Protocol.HELLO, server.getHello());
+                     receivedHello = true;
                 } else {
-                    sendCommand(Protocol.ERRORTAG, "HELLO command already received");
+                    response=sendCommand(Protocol.ERRORTAG, "HELLO command already received");
                 }
                 break;
 
             case Protocol.LOGIN:
                 if (!receivedHello) {
-                    sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
+                    response=sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
                     break;
                 }
                 if (params.length == 2) {
                     String username = params[0];
                     String password_hash = params[1];
                     if (server.isLoggedIn(username)) {
-                        sendCommand(Protocol.LOGIN_FAILURE, "User already logged in on another device");
+                        response=sendCommand(Protocol.LOGIN_FAILURE, "User already logged in on another device");
                     } else {
                         User user = serverUtil.userExists(username);
                         if (user != null) {
@@ -59,51 +63,47 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                             if (Encrypt.verifyPassword(storedHash, password_hash)) {
                                 registeredUser = username;
                                 role = user.getRole();
-                                sendCommand(Protocol.LOGIN_SUCCESS);
+                                response=sendCommand(Protocol.LOGIN_SUCCESS);
                                 server.addToList(username);
-                                System.out.println("User connected: " + username);
                             } else {
-                                sendCommand(Protocol.LOGIN_FAILURE, "Wrong password");
+                                response=sendCommand(Protocol.LOGIN_FAILURE, "Wrong password");
                             }
                         }else {
-                            sendCommand(Protocol.LOGIN_FAILURE, "Wrong username");
+                            response=sendCommand(Protocol.LOGIN_FAILURE, "Wrong username");
                         }
 
                     }
                 } else {
-                    sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");
+                    response=sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");
                 }
                 break;
 
             case Protocol.LOGOUT:
                 if (!receivedHello) {
-                    sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
+                    response=sendCommand(Protocol.ERRORTAG, "HELLO must be sent before LOGIN");
                     break;
                 }
                 if (params.length == 1) {
                     String username = params[0];
                     if (!server.isLoggedIn(username)) {
-                        sendCommand(Protocol.LOGIN_FAILURE, "User already logged out.");
+                        response=sendCommand(Protocol.LOGIN_FAILURE, "User already logged out.");
                     } else {
-                        System.out.println("Logged out user : " + username);
-                        server.removeFromList(username);
                         System.out.println(server.getUserList());
                     }
                 } else {
-                    sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");
+                    response=sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");
                 }
                 break;
 
             // Add additional cases here for other commands as needed.
             default:
-                sendCommand(Protocol.ERRORTAG, "Invalid command");
+                response=sendCommand(Protocol.ERRORTAG, "Invalid command");
                 break;
         }
+        AppLogger.log(LogLevel.INFO, ServerUtil.SENT_COMMAND+response);
+
     }
 
-    public boolean isReceivedHello() {
-        return receivedHello;
-    }
 
     public String getRegisteredUser() {
         return registeredUser;

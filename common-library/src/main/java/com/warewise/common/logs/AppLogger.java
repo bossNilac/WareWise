@@ -15,7 +15,7 @@ public class AppLogger {
         return logger;
     }
 
-    public void log(LogLevel level,String message){
+    public static void log(LogLevel level,String message){
         switch (level){
             case INFO  -> logger.info(message);
             case TRACE -> logger.trace(message);

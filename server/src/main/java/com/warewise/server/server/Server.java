@@ -1,6 +1,7 @@
 package com.warewise.server.server;
 
 import com.warewise.common.model.*;
+import com.warewise.common.util.SequenceManager;
 import com.warewise.server.server.networking.SocketServer;
 import com.warewise.server.server.util.DataBaseLoader;
 import com.warewise.server.service.ServiceHandler;
@@ -74,6 +75,7 @@ public class Server extends SocketServer {
             Server server = new Server(port);
             System.out.println("Server started on port " + server.getPort() + ".");
             dbLoader = new DataBaseLoader(server);
+            SequenceManager.getInstance();
             dbLoader.loadDataFromDB();
             System.out.println("Loaded data.");
             server.acceptConnections();

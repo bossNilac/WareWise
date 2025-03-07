@@ -75,7 +75,7 @@ public class ItemHandler {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, item.getID());
             stmt.executeUpdate();
-            SequenceManager.getInstance().onDelete(TableName.INVENTORY.getTableName());
+            SequenceManager.getInstance().onDelete(TableName.ORDER_ITEMS.getTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

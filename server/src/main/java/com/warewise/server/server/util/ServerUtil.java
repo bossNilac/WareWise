@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class ServerUtil {
 
+    public static final String RECEIVED_COMMAND = "[RECEIVED COMMAND]: ";
+    public static final String SENT_COMMAND = "[SENT COMMAND]: ";
     private Server server;
 
     public ServerUtil(Server server){

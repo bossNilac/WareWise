@@ -9,7 +9,7 @@ DELETE FROM stock_alerts;
 DELETE FROM inventory;
 DELETE FROM suppliers;
 DELETE FROM categories;
-DELETE FROM users;
+-- DELETE FROM users;
 
 -- Reset auto-increment counters
 DELETE FROM sqlite_sequence;

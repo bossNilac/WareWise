@@ -1,10 +1,13 @@
 package com.warewise.server.service;
 
+import com.warewise.common.logs.AppLogger;
+import com.warewise.common.logs.LogLevel;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
 import com.warewise.common.model.Inventory;
 import com.warewise.common.util.enums.UserRole;
+import com.warewise.server.server.util.ServerUtil;
 
 import java.util.stream.Collectors;
 
@@ -26,11 +29,11 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
     @Override
     public void handleCommand(String command, String[] params) {
         String connectionUser = connection.getAuthHandler().getRegisteredUser();
-
+        String response;
         switch (command) {
             case Protocol.ADD_INVENTORY:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 4) {
                         String name = params[0];
@@ -40,16 +43,16 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
 
                         Inventory inventory = new Inventory(name, description, quantity, lastUpdated);
                         server.getDbLoader().addInventory(inventory);
-                        sendCommand(Protocol.ADD_INVENTORY, "Inventory added successfully: " + inventory.getID());
+                        response=sendCommand(Protocol.ADD_INVENTORY, "Inventory added successfully: " + inventory.getID());
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_INVENTORY");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_INVENTORY");
                     }
                 }
                 break;
 
             case Protocol.UPDATE_INVENTORY:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 5) {
                         int inventoryID = Integer.parseInt(params[0]);
@@ -62,22 +65,22 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
                         if (inventory != null) {
                             System.out.println("Updating inventory " + inventoryID);
                             if (server.getDbLoader().updateInventory(inventory, name, description, quantity, lastUpdated)) {
-                                sendCommand(Protocol.UPDATE_INVENTORY, "Inventory " + inventoryID + " updated successfully");
+                                response=sendCommand(Protocol.UPDATE_INVENTORY, "Inventory " + inventoryID + " updated successfully");
                             } else {
-                                sendCommand(Protocol.ERRORTAG, "No changes detected for inventory " + inventoryID);
+                                response=sendCommand(Protocol.ERRORTAG, "No changes detected for inventory " + inventoryID);
                             }
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Inventory does not exist, use ADD_INVENTORY");
+                            response=sendCommand(Protocol.ERRORTAG, "Inventory does not exist, use ADD_INVENTORY");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_INVENTORY");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_INVENTORY");
                     }
                 }
                 break;
 
             case Protocol.DELETE_INVENTORY:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 1) {
                         int inventoryID = Integer.parseInt(params[0]);
@@ -86,12 +89,12 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
                         if (inventory != null) {
                             System.out.println("Deleting inventory: " + inventoryID);
                             server.getDbLoader().deleteInventory(inventory);
-                            sendCommand(Protocol.DELETE_INVENTORY, "Inventory " + inventoryID + " deleted successfully");
+                            response=sendCommand(Protocol.DELETE_INVENTORY, "Inventory " + inventoryID + " deleted successfully");
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Inventory does not exist");
+                            response=sendCommand(Protocol.ERRORTAG, "Inventory does not exist");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_INVENTORY");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_INVENTORY");
                     }
                 }
                 break;
@@ -101,12 +104,13 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
                 String inventories = server.getInventories().stream()
                         .map(Inventory::getName)
                         .collect(Collectors.joining(";"));
-                sendCommand(Protocol.LIST_INVENTORY, inventories);
+                response=sendCommand(Protocol.LIST_INVENTORY, inventories);
                 break;
 
             default:
-                sendCommand(Protocol.ERRORTAG, "Invalid command in InventoryManagementServiceHandler");
+                response=sendCommand(Protocol.ERRORTAG, "Invalid command in InventoryManagementServiceHandler");
                 break;
         }
+    AppLogger.log(LogLevel.INFO, ServerUtil.SENT_COMMAND+response);
     }
 }

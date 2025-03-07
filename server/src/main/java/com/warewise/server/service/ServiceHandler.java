@@ -26,12 +26,13 @@ public abstract class ServiceHandler {
     }
 
     // Sends a command with its parameters to the client.
-    public void sendCommand(String command, String... params) {
+    public String sendCommand(String command, String... params) {
         StringBuilder sb = new StringBuilder(command);
         for (String param : params) {
             sb.append(Protocol.SEPARATOR).append(param);
         }
         connection.sendMessage(sb.toString());
+        return sb.toString();
     }
     // Handles the disconnection of the client.
     public abstract void handleDisconnect();

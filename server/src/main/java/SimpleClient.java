@@ -26,16 +26,14 @@ public class SimpleClient {
 
             // Run the authentication test
             runAuthenticationTest();
-//            runUserManagementTest();
-//            runCategoryManagementTest();
-//            runItemManagementTest();
-//            runInventoryManagementTest();
-//            runOrderManagementTest();
+            runUserManagementTest();
+            runCategoryManagementTest();
+            runItemManagementTest();
+            runInventoryManagementTest();
+            runOrderManagementTest();
             runSupplierManagementTest();
-            Thread.sleep(5000); // Wait a bit to receive response
             runStockAlertManagementTest();
-
-
+            Thread.sleep(5000); // Wait a bit to receive response
 
             sendMessage("LOGOUT~" + username);
             socket.close();
@@ -48,12 +46,12 @@ public class SimpleClient {
     private void runItemManagementTest() {
         try {
             System.out.println("Sending ADD_ITEM command...");
-            sendMessage("ADD_ITEM~1~101~5~299.99~2001~10");
+            sendMessage("ADD_ITEM~1~101~5~299.99~2001~2");
 
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending UPDATE_ITEM command...");
-            sendMessage("UPDATE_ITEM~1~101~10~279.99~2001~10");
+            sendMessage("UPDATE_ITEM~1~101~10~279.99~2001~2");
 
             Thread.sleep(1000); // Wait for response
 
@@ -85,9 +83,9 @@ public class SimpleClient {
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending UPDATE_INVENTORY command...");
-            sendMessage("UPDATE_INVENTORY~0~Warehouse B~Updated storage facility~600~2024-03-02 12:00:00");
+            sendMessage("UPDATE_INVENTORY~1~Warehouse B~Updated storage facility~600~2024-03-02 12:00:00");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending LIST_INVENTORY command...");
             sendMessage("LIST_INVENTORY");
@@ -95,7 +93,7 @@ public class SimpleClient {
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending DELETE_INVENTORY command...");
-            sendMessage("DELETE_INVENTORY~0");
+            sendMessage("DELETE_INVENTORY~1");
 
             Thread.sleep(1000); // Wait for response
 
@@ -151,7 +149,7 @@ public class SimpleClient {
             System.out.println("Sending UPDATE_SUPPLIER command...");
             sendMessage("UPDATE_SUPPLIER~1~Acme Corp Ltd~newcontact@acme.com~987654321~456 Elm St");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending LIST_SUPPLIERS command...");
             sendMessage("LIST_SUPPLIERS");
@@ -181,9 +179,14 @@ public class SimpleClient {
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending UPDATE_STOCK_ALERT command...");
-            sendMessage("UPDATE_STOCK_ALERT~1~RESOLVED~2024-03-02 12:00:00");
+            sendMessage("UPDATE_STOCK_ALERT~1~5001~RESOLVED~2024-03-02 12:00:00~2025-03-02 12:00:00");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending RESOLVE_ALERT command...");
+            sendMessage("RESOLVE_ALERT~1~RESOLVED~2024-03-02 13:00:00");
+
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending LIST_STOCK_ALERTS command...");
             sendMessage("LIST_STOCK_ALERTS");
@@ -204,7 +207,6 @@ public class SimpleClient {
             Thread.currentThread().interrupt();
         }
     }
-
 
     private void runCategoryManagementTest() {
         try {
@@ -257,12 +259,12 @@ public class SimpleClient {
             System.out.println("Testing ADD_USER...");
             sendMessage("ADD_USER~newUser1~ADMIN~newuser@example.com~password123");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Testing UPDATE_USER...");
             sendMessage("UPDATE_USER~newUser1~WORKER~updated2email@example.com~Newpassword");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
 
             Thread.sleep(1000); // Wait for response
@@ -275,12 +277,12 @@ public class SimpleClient {
             System.out.println("Testing ADD_USER...");
             sendMessage("ADD_USER~newUser2~ADMIN~newuser2@example.com~password123");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Testing UPDATE_USER...");
             sendMessage("UPDATE_USER~newUser2~WORKER~updated3email@example.com~Newpassword");
 
-            Thread.sleep(10000); // Wait for response
+            Thread.sleep(1000); // Wait for response
 
             System.out.println("Testing DELETE_USER...");
             sendMessage("DELETE_USER~newUser2");

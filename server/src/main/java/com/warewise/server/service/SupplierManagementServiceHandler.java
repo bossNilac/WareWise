@@ -1,9 +1,12 @@
 package com.warewise.server.service;
 
+import com.warewise.common.logs.AppLogger;
+import com.warewise.common.logs.LogLevel;
 import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
 import com.warewise.common.model.Supplier;
+import com.warewise.server.server.util.ServerUtil;
 
 import java.util.stream.Collectors;
 
@@ -17,11 +20,6 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
     }
 
     @Override
-    public void sendCommand(String command, String... params) {
-        // Implementation not provided as per request.
-    }
-
-    @Override
     public void handleDisconnect() {
         System.out.println("SupplierManagementServiceHandler disconnecting...");
         server.removeClient(this);
@@ -30,11 +28,11 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
     @Override
     public void handleCommand(String command, String[] params) {
         String connectionUser = connection.getAuthHandler().getRegisteredUser();
-
+        String response;
         switch (command) {
             case Protocol.ADD_SUPPLIER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 4) {
                         String name = params[0];
@@ -44,16 +42,16 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
 
                         Supplier supplier = new Supplier(name, contactEmail, contactPhoneNo, address);
                         server.getDbLoader().addSupplier(supplier);
-                        sendCommand(Protocol.ADD_SUPPLIER, "Supplier added successfully: " + supplier.getID());
+                        response=sendCommand(Protocol.ADD_SUPPLIER, "Supplier added successfully: " + supplier.getID());
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_SUPPLIER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for ADD_SUPPLIER");
                     }
                 }
                 break;
 
             case Protocol.UPDATE_SUPPLIER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 5) {
                         int supplierID = Integer.parseInt(params[0]);
@@ -65,19 +63,19 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                         Supplier supplier = serverUtil.supplierExists(supplierID);
                         if (supplier != null) {
                             server.getDbLoader().updateSupplier(supplier, name, contactEmail, contactPhoneNo, address);
-                            sendCommand(Protocol.UPDATE_SUPPLIER, "Supplier " + supplierID + " updated successfully");
+                            response=sendCommand(Protocol.UPDATE_SUPPLIER, "Supplier " + supplierID + " updated successfully");
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Supplier does not exist");
+                            response=sendCommand(Protocol.ERRORTAG, "Supplier does not exist");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_SUPPLIER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for UPDATE_SUPPLIER");
                     }
                 }
                 break;
 
             case Protocol.DELETE_SUPPLIER:
                 if (connectionUser == null) {
-                    sendCommand(Protocol.ERRORTAG, "Not logged in");
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
                     if (params.length == 1) {
                         int supplierID = Integer.parseInt(params[0]);
@@ -85,12 +83,12 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                         Supplier supplier = serverUtil.supplierExists(supplierID);
                         if (supplier != null) {
                             server.getDbLoader().deleteSupplier(supplier);
-                            sendCommand(Protocol.DELETE_SUPPLIER, "Supplier " + supplierID + " deleted successfully");
+                            response=sendCommand(Protocol.DELETE_SUPPLIER, "Supplier " + supplierID + " deleted successfully");
                         } else {
-                            sendCommand(Protocol.ERRORTAG, "Supplier does not exist");
+                            response=sendCommand(Protocol.ERRORTAG, "Supplier does not exist");
                         }
                     } else {
-                        sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_SUPPLIER");
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_SUPPLIER");
                     }
                 }
                 break;
@@ -100,12 +98,13 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                 String suppliers = server.getSuppliers().stream()
                         .map(Supplier::toString)
                         .collect(Collectors.joining(";"));
-                sendCommand(Protocol.LIST_SUPPLIERS, suppliers);
+                response=sendCommand(Protocol.LIST_SUPPLIERS, suppliers);
                 break;
 
             default:
-                sendCommand(Protocol.ERRORTAG, "Invalid command in SupplierManagementServiceHandler");
+                response=sendCommand(Protocol.ERRORTAG, "Invalid command in SupplierManagementServiceHandler");
                 break;
         }
+    AppLogger.log(LogLevel.INFO, ServerUtil.SENT_COMMAND+response);
     }
 }
