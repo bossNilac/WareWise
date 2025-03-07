@@ -3,6 +3,7 @@ package com.warewise.common.handler;
 
 
 
+import com.warewise.common.model.Category;
 import com.warewise.common.model.Item;
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
@@ -23,15 +24,16 @@ public class ItemHandler {
      * @param item The item to insert.
      */
     public void addItem(Item item) {
-        String sql = "INSERT INTO order_items (order_item_id,order_id, product_id, quantity, price) VALUES (?,?, ?, ?, ?)";
+        String sql = "INSERT INTO order_items (order_item_id,order_id, quantity, price , category_id ,inventory_id ) VALUES (?,?, ? , ?, ? , ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, item.getID());
             stmt.setInt(2, item.getOrderID());
-            stmt.setInt(3, item.getProductID());
+            stmt.setInt(3, item.getInventoryID());
             stmt.setInt(4, item.getQuantity());
             stmt.setDouble(5, item.getPrice());
+            stmt.setDouble(6, item.getCategoryID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -45,15 +47,16 @@ public class ItemHandler {
      * @param item The item with updated values.
      */
     public void updateItem(Item item) {
-        String sql = "UPDATE order_items SET order_id = ?, product_id = ?, quantity = ?, price = ? WHERE order_item_id = ?";
+        String sql = "UPDATE order_items SET order_id = ? , quantity = ?, price = ? , category_id = ? ,inventory_id = ?  WHERE order_item_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, item.getOrderID());
-            stmt.setInt(2, item.getProductID());
-            stmt.setInt(3, item.getQuantity());
-            stmt.setDouble(4, item.getPrice());
-            stmt.setInt(5, item.getID());
+            stmt.setInt(2, item.getQuantity());
+            stmt.setDouble(3, item.getPrice());
+            stmt.setInt(4, item.getCategoryID());
+            stmt.setInt(6, item.getID());
+            stmt.setInt(5, item.getInventoryID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -103,13 +106,13 @@ public class ItemHandler {
                 while (rs.next()) {
                     int id = rs.getInt("order_item_id");
                     int orderID = rs.getInt("order_id");
-                    int productID = rs.getInt("product_id");
                     int quantity = rs.getInt("quantity");
                     double price = rs.getDouble("price");
-                    double total = rs.getDouble("total"); // Retrieved computed total
+                    int categoryID = rs.getInt("category_id");
+                    int inventory = rs.getInt("inventory_id");
 
                     // As the SQL table does not include a category column, set category to null.
-                    Item item = new Item(id, orderID, productID, quantity, price, total, null);
+                    Item item = new Item(id, orderID, inventory, quantity, price, categoryID);
                     items.add(item);
                 }
             }

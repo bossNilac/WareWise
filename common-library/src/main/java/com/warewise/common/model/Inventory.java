@@ -9,33 +9,24 @@ public class Inventory {
     private int ID;
     private String name;
     private String description;
-    private List<Item> items ;
     private int quantity;
-    private double price;
-    private int supplyID;
     private String lastUpdated;
 
-    public Inventory(int ID, String name, String description ,List<Item> items, int quantity, double price, int supplyID,
+    public Inventory(int ID, String name, String description , int quantity,
                      String lastUpdated) {
         this.ID = ID;
         this.description = description;
         this.name = name;
-        this.items = items;
         this.quantity = quantity;
-        this.price = price;
-        this.supplyID = supplyID;
         this.lastUpdated = lastUpdated;
     }
 
-    public Inventory(String name, String description , List<Item> items, int quantity, double price, int supplyID,
+    public Inventory(String name, String description , int quantity,
                      String lastUpdated) {
         this.setID(SequenceManager.getInstance().getNextId(TableName.INVENTORY.getTableName()));
         this.description = description;
         this.name = name;
-        this.items = items;
         this.quantity = quantity;
-        this.price = price;
-        this.supplyID = supplyID;
         this.lastUpdated = lastUpdated;
     }
 
@@ -63,36 +54,12 @@ public class Inventory {
         this.ID = ID;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getSupplyID() {
-        return supplyID;
-    }
-
-    public void setSupplyID(int supplyID) {
-        this.supplyID = supplyID;
     }
 
     public String getLastUpdated() {
@@ -108,10 +75,7 @@ public class Inventory {
         output = output + ID +",";
         output = output + name+",";
         output = output + description+",";
-        output = output + items.toString()+",";
         output = output + quantity+",";
-        output = output + price +",";
-        output = output + supplyID+",";
         output = output + lastUpdated;
         return output;
     }

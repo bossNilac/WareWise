@@ -13,6 +13,7 @@ import java.util.List;
 
 public class CategoryHandler {
 
+
     public void addCategory(Category category) {
         String sql = "INSERT INTO categories (category_id,category_name, description) VALUES (?,?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();

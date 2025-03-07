@@ -14,15 +14,6 @@ public class SystemServiceHandler extends ServiceHandler {
     }
 
     @Override
-    public void sendCommand(String command, String... params) {
-        StringBuilder sb = new StringBuilder(command);
-        for (String param : params) {
-            sb.append(Protocol.SEPARATOR).append(param);
-        }
-        connection.sendMessage(sb.toString());
-    }
-
-    @Override
     public void handleDisconnect() {
         System.out.println("SystemServiceHandler disconnecting...");
         server.removeClient(this);

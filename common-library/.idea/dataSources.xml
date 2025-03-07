@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="WareWise.db" uuid="bace8ab1-ee4e-4d8e-b067-8513b4279320">
+    <data-source source="LOCAL" name="WareWise.db" uuid="5c543581-8eea-4c69-846f-c4c505369298">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

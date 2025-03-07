@@ -43,6 +43,13 @@ public final class Protocol {
     public static final String DELETE_CATEGORY = "DELETE_CATEGORY";   // DELETE_CATEGORY~categoryID
     public static final String LIST_CATEGORIES = "LIST_CATEGORIES";   // LIST_CATEGORIES
 
+    // ============================
+// ---- Inventory Management ----
+// ============================
+    public static final String ADD_INVENTORY = "ADD_INVENTORY";         // ADD_INVENTORY~name~description~quantity~lastUpdated
+    public static final String UPDATE_INVENTORY = "UPDATE_INVENTORY";   // UPDATE_INVENTORY~inventoryID~name~description~quantity~lastUpdated
+    public static final String DELETE_INVENTORY = "DELETE_INVENTORY";   // DELETE_INVENTORY~inventoryID
+    public static final String LIST_INVENTORY = "LIST_INVENTORY";       // LIST_INVENTORY
 
     // ============================
     // ---- Order Management ----

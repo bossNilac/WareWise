@@ -25,10 +25,109 @@ public class SimpleClient {
             new Thread(this::listenToServer).start();
 
             // Run the authentication test
-//            runAuthenticationTest();
-            runUserManagementTest();
-        } catch (IOException e) {
+            runAuthenticationTest();
+//            runUserManagementTest();
+//            runCategoryManagementTest();
+            runItemManagementTest();
+            Thread.sleep(5000); // Wait a bit to receive response
+
+            sendMessage("LOGOUT~" + username);
+            socket.close();
+            System.exit(0);
+        } catch (IOException | InterruptedException e) {
             System.err.println("Could not connect to server: " + e.getMessage());
+        }
+    }
+
+    private void runItemManagementTest() {
+        try {
+            System.out.println("Sending ADD_ITEM command...");
+            sendMessage("ADD_ITEM~1~101~5~299.99~2001~10");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending UPDATE_ITEM command...");
+            sendMessage("UPDATE_ITEM~1~101~10~279.99~2001~10");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_ITEMS command...");
+            sendMessage("LIST_ITEMS");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending DELETE_ITEM command...");
+            sendMessage("DELETE_ITEM~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_ITEMS command after deletion...");
+            sendMessage("LIST_ITEMS");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void runInventoryManagementTest() {
+        try {
+            System.out.println("Sending ADD_INVENTORY command...");
+            sendMessage("ADD_INVENTORY~Warehouse A~General warehouse for products~500~2024-03-01 10:00:00");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending UPDATE_INVENTORY command...");
+            sendMessage("UPDATE_INVENTORY~1~Warehouse B~Updated storage facility~600~2024-03-02 12:00:00");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_INVENTORY command...");
+            sendMessage("LIST_INVENTORY");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending DELETE_INVENTORY command...");
+            sendMessage("DELETE_INVENTORY~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_INVENTORY command after deletion...");
+            sendMessage("LIST_INVENTORY");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+
+    private void runCategoryManagementTest() {
+        try {
+            System.out.println("Testing ADD_CATEGORY...");
+            sendMessage("ADD_CATEGORY~Electronics~Devices and gadgets");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Testing UPDATE_CATEGORY...");
+            sendMessage("UPDATE_CATEGORY~1~Electronics~Updated gadgets section");
+
+            Thread.sleep(10000); // Wait for response
+
+            System.out.println("Testing DELETE_CATEGORY...");
+            sendMessage("DELETE_CATEGORY~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Testing LIST_CATEGORIES...");
+            sendMessage("LIST_CATEGORIES");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -44,13 +143,6 @@ public class SimpleClient {
 
             Thread.sleep(1000); // Wait a bit to receive response
 
-            System.out.println("Testing invalid command...");
-            sendMessage("INVALID_COMMAND");
-
-            Thread.sleep(10000); // Wait a bit to receive response
-
-            sendMessage("LOGOUT~" + username);
-
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -58,14 +150,6 @@ public class SimpleClient {
 
     private void runUserManagementTest() {
         try {
-            System.out.println("Sending HELLO command...");
-            sendMessage("HELLO");
-
-            Thread.sleep(1000); // Wait for server response
-
-            System.out.println("Logging in...");
-            sendMessage("LOGIN~calin~calin123");
-
             Thread.sleep(1000); // Wait for login response
 
             System.out.println("Testing ADD_USER...");
@@ -108,7 +192,6 @@ public class SimpleClient {
             Thread.currentThread().interrupt();
         }
     }
-
 
     private void sendMessage(String message) {
         System.out.println("Client: " + message);

@@ -6,30 +6,41 @@ import com.warewise.common.util.enums.TableName;
 public class Item {
     private int ID;
     private int orderID;
-    private int productID;
+    private int inventoryID;
     private int quantity;
     private double price;
     private double total;
     private Category category;
+    private int categoryID;
 
 
-    public Item(int ID, int orderID, int productID, int quantity, double price, double total, Category category) {
+    public Item(int ID, int orderID, int inventoryID, int quantity, double price, Category category) {
         this.ID = ID;
         this.orderID = orderID;
-        this.productID = productID;
+        this.inventoryID = inventoryID;
         this.quantity = quantity;
         this.price = price;
-        this.total = total;
+        this.total = price*quantity;
         this.category = category;
     }
 
-    public Item(int orderID, int productID, int quantity, double price, double total, Category category) {
-        this.setID(SequenceManager.getInstance().getNextId(TableName.ORDER_ITEMS.getTableName()));
+    public Item(int ID, int orderID, int inventoryID, int quantity, double price, int categoryID) {
+        this.ID = ID;
         this.orderID = orderID;
-        this.productID = productID;
+        this.inventoryID = inventoryID;
         this.quantity = quantity;
         this.price = price;
-        this.total = total;
+        this.total = price*quantity;
+        this.categoryID = categoryID;
+    }
+
+
+    public Item(int orderID, int inventoryID, int quantity, double price, Category category) {
+        this.setID(SequenceManager.getInstance().getNextId(TableName.ORDER_ITEMS.getTableName()));
+        this.orderID = orderID;
+        this.inventoryID = inventoryID;
+        this.quantity = quantity;
+        this.price = price;
         this.category = category;
     }
 
@@ -49,12 +60,12 @@ public class Item {
         this.orderID = orderID;
     }
 
-    public int getProductID() {
-        return productID;
+    public int getInventoryID() {
+        return inventoryID;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setInventoryID(int inventoryID) {
+        this.inventoryID = inventoryID;
     }
 
     public int getQuantity() {
@@ -93,7 +104,7 @@ public class Item {
         String output = "";
         output = output + ID +",";
         output = output + orderID+",";
-        output = output + productID+",";
+        output = output + inventoryID +",";
         output = output + quantity+",";
         output = output + price+",";
         output = output + total+",";
@@ -101,4 +112,11 @@ public class Item {
         return output;
     }
 
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
 }

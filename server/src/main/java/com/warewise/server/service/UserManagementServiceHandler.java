@@ -20,15 +20,6 @@ import java.time.format.DateTimeFormatter;
     }
 
     @Override
-    public void sendCommand(String command, String... params) {
-        StringBuilder sb = new StringBuilder(command);
-        for (String param : params) {
-            sb.append(Protocol.SEPARATOR).append(param);
-        }
-        connection.sendMessage(sb.toString());
-    }
-
-    @Override
     public void handleDisconnect() {
         System.out.println("UserManagementServiceHandler disconnecting...");
         // Add any cleanup for user management if necessary.
@@ -57,7 +48,6 @@ import java.time.format.DateTimeFormatter;
                                 if(serverUtil.userExists(username) == null){
                                     System.out.println("Adding user: " + username);
                                     server.getDbLoader().addUser(user);
-                                    server.getUsers().add(user);
                                     sendCommand(Protocol.ADD_USER, "User " + username + " added successfully");
                                 }else {
                                     sendCommand(Protocol.ERRORTAG, "Use  UPDATE_USER");
@@ -119,8 +109,6 @@ import java.time.format.DateTimeFormatter;
                             if(serverUtil.userExists(username)!= null){
                                 System.out.println("Deleting user: " + username);
                                 server.getDbLoader().deleteUser(user);
-                                server.getUsers().remove(user);
-                                server.getUserList().remove(user.getUsername());
                                 sendCommand(Protocol.DELETE_USER, "User " + username + "was deleted successfully");
                             }else {
                                 sendCommand(Protocol.ERRORTAG, "User does not exist");

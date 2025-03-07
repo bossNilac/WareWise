@@ -21,7 +21,7 @@ public class ServerConnection extends SocketConnection implements Runnable {
     // Instantiate all service handlers for this connection.
     private final AuthenticationServiceHandler authHandler;
     private final UserManagementServiceHandler userHandler;
-    private final InventoryManagementServiceHandler inventoryHandler;
+    private final ItemManagementServiceHandler inventoryHandler;
     private final CategoryManagementServiceHandler categoryHandler;
     private final OrderManagementServiceHandler orderHandler;
     private final SupplierManagementServiceHandler supplierHandler;
@@ -35,7 +35,7 @@ public class ServerConnection extends SocketConnection implements Runnable {
         // Initialize all handlers, passing this connection and the server.
         authHandler = new AuthenticationServiceHandler(server, this);
         userHandler = new UserManagementServiceHandler(server, this);
-        inventoryHandler = new InventoryManagementServiceHandler(server, this);
+        inventoryHandler = new ItemManagementServiceHandler(server, this);
         categoryHandler = new CategoryManagementServiceHandler(server, this);
         orderHandler = new OrderManagementServiceHandler(server, this);
         supplierHandler = new SupplierManagementServiceHandler(server, this);
