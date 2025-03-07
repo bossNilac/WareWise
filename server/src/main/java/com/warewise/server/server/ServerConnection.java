@@ -21,7 +21,8 @@ public class ServerConnection extends SocketConnection implements Runnable {
     // Instantiate all service handlers for this connection.
     private final AuthenticationServiceHandler authHandler;
     private final UserManagementServiceHandler userHandler;
-    private final ItemManagementServiceHandler inventoryHandler;
+    private final InventoryManagementServiceHandler inventoryHandler;
+    private final ItemManagementServiceHandler itemHandler;
     private final CategoryManagementServiceHandler categoryHandler;
     private final OrderManagementServiceHandler orderHandler;
     private final SupplierManagementServiceHandler supplierHandler;
@@ -35,7 +36,8 @@ public class ServerConnection extends SocketConnection implements Runnable {
         // Initialize all handlers, passing this connection and the server.
         authHandler = new AuthenticationServiceHandler(server, this);
         userHandler = new UserManagementServiceHandler(server, this);
-        inventoryHandler = new ItemManagementServiceHandler(server, this);
+        itemHandler = new ItemManagementServiceHandler(server, this);
+        inventoryHandler = new InventoryManagementServiceHandler(server, this);
         categoryHandler = new CategoryManagementServiceHandler(server, this);
         orderHandler = new OrderManagementServiceHandler(server, this);
         supplierHandler = new SupplierManagementServiceHandler(server, this);
@@ -57,6 +59,9 @@ public class ServerConnection extends SocketConnection implements Runnable {
             return userHandler;
         } else if (command.equals(Protocol.ADD_ITEM) || command.equals(Protocol.UPDATE_ITEM) ||
                 command.equals(Protocol.DELETE_ITEM) || command.equals(Protocol.LIST_ITEMS)) {
+            return itemHandler;
+        } else if (command.equals(Protocol.ADD_INVENTORY) || command.equals(Protocol.UPDATE_INVENTORY) ||
+                command.equals(Protocol.DELETE_INVENTORY) || command.equals(Protocol.LIST_INVENTORY)) {
             return inventoryHandler;
         } else if (command.equals(Protocol.ADD_CATEGORY) || command.equals(Protocol.UPDATE_CATEGORY) ||
                 command.equals(Protocol.DELETE_CATEGORY) || command.equals(Protocol.LIST_CATEGORIES)) {

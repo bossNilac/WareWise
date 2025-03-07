@@ -1,9 +1,7 @@
 package com.warewise.server.server.util;
 
-import com.warewise.common.model.Category;
-import com.warewise.common.model.Inventory;
-import com.warewise.common.model.Item;
-import com.warewise.common.model.User;
+import com.warewise.common.model.*;
+import com.warewise.common.util.enums.OrderStatus;
 import com.warewise.common.util.enums.UserRole;
 import com.warewise.server.server.Server;
 import com.warewise.common.handler.*;
@@ -179,6 +177,46 @@ public class DataBaseLoader {
         server.getInventories().remove(inventory);
         inventoryHandler.deleteInventory(inventory);
     }
+
+    public boolean updateOrder(Order order, String customerName, String customerEmail, OrderStatus status, String updatedAt) {
+        if (order.getCustomerName().equals(customerName) &&
+                order.getCustomerEmail().equals(customerEmail) &&
+                order.getStatus() == status &&
+                order.getUpdatedAt().equals(updatedAt)) {
+            return false; // No changes detected
+        }
+
+        if (!customerName.isBlank() || !customerEmail.isBlank() || status != order.getStatus() || !updatedAt.isBlank()) {
+            if (!customerName.isBlank()) {
+                order.setCustomerName(customerName);
+            }
+            if (!customerEmail.isBlank()) {
+                order.setCustomerEmail(customerEmail);
+            }
+            if (status != order.getStatus()) {
+                order.setStatus(status);
+            }
+            if (!updatedAt.isBlank()) {
+                order.setUpdatedAt(updatedAt);
+            }
+
+            orderHandler.updateOrder(order); // Save changes to DB
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void addOrder(Order order) {
+        server.getOrders().add(order);
+        orderHandler.addOrder(order);
+    }
+
+    public void deleteOrder(Order order) {
+        server.getOrders().remove(order);
+        orderHandler.deleteOrder(order);
+    }
+
 
 
 

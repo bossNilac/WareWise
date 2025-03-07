@@ -28,7 +28,10 @@ public class SimpleClient {
             runAuthenticationTest();
 //            runUserManagementTest();
 //            runCategoryManagementTest();
-            runItemManagementTest();
+//            runItemManagementTest();
+//            runInventoryManagementTest();
+            runOrderManagementTest();
+
             Thread.sleep(5000); // Wait a bit to receive response
 
             sendMessage("LOGOUT~" + username);
@@ -79,9 +82,9 @@ public class SimpleClient {
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending UPDATE_INVENTORY command...");
-            sendMessage("UPDATE_INVENTORY~1~Warehouse B~Updated storage facility~600~2024-03-02 12:00:00");
+            sendMessage("UPDATE_INVENTORY~0~Warehouse B~Updated storage facility~600~2024-03-02 12:00:00");
 
-            Thread.sleep(1000); // Wait for response
+            Thread.sleep(10000); // Wait for response
 
             System.out.println("Sending LIST_INVENTORY command...");
             sendMessage("LIST_INVENTORY");
@@ -89,12 +92,44 @@ public class SimpleClient {
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending DELETE_INVENTORY command...");
-            sendMessage("DELETE_INVENTORY~1");
+            sendMessage("DELETE_INVENTORY~0");
 
             Thread.sleep(1000); // Wait for response
 
             System.out.println("Sending LIST_INVENTORY command after deletion...");
             sendMessage("LIST_INVENTORY");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void runOrderManagementTest() {
+        try {
+            System.out.println("Sending CREATE_ORDER command...");
+            sendMessage("CREATE_ORDER~John Doe~johndoe@example.com~PENDING~2024-03-01 10:00:00~2024-03-01 10:00:00");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending UPDATE_ORDER command...");
+            sendMessage("UPDATE_ORDER~1~John Smith~johnsmith@example.com~FULFILLED~2024-03-02 12:00:00");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_ORDERS command...");
+            sendMessage("LIST_ORDERS");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending DELETE_ORDER command...");
+            sendMessage("DELETE_ORDER~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_ORDERS command after deletion...");
+            sendMessage("LIST_ORDERS");
 
             Thread.sleep(1000); // Wait for response
 

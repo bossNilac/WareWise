@@ -1,9 +1,6 @@
 package com.warewise.server.server.util;
 
-import com.warewise.common.model.Category;
-import com.warewise.common.model.Inventory;
-import com.warewise.common.model.Item;
-import com.warewise.common.model.User;
+import com.warewise.common.model.*;
 import com.warewise.server.server.Server;
 
 import java.util.Objects;
@@ -56,6 +53,15 @@ public class ServerUtil {
         for (Inventory inventory : server.getInventories()){
             if (inventory.getID()==id){
                 return inventory;
+            }
+        }
+        return null;
+    }
+
+    public Order orderExists(int id) {
+        for (Order order : server.getOrders()){
+            if (order.getID()==id){
+                return order;
             }
         }
         return null;

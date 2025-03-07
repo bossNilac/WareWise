@@ -13,7 +13,6 @@ public class Order {
     private OrderStatus status;
     private String createdAt;
     private String updatedAt;
-    private List<Item> items ;
 
     public int getID() {
         return ID;
@@ -82,13 +81,6 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
 
 
     public String toString(){
@@ -99,7 +91,6 @@ public class Order {
         output = output + status+",";
         output = output + createdAt+",";
         output = output + updatedAt+",";
-        output = output + items.toString()+",";
         return output;
     }
 
