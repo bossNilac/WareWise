@@ -70,6 +70,9 @@ public final class Protocol {
     // ============================
     // ---- Stock Alerts ----
     // ============================
+    public static final String LIST_STOCK_ALERTS = "LIST_STOCK_ALERTS";   // LIST_SUPPLIERS
+    public static final String DELETE_STOCK_ALERT = "DELETE_STOCK_ALERT";   // DELETE_STOCK_ALERT~stockAlertID
+    public static final String UPDATE_STOCK_ALERT = "UPDATE_STOCK_ALERT";   // UPDATE_STOCK_ALERT~stockAlertID~productID~threshold~createdAt~resolved
     public static final String STOCK_ALERT = "STOCK_ALERT";   // STOCK_ALERT~productID~threshold
     public static final String RESOLVE_ALERT = "RESOLVE_ALERT"; // RESOLVE_ALERT~alertID
 

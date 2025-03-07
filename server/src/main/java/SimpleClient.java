@@ -30,9 +30,12 @@ public class SimpleClient {
 //            runCategoryManagementTest();
 //            runItemManagementTest();
 //            runInventoryManagementTest();
-            runOrderManagementTest();
-
+//            runOrderManagementTest();
+            runSupplierManagementTest();
             Thread.sleep(5000); // Wait a bit to receive response
+            runStockAlertManagementTest();
+
+
 
             sendMessage("LOGOUT~" + username);
             socket.close();
@@ -130,6 +133,70 @@ public class SimpleClient {
 
             System.out.println("Sending LIST_ORDERS command after deletion...");
             sendMessage("LIST_ORDERS");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void runSupplierManagementTest() {
+        try {
+            System.out.println("Sending ADD_SUPPLIER command...");
+            sendMessage("ADD_SUPPLIER~Acme Corp~contact@acme.com~123456789~123 Main St");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending UPDATE_SUPPLIER command...");
+            sendMessage("UPDATE_SUPPLIER~1~Acme Corp Ltd~newcontact@acme.com~987654321~456 Elm St");
+
+            Thread.sleep(10000); // Wait for response
+
+            System.out.println("Sending LIST_SUPPLIERS command...");
+            sendMessage("LIST_SUPPLIERS");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending DELETE_SUPPLIER command...");
+            sendMessage("DELETE_SUPPLIER~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_SUPPLIERS command after deletion...");
+            sendMessage("LIST_SUPPLIERS");
+
+            Thread.sleep(1000); // Wait for response
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void runStockAlertManagementTest() {
+        try {
+            System.out.println("Sending STOCK_ALERT command...");
+            sendMessage("STOCK_ALERT~5001~ACTIVE~2024-03-01 10:00:00");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending UPDATE_STOCK_ALERT command...");
+            sendMessage("UPDATE_STOCK_ALERT~1~RESOLVED~2024-03-02 12:00:00");
+
+            Thread.sleep(10000); // Wait for response
+
+            System.out.println("Sending LIST_STOCK_ALERTS command...");
+            sendMessage("LIST_STOCK_ALERTS");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending DELETE_STOCK_ALERT command...");
+            sendMessage("DELETE_STOCK_ALERT~1");
+
+            Thread.sleep(1000); // Wait for response
+
+            System.out.println("Sending LIST_STOCK_ALERTS command after deletion...");
+            sendMessage("LIST_STOCK_ALERTS");
 
             Thread.sleep(1000); // Wait for response
 

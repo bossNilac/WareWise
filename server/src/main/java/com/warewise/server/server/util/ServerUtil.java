@@ -67,6 +67,24 @@ public class ServerUtil {
         return null;
     }
 
+    public Supplier supplierExists(int id) {
+        for (Supplier supplier : server.getSuppliers()){
+            if (supplier.getID()==id){
+                return supplier;
+            }
+        }
+        return null;
+    }
+
+    public StockAlert stockAlertExists(int id) {
+        for (StockAlert stockAlert : server.getStockAlertList()){
+            if (stockAlert.getID()==id){
+                return stockAlert;
+            }
+        }
+        return null;
+    }
+
 
 
 }

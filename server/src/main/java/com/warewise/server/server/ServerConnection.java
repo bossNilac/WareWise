@@ -72,7 +72,10 @@ public class ServerConnection extends SocketConnection implements Runnable {
         } else if (command.equals(Protocol.ADD_SUPPLIER) || command.equals(Protocol.UPDATE_SUPPLIER) ||
                 command.equals(Protocol.DELETE_SUPPLIER) || command.equals(Protocol.LIST_SUPPLIERS)) {
             return supplierHandler;
-        } else if (command.equals(Protocol.STOCK_ALERT) || command.equals(Protocol.RESOLVE_ALERT)) {
+        } else if (command.equals(Protocol.STOCK_ALERT) || command.equals(Protocol.RESOLVE_ALERT)
+                || command.equals(Protocol.DELETE_STOCK_ALERT) || command.equals(Protocol.UPDATE_STOCK_ALERT)
+                || command.equals(Protocol.LIST_STOCK_ALERTS)
+        ) {
             return stockAlertHandler;
         } else if (command.equals(Protocol.GENERATE_REPORT) || command.equals(Protocol.REPORT_RESULT)) {
             return reportingHandler;

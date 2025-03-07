@@ -2,6 +2,7 @@ package com.warewise.server.server.util;
 
 import com.warewise.common.model.*;
 import com.warewise.common.util.enums.OrderStatus;
+import com.warewise.common.util.enums.StockAlertStatus;
 import com.warewise.common.util.enums.UserRole;
 import com.warewise.server.server.Server;
 import com.warewise.common.handler.*;
@@ -216,6 +217,107 @@ public class DataBaseLoader {
         server.getOrders().remove(order);
         orderHandler.deleteOrder(order);
     }
+
+    public boolean updateStockAlert(StockAlert stockAlert, StockAlertStatus threshold, String resolved) {
+        if (stockAlert.getThreshold() == threshold &&
+                stockAlert.getResolved().equals(resolved)) {
+            return false;
+        }
+
+        if (threshold != stockAlert.getThreshold() || !resolved.isBlank()) {
+            if (threshold != stockAlert.getThreshold()) {
+                stockAlert.setThreshold(threshold);
+            }
+            if (!resolved.isBlank()) {
+                stockAlert.setResolved(resolved);
+            }
+
+            stockAlertHandler.updateStockAlert(stockAlert);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void addStockAlert(StockAlert stockAlert) {
+        server.getStockAlertList().add(stockAlert);
+        stockAlertHandler.addStockAlert(stockAlert);
+    }
+
+    public void deleteStockAlert(StockAlert stockAlert) {
+        server.getStockAlertList().remove(stockAlert);
+        stockAlertHandler.deleteStockAlert(stockAlert);
+    }
+
+    public boolean updateSupplier(Supplier supplier, String name, String contactEmail, String contactPhoneNo, String address) {
+        if (supplier.getName().equals(name) &&
+                supplier.getContactEmail().equals(contactEmail) &&
+                supplier.getContactPhoneNo().equals(contactPhoneNo) &&
+                supplier.getAddress().equals(address)) {
+            return false;
+        }
+
+        if (!name.isBlank() || !contactEmail.isBlank() || !contactPhoneNo.isBlank() || !address.isBlank()) {
+            if (!name.isBlank()) {
+                supplier.setName(name);
+            }
+            if (!contactEmail.isBlank()) {
+                supplier.setContactEmail(contactEmail);
+            }
+            if (!contactPhoneNo.isBlank()) {
+                supplier.setContactPhoneNo(contactPhoneNo);
+            }
+            if (!address.isBlank()) {
+                supplier.setAddress(address);
+            }
+
+            supplierHandler.updateSupplier(supplier);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateStockAlert(StockAlert stockAlert, int productID, StockAlertStatus threshold, String createdAt, String resolved) {
+        if (stockAlert.getProductID() == productID &&
+                stockAlert.getThreshold() == threshold &&
+                stockAlert.getCreatedAt().equals(createdAt) &&
+                stockAlert.getResolved().equals(resolved)) {
+            return false;
+        }
+
+        if (productID >= 0 || threshold != stockAlert.getThreshold() || !createdAt.isBlank() || !resolved.isBlank()) {
+            if (productID >= 0) {
+                stockAlert.setProductID(productID);
+            }
+            if (threshold != stockAlert.getThreshold()) {
+                stockAlert.setThreshold(threshold);
+            }
+            if (!createdAt.isBlank()) {
+                stockAlert.setCreatedAt(createdAt);
+            }
+            if (!resolved.isBlank()) {
+                stockAlert.setResolved(resolved);
+            }
+
+            stockAlertHandler.updateStockAlert(stockAlert);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public void addSupplier(Supplier supplier) {
+        server.getSuppliers().add(supplier);
+        supplierHandler.addSupplier(supplier);
+    }
+
+    public void deleteSupplier(Supplier supplier) {
+        server.getSuppliers().remove(supplier);
+        supplierHandler.deleteSupplier(supplier);
+    }
+
 
 
 
