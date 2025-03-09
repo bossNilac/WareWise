@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'  // Latest version
 }
 
 group = 'org.example'
@@ -21,12 +22,15 @@ dependencies {
 }
 
 test {
-
     useJUnitPlatform()
 }
 
 jar {
     archiveBaseName = 'common-library'
     archiveVersion = '0.0.4.2'
-
 }
+
+
+
+
+
