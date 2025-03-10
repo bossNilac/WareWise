@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Server extends SocketServer {
     private static DataBaseLoader dbLoader;
+    private static SystemUsageMonitor systemMonitor;
     // Store active connections.
     private final Set<ServerConnection> connections = Collections.newSetFromMap(new ConcurrentHashMap<>());
     // A simple set of logged-in usernames.
@@ -75,8 +76,10 @@ public class Server extends SocketServer {
             Server server = new Server(port);
             System.out.println("Server started on port " + server.getPort() + ".");
             dbLoader = new DataBaseLoader(server);
+            systemMonitor = new SystemUsageMonitor(server);
             SequenceManager.getInstance();
             dbLoader.loadDataFromDB();
+            systemMonitor.start();
             System.out.println("Loaded data.");
             server.acceptConnections();
         } catch (IOException e) {
@@ -111,6 +114,8 @@ public class Server extends SocketServer {
 
     @Override
     public synchronized void close() {
+        systemMonitor.stopMonitoring();
+        systemMonitor.interrupt();
         super.close();
     }
 
@@ -225,6 +230,10 @@ public class Server extends SocketServer {
 
     public List<User> getUsers() {
         return users;
+    }
+
+    public Set<ServerConnection> getConnections() {
+        return connections;
     }
 }
 

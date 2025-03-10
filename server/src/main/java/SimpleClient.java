@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class SimpleClient {
@@ -26,19 +27,23 @@ public class SimpleClient {
 
             // Run the authentication test
             runAuthenticationTest();
-            runUserManagementTest();
-            runCategoryManagementTest();
-            runItemManagementTest();
-            runInventoryManagementTest();
-            runOrderManagementTest();
-            runSupplierManagementTest();
-            runStockAlertManagementTest();
-            Thread.sleep(5000); // Wait a bit to receive response
+            sendMessage("LIST_ONLINE_USERS");
 
-            sendMessage("LOGOUT~" + username);
-            socket.close();
-            System.exit(0);
-        } catch (IOException | InterruptedException e) {
+//            runUserManagementTest();
+//            runCategoryManagementTest();
+//            runItemManagementTest();
+//            runInventoryManagementTest();
+//            runOrderManagementTest();
+//            runSupplierManagementTest();
+//            runStockAlertManagementTest();
+            Thread.sleep(5000); // Wait a bit to receive response
+            sendMessage("KICK_USER~calin");
+//            sendMessage("LOGOUT~" + username);
+//            socket.close();
+//            System.exit(0);
+        } catch (Exception e
+//                 | InterruptedException e
+        ) {
             System.err.println("Could not connect to server: " + e.getMessage());
         }
     }

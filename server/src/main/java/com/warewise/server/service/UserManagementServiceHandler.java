@@ -125,9 +125,33 @@ import java.util.Arrays;
                     }
                 }
                 break;
+            case Protocol.KICK_USER:
+                if (connectionUser == null) {
+                    response=sendCommand(Protocol.ERRORTAG, "Not logged in");
+                } else {
+                    if (connectionRole != UserRole.ADMIN){
+                        response=sendCommand(Protocol.ERRORTAG, "Not admin rights");
+                        break;
+                    }
+                    if (params.length == 1) {
+                        String username = params[0];
+                        if (server.getUserList().contains(username)) {
+                            serverUtil.kickUser(username);
+                            response=sendCommand(Protocol.KICK_USER, "User kicked out ");
+                        } else {
+                            response=sendCommand(Protocol.ERRORTAG, "Cannot kick logged out user");
+                        }
+                    } else{
+                        response=sendCommand(Protocol.ERRORTAG, "Invalid parameters for DELETE_USER");
+                    }
+                }
+                break;
             case Protocol.LIST_USERS:
-                System.out.println("Listing users.");
                 response=sendCommand(Protocol.LIST_USERS, server.getUsers().toString());
+                break;
+
+            case Protocol.LIST_ONLINE_USERS:
+                response=sendCommand(Protocol.LIST_ONLINE_USERS, server.getUserList().toString());
                 break;
             default:
                 response=sendCommand(Protocol.ERRORTAG, "Invalid command in UserManagementServiceHandler");

@@ -55,7 +55,8 @@ public class ServerConnection extends SocketConnection implements Runnable {
         if (command.equals(Protocol.HELLO) || command.equals(Protocol.LOGIN) || command.equals(Protocol.LOGOUT)) {
             return authHandler;
         } else if (command.equals(Protocol.ADD_USER) || command.equals(Protocol.UPDATE_USER) ||
-                command.equals(Protocol.DELETE_USER) || command.equals(Protocol.LIST_USERS)) {
+                command.equals(Protocol.DELETE_USER) || command.equals(Protocol.LIST_USERS)
+                || command.equals(Protocol.LIST_ONLINE_USERS) || command.equals(Protocol.KICK_USER)) {
             return userHandler;
         } else if (command.equals(Protocol.ADD_ITEM) || command.equals(Protocol.UPDATE_ITEM) ||
                 command.equals(Protocol.DELETE_ITEM) || command.equals(Protocol.LIST_ITEMS)) {

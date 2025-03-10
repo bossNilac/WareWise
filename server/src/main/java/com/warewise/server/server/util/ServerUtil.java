@@ -2,6 +2,7 @@ package com.warewise.server.server.util;
 
 import com.warewise.common.model.*;
 import com.warewise.server.server.Server;
+import com.warewise.server.server.ServerConnection;
 
 import java.util.Objects;
 
@@ -22,6 +23,14 @@ public class ServerUtil {
             }
         }
         return null;
+    }
+
+    public void kickUser(String name){
+        for (ServerConnection connection : server.getConnections()){
+            if (connection.getAuthHandler().getRegisteredUser().equals(name)){
+                connection.close();
+            }
+        }
     }
 
     public Category categoryExists(int id) {

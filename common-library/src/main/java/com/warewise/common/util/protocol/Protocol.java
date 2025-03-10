@@ -24,8 +24,10 @@ public final class Protocol {
     // ============================
     public static final String ADD_USER = "ADD_USER";         // ADD_USER~username~role~email~password
     public static final String UPDATE_USER = "UPDATE_USER";   // UPDATE_USER~userID~field~newValue
+    public static final String KICK_USER = "KICK_USER";   // KICK_USER~userID~value
     public static final String DELETE_USER = "DELETE_USER";   // DELETE_USER~userID
     public static final String LIST_USERS = "LIST_USERS";     // LIST_USERS
+    public static final String LIST_ONLINE_USERS = "LIST_ONLINE_USERS";     // LIST_ONLINE_USERS
 
     // ============================
     // ---- Inventory Management ----
@@ -88,6 +90,7 @@ public final class Protocol {
     public static final String SERVER_ERROR = "SERVER_ERROR";   // SERVER_ERROR~message
     public static final String INVALID_COMMAND = "INVALID_COMMAND"; // INVALID_COMMAND~reason
     public static final String HEARTBEAT = "HEARTBEAT";         // HEARTBEAT~timestamp
+    public static final String SEND_BENCHMARK = "SEND_BENCHMARK";         // SEND_BENCHMARK~DATA~DATA
 
     // Private constructor to prevent instantiation
     private Protocol() {
