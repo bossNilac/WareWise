@@ -1,8 +1,8 @@
 package com.warewise.admin.tui.commands;
 
+import com.warewise.admin.tui.Protocol;
 import com.warewise.admin.tui.TuiClass;
 import com.warewise.admin.tui.network.NetworkingClass;
-import com.warewise.common.util.protocol.Protocol;
 
 import java.io.*;
 
@@ -11,10 +11,11 @@ public class AdminUtil {
     public static boolean isServerStarted = false;
     public static boolean loggedIn = false;
     private static  String sesionUsername = null;
+    private static final String jarPath = System.getProperty("user.home") + "/WareWiseFiles/my-server-jar-1.0-all.jar";
+
 
 
     public static void startServer(){
-            String jarPath = "C:\\Users\\Calin\\IdeaProjects\\WareWise\\admin-console-tui\\libs\\my-server-jar-1.0-SNAPSHOT-all.jar";
             try {
                 String os = System.getProperty("os.name").toLowerCase();
                 ProcessBuilder processBuilder;

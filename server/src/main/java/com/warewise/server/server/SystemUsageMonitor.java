@@ -2,6 +2,7 @@ package com.warewise.server.server;
 
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
+import com.warewise.common.util.enums.UserRole;
 import com.warewise.common.util.protocol.Protocol;
 
 public class SystemUsageMonitor extends Thread {
@@ -45,9 +46,9 @@ public class SystemUsageMonitor extends Thread {
 
     private void sendBenchmark(double systemCpuLoad , double usedMemory ) {
         for (ServerConnection conn : server.getConnections()){
-            conn.sendMessage(Protocol.SEND_BENCHMARK+ Protocol.SEPARATOR+systemCpuLoad
-                    +Protocol.SEPARATOR+usedMemory
-                    +Protocol.SEPARATOR+server.getConnections().size());
+                conn.sendMessage(Protocol.SEND_BENCHMARK + Protocol.SEPARATOR + systemCpuLoad
+                        + Protocol.SEPARATOR + usedMemory
+                        + Protocol.SEPARATOR + server.getConnections().size());
         }
     }
 

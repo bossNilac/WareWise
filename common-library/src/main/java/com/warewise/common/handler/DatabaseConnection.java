@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String DB_PATH = System.getProperty("user.home") + "/WareWise.db";
+    private static final String DB_PATH = System.getProperty("user.home") + "/WareWiseFiles/WareWise.db";
     private static final String DB_URL = "jdbc:sqlite:" + DB_PATH;
 //    private static final String DB_URL = "jdbc:sqlite:C:\\Users\\Calin\\IdeaProjects\\WareWise\\server\\WareWise.db";
 

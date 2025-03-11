@@ -3,7 +3,6 @@ package com.warewise.admin.tui;
 import com.warewise.admin.tui.commands.*;
 import com.warewise.admin.tui.network.NetworkingClass;
 import com.warewise.admin.tui.ui.Dashboard;
-import com.warewise.common.util.protocol.Protocol;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +10,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
+import static com.warewise.admin.tui.Protocol.*;
 import static com.warewise.admin.tui.ui.UiConstants.*;
 import static com.warewise.admin.tui.commands.UtilityCommands.*;
-import static com.warewise.common.util.protocol.Protocol.*;
 
 public class TuiClass {
 
@@ -25,7 +24,7 @@ public class TuiClass {
     private boolean DbActionFlag = false;
     private boolean running = true;
 
-    public static final String CREDENTIALS_FILE = "passwd/user_credentials.json";
+    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWiseFiles/passwd/user_credentials.json";
     private String[] loginCreds = new String[2];
 
 
@@ -59,9 +58,7 @@ public class TuiClass {
         }else {
             loginCreds = AdminUtil.getLoginCred();
         }
-        clearScreen();
-        printHeader();
-        printServerControlMenu();
+        displayAppHeader();
         while (running) {
             switch (askForInput()) {
                 case "1":
@@ -101,9 +98,7 @@ public class TuiClass {
                 case "0":
                     UtilityCommands.askForCred();
                 case "7":
-                    clearScreen();
-                    printHeader();
-                    printServerControlMenu();
+                    displayAppHeader();
                     break;
                 default:
                     System.out.println("\n Invalid option. Please try again.");
@@ -114,10 +109,9 @@ public class TuiClass {
     private void login() {
         networkingObject.sendMessage(HELLO);
         networkingObject.sendMessage(LOGIN+SEPARATOR+loginCreds[0]+SEPARATOR+loginCreds[1]);
-        clearScreen();
-        printHeader();
-        printServerControlMenu();
+        displayAppHeader();
     }
+
 
     public  void runDbActionMenu() {
         while (DbActionFlag) {
@@ -138,9 +132,12 @@ public class TuiClass {
                     command = handleDelete();
                     break;
                 case "5":
+                    displayAppHeader();
                     DbActionFlag = false;
+                    break;
                 default:
                     System.out.println("Invalid option.");
+                    break;
             }
 
             if (!command.isBlank()) {
@@ -179,7 +176,10 @@ public class TuiClass {
             case "7" -> isAdd
                     ? "STOCK_ALERT" + buildParams(true, "", "Product ID", "Threshold")
                     : "UPDATE_STOCK_ALERT" + buildParams(false, id, "Product ID", "Threshold", "Created At", "Resolved");
-            case "8" -> "";
+            case "8" -> {
+                displayAppHeader();
+                yield "";
+            }
             default -> {
                 System.out.println("Invalid category.");
                 yield "";

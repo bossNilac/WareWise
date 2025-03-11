@@ -48,8 +48,8 @@ public class UtilityCommands {
         System.out.println("|         MAIN MENU           |");
         System.out.println(middleBorder);
         System.out.println("| 1. User Management          |");
-        System.out.println("| 2. Category Management      |");
-        System.out.println("| 3. Item Management          |");
+        System.out.println("| 2. Item Management          |");
+        System.out.println("| 3. Category Management      |");
         System.out.println("| 4. Inventory Management     |");
         System.out.println("| 5. Order Management         |");
         System.out.println("| 6. Supplier Management      |");
@@ -113,6 +113,12 @@ public class UtilityCommands {
                 break;
             default:break;
         }
+    }
+
+    public static void displayAppHeader(){
+        clearScreen();
+        printHeader();
+        printServerControlMenu();
     }
 
     public static void askForCred() {

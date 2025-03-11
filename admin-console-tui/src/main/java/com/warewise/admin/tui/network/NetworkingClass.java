@@ -1,9 +1,8 @@
 package com.warewise.admin.tui.network;
 
+import com.warewise.admin.tui.Protocol;
 import com.warewise.admin.tui.commands.AdminUtil;
 import com.warewise.admin.tui.ui.Dashboard;
-import com.warewise.common.util.protocol.Protocol;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -61,8 +60,10 @@ public class NetworkingClass {
     public void sendMessage(String message) {
         try {
             if (!(message.contains(Protocol.HELLO)
-                    || message.contains(Protocol.LOGIN)))
+                    || message.contains(Protocol.LOGIN))) {
+                Thread.sleep(200);
                 doHandlingAnimation(message);
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
