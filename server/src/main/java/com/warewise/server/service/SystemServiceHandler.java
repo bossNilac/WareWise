@@ -48,6 +48,20 @@ public class SystemServiceHandler extends ServiceHandler {
                     sendCommand(Protocol.ERRORTAG, "Missing timestamp for HEARTBEAT");
                 }
                 break;
+            case Protocol.SHUTDOWN_SIGNAL:
+                if (params.length == 1) {
+                    String timestamp = params[0];
+                    try {
+                        Thread.sleep(1000*Long.parseLong(timestamp));
+                        System.exit(0);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    // Optionally, respond with a heartbeat acknowledgment.
+                } else {
+                    sendCommand(Protocol.ERRORTAG, "Missing time for SHUTDOWN");
+                }
+                break;
             default:
                 sendCommand(Protocol.ERRORTAG, "Invalid system command");
                 break;

@@ -2,9 +2,10 @@ package com.warewise.admin.tui;
 
 import com.warewise.admin.tui.commands.*;
 import com.warewise.admin.tui.network.NetworkingClass;
-import com.warewise.admin.tui.network.ServerResponseHandler;
 import com.warewise.admin.tui.ui.Dashboard;
+import com.warewise.common.util.protocol.Protocol;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -17,7 +18,6 @@ import static com.warewise.common.util.protocol.Protocol.*;
 public class TuiClass {
 
     static Dashboard dashboard;
-    static ServerResponseHandler serverResponseHandler;
     static NetworkingClass networkingObject;
     static Socket socket;
     static Scanner scanner = new Scanner(System.in);
@@ -25,14 +25,17 @@ public class TuiClass {
     private boolean DbActionFlag = false;
     private boolean running = true;
 
-    public void initialise() {
+    public static final String CREDENTIALS_FILE = "passwd/user_credentials.json";
+    private String[] loginCreds = new String[2];
+
+
+    public void serverInit() {
         try {
             dashboard = new Dashboard();
             animateProgressBar("Dashboard", 10, 100); // 30 steps with a 50ms delay each
-            serverResponseHandler = new ServerResponseHandler();
             animateProgressBar("ServerResponseHandler", 10, 100); // 30 steps with a 50ms delay each
             socket = new Socket(InetAddress.getLocalHost(), port);
-            networkingObject = new NetworkingClass(socket, serverResponseHandler);
+            networkingObject = new NetworkingClass(socket,dashboard);
             animateProgressBar("Networking Module", 10, 100); // 30 steps with a 50ms delay each
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -42,37 +45,52 @@ public class TuiClass {
         dashboard.start();
         networkingObject.listenToServer();
         running = true;
-        this.runMainMenu();
+        this.runDbActionMenu();
     }
 
     public static void main(String[] args) throws InterruptedException {
-        displayNotificationPanel();
-
+        new TuiClass().runMainMenu();
     }
 
     public void runMainMenu() {
+        File file = new File(CREDENTIALS_FILE);
+        if (!file.exists() || UtilityCommands.isFileEmpty(file)) {
+            UtilityCommands.askForCred();
+        }else {
+            loginCreds = AdminUtil.getLoginCred();
+        }
+        clearScreen();
+        printHeader();
+        printServerControlMenu();
         while (running) {
-            clearScreen();
-            printHeader();
-            printServerControlMenu();
             switch (askForInput()) {
                 case "1":
-                    AdminUtil.startServer(networkingObject);
+                    AdminUtil.startServer();
+                    try {
+                        Thread.sleep(2000);
+                        serverInit();
+                        login();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "2":
                     AdminUtil.closeServer(networkingObject);
                     break;
                 case "3":
                     this.DbActionFlag = true;
-                    runDbActionMenu();
+                    if(AdminUtil.isServerStarted) runDbActionMenu();
+                    else AdminUtil.notLoggedInError();
                     break;
                 case "4":
                     AdminUtil.listUsers(networkingObject);
                     break;
                 case "5":
-                    System.out.print("Enter ID to kick: ");
+                    System.out.print(ANSI_WHITE + "Enter your username: " + ANSI_RESET);
                     String userID = scanner.nextLine();
-                    AdminUtil.kickUser(networkingObject,userID);
+                    if(showModalDialog("You are about to kick user:" + userID )) {
+                        AdminUtil.kickUser(networkingObject, userID);
+                    }
                     break;
                 case "6":
                     if (showModalDialog("Exit")) {
@@ -80,10 +98,25 @@ public class TuiClass {
                     } else {
                         break;
                     }
+                case "0":
+                    UtilityCommands.askForCred();
+                case "7":
+                    clearScreen();
+                    printHeader();
+                    printServerControlMenu();
+                    break;
                 default:
                     System.out.println("\n Invalid option. Please try again.");
             }
         }
+    }
+
+    private void login() {
+        networkingObject.sendMessage(HELLO);
+        networkingObject.sendMessage(LOGIN+SEPARATOR+loginCreds[0]+SEPARATOR+loginCreds[1]);
+        clearScreen();
+        printHeader();
+        printServerControlMenu();
     }
 
     public  void runDbActionMenu() {
@@ -205,6 +238,13 @@ public class TuiClass {
     }
 
     private static void exit() {
+        dashboard.stop();
+        try {
+            networkingObject.close();
+            System.exit(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Helper method for handling parameters (empty fields become ~~)

@@ -1,5 +1,9 @@
 package com.warewise.admin.tui.commands;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static com.warewise.admin.tui.ui.UiConstants.*;
@@ -21,6 +25,8 @@ public class UtilityCommands {
         System.out.println("| 4. List Users    |");
         System.out.println("| 5. Kick User     |");
         System.out.println("| 6. Exit          |");
+        System.out.println("| 7. Clear screen  |");
+        System.out.println("| 0. Setup profile |");
         System.out.println(bottomBorder + ANSI_RESET);
     }
 
@@ -91,28 +97,45 @@ public class UtilityCommands {
     }
 
 
-    public static void displayNotificationPanel() {
+    public static void displayNotificationPanel(int type,String message) {
         // This method prints notifications at the bottom of the terminal.
         int termRows = 25; // assuming a 25-row terminal for this dummy example
         moveCursor(termRows - 4, 1);
-        System.out.println(ANSI_WHITE + ANSI_BOLD + "== Notifications ==" + ANSI_RESET);
-        moveCursor(termRows - 3, 1);
-        System.out.println(ANSI_GREEN + "[INFO] Service started successfully." + ANSI_RESET);
-        moveCursor(termRows - 2, 1);
-        System.out.println(ANSI_YELLOW + "[WARN] High memory usage detected." + ANSI_RESET);
-        moveCursor(termRows - 1, 1);
-        System.out.println(ANSI_RED + ANSI_BLINK + "[ALERT] Unauthorized access attempt!" + ANSI_RESET);
+        switch (type){
+            case 1:
+                System.out.println(ANSI_GREEN + "[INFO]"+ message +   ANSI_RESET);
+                break;
+            case 2:
+                System.out.println(ANSI_YELLOW + "[WARN]"+ message  + ANSI_RESET);
+                break;
+            case 3:
+                System.out.println(ANSI_RED + ANSI_BLINK + "[ALERT]" + message + ANSI_RESET);
+                break;
+            default:break;
+        }
     }
 
+    public static void askForCred() {
+        System.out.print(ANSI_WHITE + "Enter your username: " + ANSI_RESET);
+        String username = scanner.nextLine();
+        System.out.print(ANSI_WHITE + "Enter your password: " + ANSI_RESET);
+        String password = scanner.nextLine();
+        AdminUtil.saveLoginCred(username,password);
+    }
 
     public static String  askForInput (){
+        try {
+            Thread.sleep(750);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.out.print(ANSI_WHITE + "Enter your command: " + ANSI_RESET);
         return scanner.nextLine();
     }
 
     public static void doHandlingAnimation(String input) throws InterruptedException {
         // Simulate processing by animating the display of the entered command.
-        simulateTyping(ANSI_CYAN + "Processing your input: " + input + ANSI_RESET, 50);
+        simulateTyping(ANSI_CYAN + "Processing your input: " + input + ANSI_RESET, 20);
     }
 
     public static void animateGraph(double[] data) throws InterruptedException {
@@ -130,4 +153,12 @@ public class UtilityCommands {
         }
     }
 
+    public static boolean isFileEmpty(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            return reader.readLine() == null;  // Returns true if the file is empty
+        } catch (IOException e) {
+            return true; // Treat it as empty if there's an error reading
+        }
+
+    }
 }

@@ -52,38 +52,55 @@ public class Server extends SocketServer {
 
 
     public static void main(String[] args) {
-        System.out.println(uiHeader);
-        Scanner sc = new Scanner(System.in);
-        int port = 0;
-        boolean validPort = false;
-
-        while (!validPort) {
-            System.out.println("Enter port number: ");
-            if (sc.hasNextInt()) {
-                port = sc.nextInt();
-
-                if (port >= 0 && port <= 65536) {
-                    validPort = true;
-                } else {
-                    System.out.println("Enter a valid port number: ");
-                }
-            } else {
-                System.out.println("That's not a number. Please enter a number.");
-                sc.next();
+        if (args.length == 1) {
+            int port = Integer.parseInt(args[0]);
+            try {
+                Server server = new Server(port);
+                System.out.println("Server started on port " + server.getPort() + ".");
+                dbLoader = new DataBaseLoader(server);
+                systemMonitor = new SystemUsageMonitor(server);
+                SequenceManager.getInstance();
+                dbLoader.loadDataFromDB();
+                systemMonitor.start();
+                System.out.println("Loaded data.");
+                server.acceptConnections();
+            } catch (IOException e) {
+                System.out.println("Port " + port + " is already in use.");
             }
-        }
-        try {
-            Server server = new Server(port);
-            System.out.println("Server started on port " + server.getPort() + ".");
-            dbLoader = new DataBaseLoader(server);
-            systemMonitor = new SystemUsageMonitor(server);
-            SequenceManager.getInstance();
-            dbLoader.loadDataFromDB();
-            systemMonitor.start();
-            System.out.println("Loaded data.");
-            server.acceptConnections();
-        } catch (IOException e) {
-            System.out.println("Port " + port + " is already in use.");
+        } else {
+            System.out.println(uiHeader);
+            Scanner sc = new Scanner(System.in);
+            int port = 0;
+            boolean validPort = false;
+
+            while (!validPort) {
+                System.out.println("Enter port number: ");
+                if (sc.hasNextInt()) {
+                    port = sc.nextInt();
+
+                    if (port >= 0 && port <= 65536) {
+                        validPort = true;
+                    } else {
+                        System.out.println("Enter a valid port number: ");
+                    }
+                } else {
+                    System.out.println("That's not a number. Please enter a number.");
+                    sc.next();
+                }
+            }
+            try {
+                Server server = new Server(port);
+                System.out.println("Server started on port " + server.getPort() + ".");
+                dbLoader = new DataBaseLoader(server);
+                systemMonitor = new SystemUsageMonitor(server);
+                SequenceManager.getInstance();
+                dbLoader.loadDataFromDB();
+                systemMonitor.start();
+                System.out.println("Loaded data.");
+                server.acceptConnections();
+            } catch (IOException e) {
+                System.out.println("Port " + port + " is already in use.");
+            }
         }
     }
 

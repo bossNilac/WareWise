@@ -28,6 +28,8 @@ public class SimpleClient {
             // Run the authentication test
             runAuthenticationTest();
             sendMessage("LIST_ONLINE_USERS");
+            Thread.sleep(5000); // Wait a bit to receive response
+            sendMessage("SHUTDOWN_SIGNAL~5");
 
 //            runUserManagementTest();
 //            runCategoryManagementTest();
@@ -37,7 +39,7 @@ public class SimpleClient {
 //            runSupplierManagementTest();
 //            runStockAlertManagementTest();
             Thread.sleep(5000); // Wait a bit to receive response
-            sendMessage("KICK_USER~calin");
+//            sendMessage("KICK_USER~calin");
 //            sendMessage("LOGOUT~" + username);
 //            socket.close();
 //            System.exit(0);

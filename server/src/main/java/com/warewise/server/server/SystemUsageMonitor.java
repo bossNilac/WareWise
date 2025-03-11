@@ -46,7 +46,8 @@ public class SystemUsageMonitor extends Thread {
     private void sendBenchmark(double systemCpuLoad , double usedMemory ) {
         for (ServerConnection conn : server.getConnections()){
             conn.sendMessage(Protocol.SEND_BENCHMARK+ Protocol.SEPARATOR+systemCpuLoad
-                    +Protocol.SEPARATOR+usedMemory);
+                    +Protocol.SEPARATOR+usedMemory
+                    +Protocol.SEPARATOR+server.getConnections().size());
         }
     }
 

@@ -81,7 +81,7 @@ public class ServerConnection extends SocketConnection implements Runnable {
         } else if (command.equals(Protocol.GENERATE_REPORT) || command.equals(Protocol.REPORT_RESULT)) {
             return reportingHandler;
         } else if (command.equals(Protocol.SERVER_ERROR) || command.equals(Protocol.INVALID_COMMAND) ||
-                command.equals(Protocol.HEARTBEAT)) {
+                command.equals(Protocol.HEARTBEAT) || command.equals(Protocol.SHUTDOWN_SIGNAL)) {
             return systemHandler;
         }
         // Fallback for unknown commands.

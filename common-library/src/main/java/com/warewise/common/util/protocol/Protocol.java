@@ -91,6 +91,7 @@ public final class Protocol {
     public static final String INVALID_COMMAND = "INVALID_COMMAND"; // INVALID_COMMAND~reason
     public static final String HEARTBEAT = "HEARTBEAT";         // HEARTBEAT~timestamp
     public static final String SEND_BENCHMARK = "SEND_BENCHMARK";         // SEND_BENCHMARK~DATA~DATA
+    public static final String SHUTDOWN_SIGNAL = "SHUTDOWN_SIGNAL";         // SEND_BENCHMARK~DATA~DATA
 
     // Private constructor to prevent instantiation
     private Protocol() {
