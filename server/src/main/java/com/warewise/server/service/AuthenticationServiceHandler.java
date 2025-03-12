@@ -90,6 +90,7 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                         response=sendCommand(Protocol.LOGIN_FAILURE, "User already logged out.");
                     } else {
                         System.out.println(server.getUserList());
+                        serverUtil.kickUser(username);
                     }
                 } else {
                     response=sendCommand(Protocol.ERRORTAG, "Missing username for LOGIN or password");

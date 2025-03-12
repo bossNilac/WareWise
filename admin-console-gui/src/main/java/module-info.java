@@ -2,6 +2,7 @@ module com.warewise.gui.controller {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.controlsfx.controls;
+    requires java.desktop;
 
 
     opens com.warewise.gui.controller to javafx.fxml;

@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.gui.controller.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.gui.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Menu">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Logout" />
-              <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#logOutAction" text="Logout" />
+              <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -32,9 +32,9 @@
       </MenuBar>
    </top>
    <left>
-      <VBox minHeight="0.0" minWidth="0.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+      <VBox fx:id="dashboard" minHeight="0.0" minWidth="0.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
           <children>
-            <Button fx:id="menuButton" prefHeight="36.0" prefWidth="135.0" style="-fx-background-color: transparent;" text="Menu" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuButton" onAction="#menuButtonAction" prefHeight="36.0" prefWidth="135.0" style="-fx-background-color: transparent;" text="Menu" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="17.0" />
                </font>
@@ -93,7 +93,7 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" layoutX="168.0" layoutY="90.0" text="Username" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="203.5" AnchorPane.topAnchor="90.0">
+            <Label fx:id="usernameLabel" layoutX="210.0" layoutY="90.0" text="N/A" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="161.5" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="21.0" />
                </font>
@@ -115,7 +115,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="connNumberLabel" layoutX="210.0" layoutY="145.0" text="number" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="145.0">
+            <Label fx:id="connNumberLabel" layoutX="210.0" layoutY="145.0" text="N/A" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="145.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -125,7 +125,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="cpuNumberLabel" layoutX="210.0" layoutY="178.0" text="number" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="178.0">
+            <Label fx:id="cpuNumberLabel" layoutX="210.0" layoutY="178.0" text="N/A" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="178.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -135,7 +135,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="memNumberLabel" layoutX="210.0" layoutY="208.0" text="number" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="208.0">
+            <Label fx:id="memNumberLabel" layoutX="210.0" layoutY="208.0" text="N/A" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="208.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -169,6 +169,15 @@
                   <Font size="21.0" />
                </font>
             </Label>
+            <Button fx:id="recoverMenuButton" layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#menuButtonAction" style="-fx-background-color: transparent;" visible="false">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-menu-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
    </center>

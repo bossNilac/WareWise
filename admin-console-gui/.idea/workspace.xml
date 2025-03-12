@@ -5,20 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/LoginPrompt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/Protocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/DashboardHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/UtilityCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/LoginPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/LoginPrompt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/my-server-jar-1.0-all.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/AuthenticationServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/AuthenticationServiceHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +135,7 @@
       <option name="presentableId" value="Default" />
       <updated>1741711892410</updated>
       <workItem from="1741711893425" duration="201000" />
-      <workItem from="1741786429129" duration="6172000" />
+      <workItem from="1741786429129" duration="20062000" />
     </task>
     <servers />
   </component>

@@ -9,7 +9,8 @@ public class AdminUtil {
 
     public static boolean isServerStarted = false;
     public static boolean loggedIn = false;
-    private static  String sesionUsername = null;
+
+    private static  String sessionUsername = null;
     private static final String jarPath = System.getProperty("user.home") + "/WareWiseFiles/my-server-jar-1.0-all.jar";
     public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWiseFiles/passwd/user_credentials.json";
 
@@ -56,7 +57,7 @@ public class AdminUtil {
     }
 
     public static void kickUser(NetworkingClass object,String name){
-        if (name.equals(sesionUsername)){
+        if (name.equals(sessionUsername)){
             UtilityCommands.displayNotificationPanel(2,"Cannot kick yourself ");
             return;
         }
@@ -105,7 +106,7 @@ public class AdminUtil {
             UtilityCommands.displayNotificationPanel(3,"Credentials were not read successfully ");
             return null;
         }
-        sesionUsername = username;
+        sessionUsername = username;
         return new String[]{username, password}; // Return extracted credentials
     }
 
@@ -114,8 +115,17 @@ public class AdminUtil {
         object.sendMessage(Protocol.LOGIN+Protocol.SEPARATOR+sessionUsername+Protocol.SEPARATOR+passwd);
     }
 
+    public static void logOut(NetworkingClass object){
+        System.out.println(sessionUsername);
+        object.sendMessage(Protocol.LOGOUT+sessionUsername);
+    }
+
     private static String extractValue(String jsonLine) {
         return jsonLine.split(":")[1].trim().replace("\"", "").replace(",", "");
+    }
+
+    public static String getSessionUsername() {
+        return sessionUsername;
     }
 
 }
