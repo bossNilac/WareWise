@@ -4,6 +4,8 @@ import com.warewise.common.util.protocol.Protocol;
 import com.warewise.server.server.Server;
 import com.warewise.server.server.ServerConnection;
 
+import java.util.stream.Collectors;
+
 /**
  * A concrete ServiceHandler for system-level commands.
  */
@@ -40,13 +42,10 @@ public class SystemServiceHandler extends ServiceHandler {
                 }
                 break;
             case Protocol.HEARTBEAT:
-                if (params.length >= 1) {
-                    String timestamp = params[0];
-                    System.out.println("Heartbeat received at " + timestamp);
-                    // Optionally, respond with a heartbeat acknowledgment.
-                } else {
-                    sendCommand(Protocol.ERRORTAG, "Missing timestamp for HEARTBEAT");
-                }
+                String output = server.getConnections().stream()
+                        .map(conn -> conn.getIp() + Protocol.SEPARATOR + conn.getAuthHandler().getRegisteredUser()) // Use correct reference
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
+                sendCommand(Protocol.HEARTBEAT, output);
                 break;
             case Protocol.SHUTDOWN_SIGNAL:
                 if (params.length == 1) {

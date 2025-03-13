@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -88,17 +89,17 @@
    <center>
       <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="33.0" layoutY="90.0" text="Connected as:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="301.5" AnchorPane.topAnchor="90.0">
+            <Label fx:id="connectedAsLabel" layoutX="33.0" layoutY="90.0" text="Connected as:" visible="false" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="301.5" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" layoutX="210.0" layoutY="90.0" text="N/A" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="161.5" AnchorPane.topAnchor="90.0">
+            <Label fx:id="usernameLabel" layoutX="210.0" layoutY="90.0" text="N/A" visible="false" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="161.5" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Button layoutX="138.0" layoutY="16.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="184.0" style="-fx-background-color: transparent;" text="Dashboard" textFill="WHITE" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="143.0">
+            <Button fx:id="dashBoardTitleLabel" layoutX="138.0" layoutY="16.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="184.0" style="-fx-background-color: transparent;" text="Dashboard" textFill="WHITE" visible="false" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="143.0">
                <graphic>
                   <ImageView fitHeight="39.0" fitWidth="39.0" pickOnBounds="true">
                      <image>
@@ -110,37 +111,37 @@
                   <Font size="21.0" />
                </font>
             </Button>
-            <Label layoutX="34.0" layoutY="145.0" text="Number of connections:" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="145.0">
+            <Label fx:id="memoryUsageLabel" layoutX="34.0" layoutY="145.0" text="Number of connections:" visible="false" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="145.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="connNumberLabel" layoutX="210.0" layoutY="145.0" text="N/A" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="145.0">
+            <Label fx:id="connNumberLabel" layoutX="210.0" layoutY="145.0" text="N/A" visible="false" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="145.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="33.0" layoutY="178.0" text="Cpu usage: " AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="359.5" AnchorPane.topAnchor="178.0">
+            <Label layoutX="33.0" layoutY="178.0" text="Cpu usage: " visible="false" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="359.5" AnchorPane.topAnchor="178.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="cpuNumberLabel" layoutX="210.0" layoutY="178.0" text="N/A" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="178.0">
+            <Label fx:id="cpuNumberLabel" layoutX="210.0" layoutY="178.0" text="N/A" visible="false" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="178.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="33.0" layoutY="208.0" text="Memory usage: " AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="332.5" AnchorPane.topAnchor="208.0">
+            <Label layoutX="33.0" layoutY="208.0" text="Memory usage: " visible="false" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="332.5" AnchorPane.topAnchor="208.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="memNumberLabel" layoutX="210.0" layoutY="208.0" text="N/A" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="208.0">
+            <Label fx:id="memNumberLabel" layoutX="210.0" layoutY="208.0" text="N/A" visible="false" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="208.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="startServerButton" layoutX="27.0" layoutY="319.0" mnemonicParsing="false" onAction="#startServerAction" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: transparent;" text="Start server" textFill="WHITE" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="313.0" AnchorPane.topAnchor="319.0">
+            <Button fx:id="startServerButton" layoutX="27.0" layoutY="319.0" mnemonicParsing="false" onAction="#startServerAction" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: transparent;" text="Start server" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="313.0" AnchorPane.topAnchor="319.0">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
@@ -152,7 +153,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeServerButton" layoutX="162.0" layoutY="314.0" mnemonicParsing="false" onAction="#stopServerAction" prefHeight="45.0" prefWidth="136.0" style="-fx-background-color: transparent;" text="Close server" textFill="WHITE" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="319.0">
+            <Button fx:id="closeServerButton" layoutX="162.0" layoutY="314.0" mnemonicParsing="false" onAction="#stopServerAction" prefHeight="45.0" prefWidth="136.0" style="-fx-background-color: transparent;" text="Close server" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="319.0">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
@@ -164,7 +165,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label layoutX="33.0" layoutY="262.0" text="Server actions:" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="298.0" AnchorPane.topAnchor="262.0">
+            <Label fx:id="serverActionsLabel" layoutX="33.0" layoutY="262.0" text="Server actions:" visible="false" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="298.0" AnchorPane.topAnchor="262.0">
                <font>
                   <Font size="21.0" />
                </font>
@@ -174,6 +175,37 @@
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../../../../../../images/icons8-menu-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TableView fx:id="connectionTableView" layoutX="14.0" layoutY="70.0" prefHeight="245.0" prefWidth="414.0" />
+            <Button fx:id="menuConnBoardButton1" layoutX="138.0" layoutY="20.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="174.0" style="-fx-background-color: transparent;" text="Connections" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-connections-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+            <Button layoutX="14.0" layoutY="329.0" mnemonicParsing="false" onAction="#endConnectionAction" style="-fx-background-color: transparent;" text="End connection" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-close-window-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="345.0" layoutY="324.0" mnemonicParsing="false" onAction="#refreshTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-refresh-60.png" />
                      </image>
                   </ImageView>
                </graphic>

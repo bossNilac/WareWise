@@ -63,6 +63,7 @@ public class AuthenticationServiceHandler extends ServiceHandler {
                             if (Encrypt.verifyPassword(storedHash, password_hash)) {
                                 registeredUser = username;
                                 role = user.getRole();
+                                connection.setReadyForBenchmark(role.equals(UserRole.ADMIN));
                                 System.out.println(role);
                                 response=sendCommand(Protocol.LOGIN_SUCCESS);
                                 server.addToList(username);

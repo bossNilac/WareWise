@@ -52,7 +52,9 @@ public class NetworkingClass {
                                 AdminUtil.logIn(this,params[0],params[1]);
 
                             }else {
-                                //TODO
+                                if (response.startsWith(Protocol.HEARTBEAT)) {
+                                    controller.loadTableData(response);
+                                }
                             }
                         }
                     }else {

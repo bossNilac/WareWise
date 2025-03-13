@@ -30,6 +30,8 @@ public class ServerConnection extends SocketConnection implements Runnable {
     private final ReportingServiceHandler reportingHandler;
     private final SystemServiceHandler systemHandler;
 
+    private boolean readyForBenchmark = false;
+
     public ServerConnection(Socket socket, Server server) throws IOException {
         super(socket);
         this.socket = socket;
@@ -45,7 +47,13 @@ public class ServerConnection extends SocketConnection implements Runnable {
         reportingHandler = new ReportingServiceHandler(server, this);
         systemHandler = new SystemServiceHandler(server, this);
 
+
+
         new Thread(this).start();
+    }
+
+    public String getIp(){
+        return String.valueOf(super.socket.getInetAddress());
     }
 
     /**
@@ -149,4 +157,11 @@ public class ServerConnection extends SocketConnection implements Runnable {
         return authHandler;
     }
 
+    public boolean isReadyForBenchmark() {
+        return readyForBenchmark;
+    }
+
+    public void setReadyForBenchmark(boolean readyForBenchmark) {
+        this.readyForBenchmark = readyForBenchmark;
+    }
 }

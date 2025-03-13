@@ -11,7 +11,7 @@ public class SimpleClient {
     private PrintWriter out;
     private Scanner scanner;
     private String password="calin123";
-    private String username="calin";
+    private String username;
 
     public SimpleClient() {
         try {
@@ -21,15 +21,16 @@ public class SimpleClient {
             out = new PrintWriter(socket.getOutputStream(), true);
             scanner = new Scanner(System.in);
             System.out.println("Connected to the server.");
-
+            username = scanner.nextLine();
             // Start listening to responses from the server in a separate thread
             new Thread(this::listenToServer).start();
 
             // Run the authentication test
             runAuthenticationTest();
             sendMessage("LIST_ONLINE_USERS");
-            Thread.sleep(5000); // Wait a bit to receive response
-            sendMessage("SHUTDOWN_SIGNAL~5");
+            sendMessage("HEARTBEAT");
+//            Thread.sleep(5000); // Wait a bit to receive response
+//            sendMessage("SHUTDOWN_SIGNAL~5");
 
 //            runUserManagementTest();
 //            runCategoryManagementTest();
@@ -38,7 +39,7 @@ public class SimpleClient {
 //            runOrderManagementTest();
 //            runSupplierManagementTest();
 //            runStockAlertManagementTest();
-            Thread.sleep(5000); // Wait a bit to receive response
+                scanner.nextLine();
 //            sendMessage("KICK_USER~calin");
 //            sendMessage("LOGOUT~" + username);
 //            socket.close();

@@ -45,10 +45,12 @@ public class SystemUsageMonitor extends Thread {
     }
 
     private void sendBenchmark(double systemCpuLoad , double usedMemory ) {
-        for (ServerConnection conn : server.getConnections()){
+        for (ServerConnection conn : server.getConnections()) {
+            if (conn.isReadyForBenchmark() && conn.getAuthHandler().getRole().equals(UserRole.ADMIN)) {
                 conn.sendMessage(Protocol.SEND_BENCHMARK + Protocol.SEPARATOR + systemCpuLoad
                         + Protocol.SEPARATOR + usedMemory
                         + Protocol.SEPARATOR + server.getConnections().size());
+            }
         }
     }
 

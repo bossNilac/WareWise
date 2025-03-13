@@ -1,38 +1,57 @@
 package com.warewise.gui.controller;
 
+import com.warewise.gui.networking.Protocol;
 import com.warewise.gui.util.AdminUtil;
 import com.warewise.gui.util.UtilityCommands;
 import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainController {
 
+    @FXML
+    private Label serverActionsLabel;
+    @FXML
+    private Label memoryUsageLabel;
+    @FXML
+    private Button dashBoardTitleLabel;
+    @FXML
+    private Label connectedAsLabel;
+    @FXML
+    private Button menuSettingsButton;
+    @FXML
+    private Button menuDBButton;
+    @FXML
+    private Button menuConnBoardButton;
+    @FXML
+    private Button menuDashBoardButton;
+    @FXML
+    private Button menuButton;
     @FXML
     private Button recoverMenuButton;
     @FXML
     private VBox dashboard;
     @FXML
     private BorderPane root;
-    @FXML
-    private Button menuButton;
-    @FXML
-    private Button menuDashBoardButton;
-    @FXML
-    private Button menuDBButton;
-    @FXML
-    private Button menuConnBoardButton;
-    @FXML
-    private Button menuSettingsButton;
     @FXML
     private  Label usernameLabel;
     @FXML
@@ -47,8 +66,29 @@ public class MainController {
     private Button closeServerButton;
     @FXML
     private  AnchorPane dashboardPane;
+    @FXML
+    private TableView<Pair<String,String>> connectionTableView;
+    TableColumn<Pair<String, String>, String> nameColumn = new TableColumn<>("Username");
+    TableColumn<Pair<String, String>, String> ageColumn = new TableColumn<>("IP");
+    private List<Pair<String, String>> tableData ;
+
+    private List<Node> dashboardUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
+
+
+    @FXML
+    public void initialize() {
+        dashboardUiElements.addAll(List.of(
+                serverActionsLabel, memoryUsageLabel, connectedAsLabel, usernameLabel,
+                connNumberLabel, cpuNumberLabel, memNumberLabel,
+
+                menuSettingsButton, menuDBButton, menuConnBoardButton, menuDashBoardButton,
+                menuButton, recoverMenuButton, startServerButton, closeServerButton , dashBoardTitleLabel
+        ));
+        startServerAction(null);
+    }
+
 
     public void stopServerAction(ActionEvent actionEvent) {
         AdminUtil.closeServer(ServerApplication.getNetworkingObject());
@@ -82,6 +122,7 @@ public class MainController {
             AdminUtil.logIn(ServerApplication.getNetworkingObject(),params[0],params[1]);
             setUsernameLabel(params[0]);
         }
+        refreshTableAction(null);
     }
 
     public void menuButtonAction(ActionEvent actionEvent){
@@ -168,4 +209,52 @@ public class MainController {
         UtilityCommands.displayNotificationPanel(1,"Logged out!");
     }
 
+    public void refreshTableAction(ActionEvent actionEvent){
+        ServerApplication.getNetworkingObject().sendMessage(Protocol.HEARTBEAT);
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(tableData);
+
+        connectionTableView.getColumns().remove(nameColumn);
+        connectionTableView.getColumns().remove(ageColumn);
+        connectionTableView.getColumns().addAll(nameColumn, ageColumn);
+
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+        ageColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue()));
+
+        ObservableList<Pair<String, String>> data = FXCollections.observableArrayList(tableData);
+        connectionTableView.getItems().setAll(data);
+        connectionTableView.refresh();
+    }
+
+    public void endConnectionAction(ActionEvent actionEvent){
+        Pair<String, String> selectedRow = connectionTableView.getSelectionModel().getSelectedItem();
+        if (selectedRow != null) {
+            AdminUtil.kickUser(ServerApplication.getNetworkingObject(),selectedRow.getKey());
+            refreshTableAction(null);
+        }
+    }
+
+    private void toggleDashboardUI(){
+        dashboardUiElements.forEach(node -> node.setVisible(isDashboardVisible));
+        isDashboardVisible = !isDashboardVisible;
+    }
+
+    public void loadTableData(String output){
+        List<Pair<String, String>> parsedConnections = new ArrayList<>();
+        String[] parts = output.replaceAll("/","").split(Protocol.SEPARATOR);
+        for (int i = 1; i < parts.length; i += 2) {
+            if (i + 1 < parts.length) {
+                parsedConnections.add(new Pair<>(parts[i+1], parts[i])); // IP -> Username
+            }
+        }
+        setTableData(parsedConnections);
+    }
+
+    public void setTableData(List<Pair<String, String>> tableData) {
+        this.tableData = tableData;
+    }
 }
