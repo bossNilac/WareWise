@@ -27,7 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
-
+    @FXML
+    private Label cpuUsageLabel;
+    @FXML
+    private Label conncectionsUsageLabel;
+    @FXML
+    private Button refreshButton;
+    @FXML
+    private Button endConnectionButton;
+    @FXML
+    private Button connectionsLabel;
     @FXML
     private Label serverActionsLabel;
     @FXML
@@ -68,11 +77,14 @@ public class MainController {
     private  AnchorPane dashboardPane;
     @FXML
     private TableView<Pair<String,String>> connectionTableView;
+
+
     TableColumn<Pair<String, String>, String> nameColumn = new TableColumn<>("Username");
     TableColumn<Pair<String, String>, String> ageColumn = new TableColumn<>("IP");
     private List<Pair<String, String>> tableData ;
 
     private List<Node> dashboardUiElements = new ArrayList<>();
+    private List<Node> connectionsUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
 
@@ -82,11 +94,13 @@ public class MainController {
         dashboardUiElements.addAll(List.of(
                 serverActionsLabel, memoryUsageLabel, connectedAsLabel, usernameLabel,
                 connNumberLabel, cpuNumberLabel, memNumberLabel,
-
-                menuSettingsButton, menuDBButton, menuConnBoardButton, menuDashBoardButton,
-                menuButton, recoverMenuButton, startServerButton, closeServerButton , dashBoardTitleLabel
+                  startServerButton, closeServerButton , dashBoardTitleLabel,cpuUsageLabel,memoryUsageLabel
+                ,conncectionsUsageLabel
         ));
-        startServerAction(null);
+        connectionsUiElements.addAll(List.of(
+                connectionTableView,connectionsLabel,refreshButton,endConnectionButton
+        ));
+        toggleDashboardUI(null );
     }
 
 
@@ -238,9 +252,19 @@ public class MainController {
         }
     }
 
-    private void toggleDashboardUI(){
-        dashboardUiElements.forEach(node -> node.setVisible(isDashboardVisible));
-        isDashboardVisible = !isDashboardVisible;
+    public void toggleDashboardUI(ActionEvent actionEvent){
+        resetUi();
+        dashboardUiElements.forEach(node -> node.setVisible(true));
+    }
+
+    public void toggleConnectionsDashboardUI(ActionEvent event){
+        resetUi();
+        connectionsUiElements.forEach(node -> node.setVisible(true));
+    }
+
+    private void resetUi(){
+        dashboardUiElements.forEach(node -> node.setVisible(false));
+        connectionsUiElements.forEach(node -> node.setVisible(false));
     }
 
     public void loadTableData(String output){
