@@ -115,7 +115,7 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                 System.out.println("Listing items.");
                 String items = server.getItems().stream()
                         .map(Item::toString)
-                        .collect(Collectors.joining(";"));
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_ITEMS, items);
                 break;
 

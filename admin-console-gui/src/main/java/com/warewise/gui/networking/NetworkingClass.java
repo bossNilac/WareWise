@@ -3,7 +3,6 @@ package com.warewise.gui.networking;
 
 import com.warewise.gui.controller.LoginPrompt;
 import com.warewise.gui.controller.MainController;
-import com.warewise.gui.controller.ServerApplication;
 import com.warewise.gui.util.AdminUtil;
 import com.warewise.gui.util.DashboardHandler;
 import com.warewise.gui.util.UtilityCommands;
@@ -23,6 +22,7 @@ public class NetworkingClass {
     private final PrintWriter out;
     private final DashboardHandler dashboard;
     private final MainController controller;
+    private WareHouseDataHandler warehouseDataHandler = new WareHouseDataHandler();
 
 
     public NetworkingClass(Socket socket, DashboardHandler dashboard, FXMLLoader fxmlLoader) throws IOException {
@@ -53,7 +53,9 @@ public class NetworkingClass {
 
                             }else {
                                 if (response.startsWith(Protocol.HEARTBEAT)) {
-                                    controller.loadTableData(response);
+                                    controller.loadConnectionsTableData(response);
+                                } else if (response.contains("LIST_")) {
+                                    warehouseDataHandler.handle(response);
                                 }
                             }
                         }

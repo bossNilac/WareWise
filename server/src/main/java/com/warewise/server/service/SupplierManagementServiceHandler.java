@@ -97,7 +97,7 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                 System.out.println("Listing suppliers.");
                 String suppliers = server.getSuppliers().stream()
                         .map(Supplier::toString)
-                        .collect(Collectors.joining(";"));
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_SUPPLIERS, suppliers);
                 break;
 

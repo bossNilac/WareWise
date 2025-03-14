@@ -105,7 +105,7 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                 System.out.println("Listing orders.");
                 String orders = server.getOrders().stream()
                         .map(Order::toString)
-                        .collect(Collectors.joining(";"));
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_ORDERS, orders);
                 break;
 

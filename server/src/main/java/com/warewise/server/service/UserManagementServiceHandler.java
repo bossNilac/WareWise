@@ -3,6 +3,7 @@ package com.warewise.server.service;
 import com.warewise.common.encryption.Encrypt;
 import com.warewise.common.logs.AppLogger;
 import com.warewise.common.logs.LogLevel;
+import com.warewise.common.model.Supplier;
 import com.warewise.common.model.User;
 import com.warewise.common.util.enums.UserRole;
 import com.warewise.common.util.protocol.Protocol;
@@ -13,6 +14,7 @@ import com.warewise.server.server.util.ServerUtil;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * A concrete ServiceHandler for user management commands.
@@ -147,7 +149,10 @@ import java.util.Arrays;
                 }
                 break;
             case Protocol.LIST_USERS:
-                response=sendCommand(Protocol.LIST_USERS, server.getUsers().toString());
+                String users = server.getUsers().stream()
+                        .map(User::toString)
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
+                response=sendCommand(Protocol.LIST_USERS, users);
                 break;
 
             case Protocol.LIST_ONLINE_USERS:

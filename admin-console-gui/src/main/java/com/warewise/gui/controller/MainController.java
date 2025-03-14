@@ -1,20 +1,18 @@
 package com.warewise.gui.controller;
 
 import com.warewise.gui.networking.Protocol;
+import com.warewise.gui.networking.WareHouseDataHandler;
 import com.warewise.gui.util.AdminUtil;
+import com.warewise.gui.util.EnhancedTableView;
 import com.warewise.gui.util.UtilityCommands;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -26,7 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.warewise.gui.networking.WareHouseDataHandler.*;
+
 public class MainController {
+
     @FXML
     private Label cpuUsageLabel;
     @FXML
@@ -45,16 +46,6 @@ public class MainController {
     private Button dashBoardTitleLabel;
     @FXML
     private Label connectedAsLabel;
-    @FXML
-    private Button menuSettingsButton;
-    @FXML
-    private Button menuDBButton;
-    @FXML
-    private Button menuConnBoardButton;
-    @FXML
-    private Button menuDashBoardButton;
-    @FXML
-    private Button menuButton;
     @FXML
     private Button recoverMenuButton;
     @FXML
@@ -77,7 +68,32 @@ public class MainController {
     private  AnchorPane dashboardPane;
     @FXML
     private TableView<Pair<String,String>> connectionTableView;
-
+    @FXML
+    private TabPane dbTablePane;
+    @FXML
+    private Label dbMenuLabel;
+    @FXML
+    private Button deleteTableButton;
+    @FXML
+    private Button updateTableButton;
+    @FXML
+    private Button addTableButton;
+    @FXML
+    private TableView<String[]> alertsTableView;
+    @FXML
+    private TableView<String[]> ordersTableView;
+    @FXML
+    private TableView<String[]> suppliersTableView;
+    @FXML
+    private TableView<String[]> itemTableView;
+    @FXML
+    private TableView<String[]> inventoryTableView;
+    @FXML
+    private TableView<String[]> categoryTableView;
+    @FXML
+    private TableView<String[]> usersTableView;
+    @FXML
+    private Button refreshTableAction;
 
     TableColumn<Pair<String, String>, String> nameColumn = new TableColumn<>("Username");
     TableColumn<Pair<String, String>, String> ageColumn = new TableColumn<>("IP");
@@ -85,8 +101,26 @@ public class MainController {
 
     private List<Node> dashboardUiElements = new ArrayList<>();
     private List<Node> connectionsUiElements = new ArrayList<>();
+    private List<Node> dbUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
+    private static boolean addPressed;
+
+    private static List<String[]> parsedUsersList;
+    private static List<String[]> parsedCategoriesList;
+    private static List<String[]> parsedInventoryList;
+    private static List<String[]> parsedItemsList;
+    private static List<String[]> parsedOrdersList;
+    private static List<String[]> parsedAlertsList;
+    private static List<String[]> parsedSuppliersList;
+
+    private static EnhancedTableView usersTable;
+    private static EnhancedTableView categoriesTable;
+    private static EnhancedTableView inventoryTable;
+    private static EnhancedTableView itemsTable;
+    private static EnhancedTableView ordersTable;
+    private static EnhancedTableView alertsTable;
+    private static EnhancedTableView suppliersTable;
 
 
     @FXML
@@ -97,10 +131,18 @@ public class MainController {
                   startServerButton, closeServerButton , dashBoardTitleLabel,cpuUsageLabel,memoryUsageLabel
                 ,conncectionsUsageLabel
         ));
-        connectionsUiElements.addAll(List.of(
+        connectionsUiElements.addAll(List.of(refreshTableAction,
                 connectionTableView,connectionsLabel,refreshButton,endConnectionButton
         ));
+
+
+        dbUiElements.addAll(List.of(dbTablePane, dbMenuLabel, deleteTableButton,
+                updateTableButton, addTableButton, alertsTableView,
+              ordersTableView, suppliersTableView, itemTableView,
+              inventoryTableView, categoryTableView, usersTableView));
+        resetUi();
         toggleDashboardUI(null );
+
     }
 
 
@@ -137,6 +179,14 @@ public class MainController {
             setUsernameLabel(params[0]);
         }
         refreshTableAction(null);
+        WareHouseDataHandler.initTables();
+        usersTable= new EnhancedTableView(usersTableView, USER_COL_NO, USERS_COLUMNS, parsedUsersList);
+        categoriesTable= new EnhancedTableView(categoryTableView, CATEGORY_COL_NO, CATEGORIES_COLUMNS, parsedCategoriesList);
+        inventoryTable= new EnhancedTableView(inventoryTableView, INVENTORY_COL_NO, INVENTORY_COLUMNS, parsedInventoryList);
+        itemsTable= new EnhancedTableView(itemTableView, ITEMS_COL_NO, ORDER_ITEMS_COLUMNS, parsedItemsList);
+        ordersTable= new EnhancedTableView(ordersTableView, ORDERS_COL_NO, ORDERS_COLUMNS, parsedOrdersList);
+        alertsTable= new EnhancedTableView(alertsTableView, STOCK_ALERT_COL_NO, STOCK_ALERTS_COLUMNS, parsedAlertsList);
+        suppliersTable= new EnhancedTableView(suppliersTableView, SUPPLIERS_COL_NO, SUPPLIERS_COLUMNS, parsedSuppliersList);
     }
 
     public void menuButtonAction(ActionEvent actionEvent){
@@ -262,12 +312,18 @@ public class MainController {
         connectionsUiElements.forEach(node -> node.setVisible(true));
     }
 
+    public void toggleDbUI(ActionEvent event){
+        resetUi();
+        dbUiElements.forEach(node -> node.setVisible(true));
+    }
+
     private void resetUi(){
         dashboardUiElements.forEach(node -> node.setVisible(false));
         connectionsUiElements.forEach(node -> node.setVisible(false));
+        dbUiElements.forEach(node -> node.setVisible(false));
     }
 
-    public void loadTableData(String output){
+    public void loadConnectionsTableData(String output){
         List<Pair<String, String>> parsedConnections = new ArrayList<>();
         String[] parts = output.replaceAll("/","").split(Protocol.SEPARATOR);
         for (int i = 1; i < parts.length; i += 2) {
@@ -275,10 +331,212 @@ public class MainController {
                 parsedConnections.add(new Pair<>(parts[i+1], parts[i])); // IP -> Username
             }
         }
-        setTableData(parsedConnections);
+        setConnectionTableData(parsedConnections);
     }
 
-    public void setTableData(List<Pair<String, String>> tableData) {
+    public void setConnectionTableData(List<Pair<String, String>> tableData) {
         this.tableData = tableData;
     }
+
+    public void addToTableAction(ActionEvent actionEvent){
+        addPressed = true;
+        switch (getCurrentTabName()){
+            case"Users":
+                usersTable.addEmptyRowForEditing();
+                break;
+            case"Category":
+                categoriesTable.addEmptyRowForEditing();
+                break;
+            case"Inventory":
+                inventoryTable.addEmptyRowForEditing();
+                break;
+            case"Item":
+                itemsTable.addEmptyRowForEditing();
+                break;
+            case"Suppliers":
+                suppliersTable.addEmptyRowForEditing();
+                break;
+            case"Orders":
+                ordersTable.addEmptyRowForEditing();
+                break;
+            case"Alerts":
+                alertsTable.addEmptyRowForEditing();
+                break;
+            default:break;
+        }
+    }
+    public void updateToTableAction(ActionEvent actionEvent) {
+        String[] data = null;
+        String header = null;
+        if(addPressed){
+            switch (getCurrentTabName()) {
+                case "Users":
+                    header = Protocol.ADD_USER;
+                    data = usersTable.commitEditingRow();
+                    usersTable.updateSelectedRow(data);
+                    break;
+                case "Category":
+                    header = Protocol.ADD_CATEGORY;
+                    data = categoriesTable.commitEditingRow();
+                    categoriesTable.updateSelectedRow(data);
+                    break;
+                case "Inventory":
+                    header = Protocol.ADD_INVENTORY;
+                    data = inventoryTable.commitEditingRow();
+                    inventoryTable.updateSelectedRow(data);
+                    break;
+                case "Item":
+                    header = Protocol.ADD_ITEM;
+                    data= itemsTable.commitEditingRow();
+                    itemsTable.updateSelectedRow(data);
+                    break;
+                case "Suppliers":
+                    header = Protocol.ADD_SUPPLIER;
+                    data = suppliersTable.commitEditingRow();
+                    suppliersTable.updateSelectedRow(data);
+                    break;
+                case "Orders":
+                    header = Protocol.CREATE_ORDER;
+                    data = ordersTable.commitEditingRow();
+                    ordersTable.updateSelectedRow(data);
+                    break;
+                case "Alerts":
+                    header = Protocol.STOCK_ALERT;
+                    data = alertsTable.commitEditingRow();
+                    alertsTable.updateSelectedRow(data);
+                    break;
+                default:
+                    break;
+            }
+        }else {
+            switch (getCurrentTabName()) {
+                case "Users":
+                    header = Protocol.UPDATE_USER;
+                    data = usersTable.commitEditingRow();
+                    usersTable.updateSelectedRow(data);
+                    break;
+                case "Category":
+                    header = Protocol.UPDATE_CATEGORY;
+                    data = categoriesTable.commitEditingRow();
+                    categoriesTable.updateSelectedRow(data);
+                    break;
+                case "Inventory":
+                    header = Protocol.UPDATE_INVENTORY;
+                    data = inventoryTable.commitEditingRow();
+                    inventoryTable.updateSelectedRow(data);
+                    break;
+                case "Item":
+                    header = Protocol.UPDATE_ITEM;
+                    data = itemsTable.commitEditingRow();
+                    itemsTable.updateSelectedRow(data);
+                    break;
+                case "Suppliers":
+                    header = Protocol.UPDATE_SUPPLIER;
+                    data = suppliersTable.commitEditingRow();
+                    suppliersTable.updateSelectedRow(data);
+                    break;
+                case "Orders":
+                    header = Protocol.UPDATE_ORDER;
+                    data = ordersTable.commitEditingRow();
+                    ordersTable.updateSelectedRow(data);
+                    break;
+                case "Alerts":
+                    header = Protocol.UPDATE_STOCK_ALERT;
+                    data = alertsTable.commitEditingRow();
+                    alertsTable.updateSelectedRow(data);
+                    break;
+                default:
+                    break;
+            }
+        }
+        if(data != null && header != null){
+            WareHouseDataHandler.parseAndSendToServer(header,data);
+        }
+    }
+    public void deleteToTableAction(ActionEvent actionEvent){
+        String[] data = null;
+        String header = null;
+        switch (getCurrentTabName()) {
+            case "Users":
+                header = Protocol.DELETE_USER;
+                data = usersTable.deleteSelectedRow();
+                break;
+            case "Category":
+                header = Protocol.DELETE_CATEGORY;
+                data = categoriesTable.deleteSelectedRow();
+                break;
+            case "Inventory":
+                header = Protocol.DELETE_INVENTORY;
+                data = inventoryTable.deleteSelectedRow();
+                break;
+            case "Item":
+                header = Protocol.DELETE_ITEM;
+                data= itemsTable.deleteSelectedRow();
+                break;
+            case "Suppliers":
+                header = Protocol.DELETE_SUPPLIER;
+                data = suppliersTable.deleteSelectedRow();
+                break;
+            case "Orders":
+                header = Protocol.DELETE_ORDER;
+                data = ordersTable.deleteSelectedRow();
+                break;
+            case "Alerts":
+                header = Protocol.DELETE_STOCK_ALERT;
+                data = alertsTable.deleteSelectedRow();
+                break;
+            default:
+                break;
+        }
+        if(data != null && header != null){
+            WareHouseDataHandler.parseAndSendToServer(header,data);
+        }
+        addPressed = false;
+    }
+
+    public void refreshToTableAction(ActionEvent actionEvent){
+        WareHouseDataHandler.initTables();
+        ordersTable.refresh();
+        usersTable.refresh();
+        categoriesTable.refresh();
+        alertsTable.refresh();
+        itemsTable.refresh();
+        suppliersTable.refresh();
+        inventoryTable.refresh();
+    }
+
+
+    public String getCurrentTabName() {
+        Tab selectedTab = dbTablePane.getSelectionModel().getSelectedItem();
+
+        if (selectedTab != null) {
+            return selectedTab.getText();  // Return the name of the currently selected tab
+        } else {
+            return "No tab selected";  // In case no tab is selected
+        }
+    }
+
+    public static void setParsedSuppliersList(List<String[]> data) {
+        parsedSuppliersList = data;
+    }
+    public static void setParsedAlertsList(List<String[]> data) {
+        parsedAlertsList = data;
+    }
+    public static void setParsedOrdersList(List<String[]> data) {
+        parsedOrdersList = data;
+    }
+    public static void setParsedItemsList(List<String[]> data) {
+        parsedItemsList = data;
+    }
+    public static void setParsedInventoryList(List<String[]> data) {
+        parsedInventoryList = data;
+    }
+    public static void setParsedCategoriesList(List<String[]> data) {
+        parsedCategoriesList = data;
+    }
+    public static void setParsedUsersList(List<String[]> data) {
+        parsedUsersList = data;
+    }
+
+
 }

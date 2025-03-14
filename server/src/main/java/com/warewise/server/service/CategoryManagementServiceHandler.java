@@ -109,8 +109,8 @@ public class CategoryManagementServiceHandler extends ServiceHandler {
 
             case Protocol.LIST_CATEGORIES:
                 String categories = server.getCategories().stream()
-                        .map(Category::getName)
-                        .collect(Collectors.joining(","));
+                        .map(Category::toString)
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_CATEGORIES, categories);
                 break;
 

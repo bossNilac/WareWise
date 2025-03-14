@@ -5,11 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/CategoryManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/CategoryManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/StockAlertServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/StockAlertServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +60,9 @@
     &quot;accountId&quot;: &quot;73c267ab-f62e-4cf2-9d1e-3503d50b5812&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -51,27 +71,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.admin-console-gui [:App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.warewise.gui.controller" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Calin\IdeaProjects\WareWise\admin-console-gui\src\main\java\com\warewise\gui\util" />
       <recent name="C:\Users\Calin\IdeaProjects\WareWise\admin-console-gui\src\main\java\com\warewise\gui\networking" />
@@ -123,7 +152,9 @@
       <option name="presentableId" value="Default" />
       <updated>1741711892410</updated>
       <workItem from="1741711893425" duration="201000" />
-      <workItem from="1741786429129" duration="29185000" />
+      <workItem from="1741786429129" duration="30272000" />
+      <workItem from="1741904163507" duration="1518000" />
+      <workItem from="1741906794891" duration="9606000" />
     </task>
     <servers />
   </component>

@@ -102,8 +102,8 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
             case Protocol.LIST_INVENTORY:
                 System.out.println("Listing inventory.");
                 String inventories = server.getInventories().stream()
-                        .map(Inventory::getName)
-                        .collect(Collectors.joining(";"));
+                        .map(Inventory::toString)
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_INVENTORY, inventories);
                 break;
 

@@ -104,7 +104,7 @@ public class StockAlertServiceHandler extends ServiceHandler {
                 System.out.println("Listing stock alerts.");
                 String suppliers = server.getStockAlertList().stream()
                         .map(StockAlert::toString)
-                        .collect(Collectors.joining(";"));
+                        .collect(Collectors.joining(Protocol.SEPARATOR));
                 response=sendCommand(Protocol.LIST_SUPPLIERS, suppliers);
                 break;
 

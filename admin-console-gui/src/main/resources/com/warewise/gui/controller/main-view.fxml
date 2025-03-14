@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -65,7 +67,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="menuDBButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="91.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuDBButton" mnemonicParsing="false" onAction="#toggleDbUI" prefHeight="45.0" prefWidth="91.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
@@ -210,6 +212,86 @@
                   </ImageView>
                </graphic>
             </Button>
+            <TabPane fx:id="dbTablePane" layoutX="12.0" layoutY="51.0" prefHeight="283.0" prefWidth="419.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Users">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="usersTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Category">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="categoryTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Inventory">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="inventoryTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Item">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="itemTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Suppliers">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="suppliersTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Orders">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="ordersTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Alerts">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="alertsTableView" prefHeight="256.0" prefWidth="419.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <Button fx:id="addTableButton" layoutX="18.0" layoutY="348.0" mnemonicParsing="false" onAction="#addToTableAction" style="-fx-background-color: transparent;" text="Add" textFill="WHITE" />
+            <Button fx:id="updateTableButton" layoutX="73.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateToTableAction" style="-fx-background-color: transparent;" text="Update" textFill="WHITE" />
+            <Button fx:id="deleteTableButton" layoutX="148.0" layoutY="348.0" mnemonicParsing="false" onAction="#deleteToTableAction" style="-fx-background-color: transparent;" text="Delete" textFill="WHITE" />
+            <Label fx:id="dbMenuLabel" layoutX="176.0" layoutY="8.0" prefHeight="45.0" prefWidth="91.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-database-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Button fx:id="refreshTableAction" layoutX="393.0" layoutY="348.0" mnemonicParsing="false" onAction="#refreshToTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" />
          </children>
       </AnchorPane>
    </center>
