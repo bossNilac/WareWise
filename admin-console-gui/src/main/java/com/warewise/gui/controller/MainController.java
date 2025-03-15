@@ -22,6 +22,7 @@ import javafx.util.Pair;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.warewise.gui.networking.WareHouseDataHandler.*;
@@ -93,7 +94,7 @@ public class MainController {
     @FXML
     private TableView<String[]> usersTableView;
     @FXML
-    private Button refreshTableAction;
+    private Button refreshDbTableButton;
 
     TableColumn<Pair<String, String>, String> nameColumn = new TableColumn<>("Username");
     TableColumn<Pair<String, String>, String> ageColumn = new TableColumn<>("IP");
@@ -104,6 +105,7 @@ public class MainController {
     private List<Node> dbUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
+    private boolean areAllTableInit = false; // Track init of db table state
     private static boolean addPressed;
 
     private static List<String[]> parsedUsersList;
@@ -131,7 +133,7 @@ public class MainController {
                   startServerButton, closeServerButton , dashBoardTitleLabel,cpuUsageLabel,memoryUsageLabel
                 ,conncectionsUsageLabel
         ));
-        connectionsUiElements.addAll(List.of(refreshTableAction,
+        connectionsUiElements.addAll(List.of(
                 connectionTableView,connectionsLabel,refreshButton,endConnectionButton
         ));
 
@@ -139,10 +141,9 @@ public class MainController {
         dbUiElements.addAll(List.of(dbTablePane, dbMenuLabel, deleteTableButton,
                 updateTableButton, addTableButton, alertsTableView,
               ordersTableView, suppliersTableView, itemTableView,
-              inventoryTableView, categoryTableView, usersTableView));
+              inventoryTableView, categoryTableView, usersTableView,refreshDbTableButton));
         resetUi();
         toggleDashboardUI(null );
-
     }
 
 
@@ -173,20 +174,12 @@ public class MainController {
             String[] loginPrompt = LoginPrompt.promptLogin();
             AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
             AdminUtil.logIn(ServerApplication.getNetworkingObject(),loginPrompt[0],loginPrompt[1]);
+            setUsernameLabel(loginPrompt[0]);
         }else {
             String[] params = AdminUtil.getLoginCred();
             AdminUtil.logIn(ServerApplication.getNetworkingObject(),params[0],params[1]);
             setUsernameLabel(params[0]);
         }
-        refreshTableAction(null);
-        WareHouseDataHandler.initTables();
-        usersTable= new EnhancedTableView(usersTableView, USER_COL_NO, USERS_COLUMNS, parsedUsersList);
-        categoriesTable= new EnhancedTableView(categoryTableView, CATEGORY_COL_NO, CATEGORIES_COLUMNS, parsedCategoriesList);
-        inventoryTable= new EnhancedTableView(inventoryTableView, INVENTORY_COL_NO, INVENTORY_COLUMNS, parsedInventoryList);
-        itemsTable= new EnhancedTableView(itemTableView, ITEMS_COL_NO, ORDER_ITEMS_COLUMNS, parsedItemsList);
-        ordersTable= new EnhancedTableView(ordersTableView, ORDERS_COL_NO, ORDERS_COLUMNS, parsedOrdersList);
-        alertsTable= new EnhancedTableView(alertsTableView, STOCK_ALERT_COL_NO, STOCK_ALERTS_COLUMNS, parsedAlertsList);
-        suppliersTable= new EnhancedTableView(suppliersTableView, SUPPLIERS_COL_NO, SUPPLIERS_COLUMNS, parsedSuppliersList);
     }
 
     public void menuButtonAction(ActionEvent actionEvent){
@@ -309,6 +302,7 @@ public class MainController {
 
     public void toggleConnectionsDashboardUI(ActionEvent event){
         resetUi();
+        refreshTableAction(null);
         connectionsUiElements.forEach(node -> node.setVisible(true));
     }
 
@@ -372,37 +366,37 @@ public class MainController {
             switch (getCurrentTabName()) {
                 case "Users":
                     header = Protocol.ADD_USER;
-                    data = usersTable.commitEditingRow();
+                    data = usersTable.commitEditingRow(!addPressed);
                     usersTable.updateSelectedRow(data);
                     break;
                 case "Category":
                     header = Protocol.ADD_CATEGORY;
-                    data = categoriesTable.commitEditingRow();
+                    data = categoriesTable.commitEditingRow(!addPressed);
                     categoriesTable.updateSelectedRow(data);
                     break;
                 case "Inventory":
                     header = Protocol.ADD_INVENTORY;
-                    data = inventoryTable.commitEditingRow();
+                    data = inventoryTable.commitEditingRow(!addPressed);
                     inventoryTable.updateSelectedRow(data);
                     break;
                 case "Item":
                     header = Protocol.ADD_ITEM;
-                    data= itemsTable.commitEditingRow();
+                    data= itemsTable.commitEditingRow(!addPressed);
                     itemsTable.updateSelectedRow(data);
                     break;
                 case "Suppliers":
                     header = Protocol.ADD_SUPPLIER;
-                    data = suppliersTable.commitEditingRow();
+                    data = suppliersTable.commitEditingRow(!addPressed);
                     suppliersTable.updateSelectedRow(data);
                     break;
                 case "Orders":
                     header = Protocol.CREATE_ORDER;
-                    data = ordersTable.commitEditingRow();
+                    data = ordersTable.commitEditingRow(!addPressed);
                     ordersTable.updateSelectedRow(data);
                     break;
                 case "Alerts":
                     header = Protocol.STOCK_ALERT;
-                    data = alertsTable.commitEditingRow();
+                    data = alertsTable.commitEditingRow(!addPressed);
                     alertsTable.updateSelectedRow(data);
                     break;
                 default:
@@ -412,37 +406,37 @@ public class MainController {
             switch (getCurrentTabName()) {
                 case "Users":
                     header = Protocol.UPDATE_USER;
-                    data = usersTable.commitEditingRow();
+                    data = usersTable.commitEditingRow(!addPressed);
                     usersTable.updateSelectedRow(data);
                     break;
                 case "Category":
                     header = Protocol.UPDATE_CATEGORY;
-                    data = categoriesTable.commitEditingRow();
+                    data = categoriesTable.commitEditingRow(!addPressed);
                     categoriesTable.updateSelectedRow(data);
                     break;
                 case "Inventory":
                     header = Protocol.UPDATE_INVENTORY;
-                    data = inventoryTable.commitEditingRow();
+                    data = inventoryTable.commitEditingRow(!addPressed);
                     inventoryTable.updateSelectedRow(data);
                     break;
                 case "Item":
                     header = Protocol.UPDATE_ITEM;
-                    data = itemsTable.commitEditingRow();
+                    data = itemsTable.commitEditingRow(!addPressed);
                     itemsTable.updateSelectedRow(data);
                     break;
                 case "Suppliers":
                     header = Protocol.UPDATE_SUPPLIER;
-                    data = suppliersTable.commitEditingRow();
+                    data = suppliersTable.commitEditingRow(!addPressed);
                     suppliersTable.updateSelectedRow(data);
                     break;
                 case "Orders":
                     header = Protocol.UPDATE_ORDER;
-                    data = ordersTable.commitEditingRow();
+                    data = ordersTable.commitEditingRow(!addPressed);
                     ordersTable.updateSelectedRow(data);
                     break;
                 case "Alerts":
                     header = Protocol.UPDATE_STOCK_ALERT;
-                    data = alertsTable.commitEditingRow();
+                    data = alertsTable.commitEditingRow(!addPressed);
                     alertsTable.updateSelectedRow(data);
                     break;
                 default:
@@ -450,8 +444,17 @@ public class MainController {
             }
         }
         if(data != null && header != null){
-            WareHouseDataHandler.parseAndSendToServer(header,data);
+            System.out.println("am aj ");
+            String[] newData = new String[data.length-1];
+            if (addPressed){
+                System.arraycopy(data, 1, newData, 0, data.length - 1);
+                WareHouseDataHandler.parseAndSendToServer(header,newData);
+            }else {
+                System.out.println(Arrays.toString(data));
+                WareHouseDataHandler.parseAndSendToServer(header, data);
+            }
         }
+        addPressed = false;
     }
     public void deleteToTableAction(ActionEvent actionEvent){
         String[] data = null;
@@ -495,14 +498,61 @@ public class MainController {
     }
 
     public void refreshToTableAction(ActionEvent actionEvent){
-        WareHouseDataHandler.initTables();
-        ordersTable.refresh();
-        usersTable.refresh();
-        categoriesTable.refresh();
-        alertsTable.refresh();
-        itemsTable.refresh();
-        suppliersTable.refresh();
-        inventoryTable.refresh();
+        if(!areAllTableInit) {
+            //only once
+            WareHouseDataHandler.initTables();
+            areAllTableInit = true;
+            usersTable= new EnhancedTableView(usersTableView, USER_COL_NO, USERS_COLUMNS, parsedUsersList);
+            categoriesTable= new EnhancedTableView(categoryTableView, CATEGORY_COL_NO, CATEGORIES_COLUMNS, parsedCategoriesList);
+            inventoryTable= new EnhancedTableView(inventoryTableView, INVENTORY_COL_NO, INVENTORY_COLUMNS, parsedInventoryList);
+            itemsTable= new EnhancedTableView(itemTableView, ITEMS_COL_NO, ORDER_ITEMS_COLUMNS, parsedItemsList);
+            ordersTable= new EnhancedTableView(ordersTableView, ORDERS_COL_NO, ORDERS_COLUMNS, parsedOrdersList);
+            alertsTable= new EnhancedTableView(alertsTableView, STOCK_ALERT_COL_NO, STOCK_ALERTS_COLUMNS, parsedAlertsList);
+            suppliersTable= new EnhancedTableView(suppliersTableView, SUPPLIERS_COL_NO, SUPPLIERS_COLUMNS, parsedSuppliersList);
+            ordersTable.refresh();
+            usersTable.refresh();
+            categoriesTable.refresh();
+            alertsTable.refresh();
+            itemsTable.refresh();
+            suppliersTable.refresh();
+            inventoryTable.refresh();
+        }else {
+            String table = getCurrentTabName();
+            WareHouseDataHandler.initTables(table);
+            switch (table) {
+                case "Users":
+                    usersTable = new EnhancedTableView(usersTableView, USER_COL_NO, USERS_COLUMNS, parsedUsersList);
+                    usersTable.refresh();
+                    break;
+                case "Category":
+                    categoriesTable = new EnhancedTableView(categoryTableView, CATEGORY_COL_NO, CATEGORIES_COLUMNS, parsedCategoriesList);
+                    categoriesTable.refresh();
+                    break;
+                case "Inventory":
+                    inventoryTable = new EnhancedTableView(inventoryTableView, INVENTORY_COL_NO, INVENTORY_COLUMNS, parsedInventoryList);
+                    inventoryTable.refresh();
+                    break;
+                case "Item":
+                    itemsTable = new EnhancedTableView(itemTableView, ITEMS_COL_NO, ORDER_ITEMS_COLUMNS, parsedItemsList);
+                    itemsTable.refresh();
+                    break;
+                case "Suppliers":
+                    suppliersTable = new EnhancedTableView(suppliersTableView, SUPPLIERS_COL_NO, SUPPLIERS_COLUMNS, parsedSuppliersList);
+                    suppliersTable.refresh();
+                    break;
+                case "Orders":
+                    ordersTable = new EnhancedTableView(ordersTableView, ORDERS_COL_NO, ORDERS_COLUMNS, parsedOrdersList);
+                    ordersTable.refresh();
+                    break;
+                case "Alerts":
+                    alertsTable = new EnhancedTableView(alertsTableView, STOCK_ALERT_COL_NO, STOCK_ALERTS_COLUMNS, parsedAlertsList);
+                    alertsTable.refresh();
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 
 

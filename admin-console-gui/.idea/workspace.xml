@@ -5,13 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/Protocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/StockAlert.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/StockAlert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/util/protocol/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/util/protocol/Protocol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
@@ -19,14 +35,12 @@
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/CategoryManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/CategoryManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/libs/common-library-0.0.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../server/libs/common-library-0.0.5.9.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/StockAlertServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/StockAlertServiceHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +168,9 @@
       <workItem from="1741711893425" duration="201000" />
       <workItem from="1741786429129" duration="30272000" />
       <workItem from="1741904163507" duration="1518000" />
-      <workItem from="1741906794891" duration="9606000" />
+      <workItem from="1741906794891" duration="10796000" />
+      <workItem from="1741993550400" duration="3390000" />
+      <workItem from="1741997120453" duration="12623000" />
     </task>
     <servers />
   </component>

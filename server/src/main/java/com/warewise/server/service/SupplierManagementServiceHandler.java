@@ -8,6 +8,8 @@ import com.warewise.server.server.ServerConnection;
 import com.warewise.common.model.Supplier;
 import com.warewise.server.server.util.ServerUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 /**
@@ -39,8 +41,10 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                         String contactEmail = params[1];
                         String contactPhoneNo = params[2];
                         String address = params[3];
-
+                        String formattedDate = LocalDateTime.now().format(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
                         Supplier supplier = new Supplier(name, contactEmail, contactPhoneNo, address);
+                        supplier.setCreatedAt(formattedDate);
                         server.getDbLoader().addSupplier(supplier);
                         response=sendCommand(Protocol.ADD_SUPPLIER, "Supplier added successfully: " + supplier.getID());
                     } else {

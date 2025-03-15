@@ -3,6 +3,7 @@ package com.warewise.common.model;
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.OrderStatus;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.protocol.Protocol;
 
 import java.util.List;
 
@@ -85,12 +86,12 @@ public class Order {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + customerName+",";
-        output = output + customerEmail+",";
-        output = output + status+",";
-        output = output + createdAt+",";
-        output = output + updatedAt+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + customerName+Protocol.ARG_SEPARATOR;
+        output = output + customerEmail+Protocol.ARG_SEPARATOR;
+        output = output + status+Protocol.ARG_SEPARATOR;
+        output = output + createdAt+Protocol.ARG_SEPARATOR;
+        output = output + updatedAt+Protocol.ARG_SEPARATOR;
         return output;
     }
 

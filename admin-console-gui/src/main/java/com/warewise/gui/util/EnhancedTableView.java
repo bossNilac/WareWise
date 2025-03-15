@@ -8,7 +8,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EnhancedTableView {
@@ -16,6 +19,7 @@ public class EnhancedTableView {
     private ObservableList<String[]> data; // Data backing the table
     private List<TableColumn<String[], String>> columnList; // List of columns
     private final String name;
+    private final String[] columnNames;
     private TableView<String[]> tableView;
 
     // Fields for handling a new editable row
@@ -34,6 +38,7 @@ public class EnhancedTableView {
         this.name = tableView.getId();
         this.data = FXCollections.observableArrayList(data);
         this.columnList = new ArrayList<>();
+        this.columnNames = columnNames;
         this.buildColumns(columnNo, columnNames);
         this.tableView.setItems(this.data);
         this.tableView.setEditable(true);
@@ -86,6 +91,7 @@ public class EnhancedTableView {
      * @param newData The new row data as a String array.
      */
     public void updateSelectedRow(String[] newData) {
+        System.out.println("updateSelectedRow" + Arrays.toString(newData));
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             data.set(selectedIndex, newData);
@@ -142,40 +148,43 @@ public class EnhancedTableView {
      *
      * @return The new row data as String[] if committed; otherwise, null.
      */
-    public String[] commitEditingRow() {
+    public String[] commitEditingRow(boolean update) {
+        System.out.println("am intrat");
+        System.out.println(data.size());
+        editingRowIndex = tableView.getSelectionModel().getSelectedIndex();
+        System.out.println(editingRowIndex);
         if (editingRowIndex < 0 || editingRowIndex >= data.size()) {
             return null;
         }
         String[] editedRow = data.get(editingRowIndex);
+        System.out.println(Arrays.toString(editedRow));
 
         // Validate: all cells must be filled (non-null and not just whitespace)
-        for (String cell : editedRow) {
-            if (cell == null || cell.trim().isEmpty()) {
+        for (int i = 0 ; i< editedRow.length; i++){
+            String cell = editedRow[i];
+            if((columnNames[i].contains("updated") || columnNames[i].contains("created") ) && (cell == null || cell.trim().isEmpty())){
+                continue;
+            }
+            if (update && (cell == null || cell.trim().isEmpty())) {
+                System.out.println("sunt null ");
                 // Incomplete row: changes won't be saved.
                 return null;
             }
         }
 
-        // Compare the edited row with the backup
-        boolean changed = false;
-        for (int i = 0; i < editedRow.length; i++) {
-            if (!editedRow[i].equals(backupForEditingRow[i])) {
-                changed = true;
-                break;
+
+        for (String cell : editedRow) {
+            if((cell.contains("created") || cell.contains("updated") ) && (cell == null || cell.trim().isEmpty())){
+                continue;
+            }
+            if (update && (cell == null || cell.trim().isEmpty())) {
+                System.out.println("sunt null ");
+                // Incomplete row: changes won't be saved.
+                return null;
             }
         }
 
-        if (changed) {
-            // Clear editing markers
-            int committedRowIndex = editingRowIndex;
-            editingRowIndex = -1;
-            backupForEditingRow = null;
-            // Optionally, you could perform additional logic here (e.g., mark the row as committed).
-            return data.get(committedRowIndex);
-        } else {
-            // No changes were made compared to the initial empty row.
-            return null;
-        }
+        return data.get(editingRowIndex);
     }
 
     public void refresh(){

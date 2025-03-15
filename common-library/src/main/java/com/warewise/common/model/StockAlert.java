@@ -3,6 +3,7 @@ package com.warewise.common.model;
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.StockAlertStatus;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.protocol.Protocol;
 
 public class StockAlert {
     private int ID;
@@ -71,11 +72,11 @@ public class StockAlert {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + productID+",";
-        output = output + threshold+",";
-        output = output + createdAt+",";
-        output = output + resolved+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + productID+Protocol.ARG_SEPARATOR;
+        output = output + threshold+Protocol.ARG_SEPARATOR;
+        output = output + createdAt+Protocol.ARG_SEPARATOR;
+        output = output + resolved+Protocol.ARG_SEPARATOR;
         return output;
     }
 }

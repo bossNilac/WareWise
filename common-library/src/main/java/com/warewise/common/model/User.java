@@ -3,6 +3,7 @@ package com.warewise.common.model;
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
 import com.warewise.common.util.enums.UserRole;
+import com.warewise.common.util.protocol.Protocol;
 
 public class User {
     private int ID;
@@ -80,11 +81,11 @@ public class User {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + username+",";
-        output = output + passwordHash+",";
-        output = output + role+",";
-        output = output + email+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + username+Protocol.ARG_SEPARATOR;
+        output = output + passwordHash+Protocol.ARG_SEPARATOR;
+        output = output + role+Protocol.ARG_SEPARATOR;
+        output = output + email+Protocol.ARG_SEPARATOR;
         output = output + createdAt;
         return output;
     }

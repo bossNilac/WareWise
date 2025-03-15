@@ -2,6 +2,7 @@ package com.warewise.common.model;
 
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.protocol.Protocol;
 
 public class Supplier {
     private int ID;
@@ -86,11 +87,11 @@ public class Supplier {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + name+",";
-        output = output + contactEmail+",";
-        output = output + contactPhoneNo+",";
-        output = output + address+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + name+Protocol.ARG_SEPARATOR;
+        output = output + contactEmail+Protocol.ARG_SEPARATOR;
+        output = output + contactPhoneNo+Protocol.ARG_SEPARATOR;
+        output = output + address+Protocol.ARG_SEPARATOR;
         output = output + createdAt;
         return output;
     }

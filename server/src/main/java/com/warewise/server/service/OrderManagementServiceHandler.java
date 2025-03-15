@@ -9,6 +9,8 @@ import com.warewise.common.model.Order;
 import com.warewise.common.util.enums.OrderStatus;
 import com.warewise.server.server.util.ServerUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +44,13 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                         OrderStatus status = OrderStatus.valueOf(params[2]);
                         String createdAt = params[3];
                         String updatedAt = params[4];
-
+                        String formattedDate = LocalDateTime.now().format(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                        if(createdAt == null){
+                            createdAt = formattedDate;
+                        }if(updatedAt == null){
+                            updatedAt = formattedDate;
+                        }
                         Order order = new Order(customerName, customerEmail, status, createdAt, updatedAt);
                         server.getDbLoader().addOrder(order);
                         response=sendCommand(Protocol.CREATE_ORDER, "Order added successfully: " + order.getID());
@@ -62,7 +70,10 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                         String customerEmail = params[2];
                         OrderStatus status = OrderStatus.valueOf(params[3]);
                         String updatedAt = params[4];
-
+                        if(updatedAt == null){
+                            updatedAt = LocalDateTime.now().format(
+                                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                        }
                         Order order = serverUtil.orderExists(orderID);
                         if (order != null) {
                             System.out.println("Updating order " + orderID);

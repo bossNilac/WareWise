@@ -2,6 +2,7 @@ package com.warewise.common.model;
 
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.protocol.Protocol;
 
 import java.util.List;
 
@@ -72,10 +73,10 @@ public class Inventory {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + name+",";
-        output = output + description+",";
-        output = output + quantity+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + name+Protocol.ARG_SEPARATOR;
+        output = output + description+Protocol.ARG_SEPARATOR;
+        output = output + quantity+Protocol.ARG_SEPARATOR;
         output = output + lastUpdated;
         return output;
     }

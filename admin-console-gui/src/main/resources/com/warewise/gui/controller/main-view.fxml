@@ -291,7 +291,7 @@
                   </ImageView>
                </graphic>
             </Label>
-            <Button fx:id="refreshTableAction" layoutX="393.0" layoutY="348.0" mnemonicParsing="false" onAction="#refreshToTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" />
+            <Button fx:id="refreshDbTableButton" layoutX="393.0" layoutY="348.0" mnemonicParsing="false" onAction="#refreshToTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" />
          </children>
       </AnchorPane>
    </center>

@@ -93,6 +93,8 @@ public final class Protocol {
     public static final String SEND_BENCHMARK = "SEND_BENCHMARK";         // SEND_BENCHMARK~DATA~DATA
     public static final String SHUTDOWN_SIGNAL = "SHUTDOWN_SIGNAL";         // SEND_BENCHMARK~DATA~DATA
 
+    public static final String ARG_SEPARATOR="===";
+
     // Private constructor to prevent instantiation
     private Protocol() {
         // No instances allowed

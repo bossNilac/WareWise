@@ -2,6 +2,7 @@ package com.warewise.common.model;
 
 import com.warewise.common.util.SequenceManager;
 import com.warewise.common.util.enums.TableName;
+import com.warewise.common.util.protocol.Protocol;
 
 public class Item {
     private int ID;
@@ -102,12 +103,12 @@ public class Item {
 
     public String toString(){
         String output = "";
-        output = output + ID +",";
-        output = output + orderID+",";
-        output = output + inventoryID +",";
-        output = output + quantity+",";
-        output = output + price+",";
-        output = output + total+",";
+        output = output + ID + Protocol.ARG_SEPARATOR;
+        output = output + orderID+Protocol.ARG_SEPARATOR;
+        output = output + inventoryID +Protocol.ARG_SEPARATOR;
+        output = output + quantity+Protocol.ARG_SEPARATOR;
+        output = output + price+Protocol.ARG_SEPARATOR;
+        output = output + total+Protocol.ARG_SEPARATOR;
         output = output + category;
         return output;
     }

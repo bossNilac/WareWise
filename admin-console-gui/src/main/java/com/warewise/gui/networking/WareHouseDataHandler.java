@@ -5,6 +5,7 @@ import com.warewise.gui.controller.MainController.*;
 import com.warewise.gui.controller.ServerApplication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WareHouseDataHandler {
@@ -22,11 +23,11 @@ public class WareHouseDataHandler {
     };
 
     public static final String[] ORDER_ITEMS_COLUMNS = {
-            "order_item_id", "order_id", "quantity", "price", "inventory_id", "category_id"
+            "order_item_id", "order_id", "quantity", "price", "total" , "inventory_id", "category_id"
     };
 
     public static final String[] STOCK_ALERTS_COLUMNS = {
-            "alert_id", "product_id", "threshold", "created_at", "resolved"
+            "alert_id", "product_id", "threshold", "created_at", "resolvedBy"
     };
 
     public static final String[] SUPPLIERS_COLUMNS = {
@@ -86,23 +87,54 @@ public class WareHouseDataHandler {
         }
     }
 
+    public static void initTables(String table){
+        try {
+            switch (table) {
+                case "Users":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_USERS+Protocol.SEPARATOR);
+                    break;
+                case "Category":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_CATEGORIES+Protocol.SEPARATOR);
+                    break;
+                case "Inventory":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_INVENTORY+Protocol.SEPARATOR);
+                    break;
+                case "Item":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_ITEMS+Protocol.SEPARATOR);
+                    break;
+                case "Suppliers":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_SUPPLIERS+Protocol.SEPARATOR);
+                    break;
+                case "Orders":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_ORDERS+Protocol.SEPARATOR);
+                    break;
+                case "Alerts":
+                    ServerApplication.getNetworkingObject().sendMessage(Protocol.LIST_STOCK_ALERTS+Protocol.SEPARATOR);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<String[]> parseCategories(String input, int paramCounts) {
         List<String[]> result = new ArrayList<>();
 
         input = input.split("~", 2)[1];
         // Split the input string by "~"
         String[] parts = input.split("~");
-        // Validate that the number of parts matches the number of param counts
-        if (parts.length != paramCounts) {
-            throw new IllegalArgumentException("The number of sections does not match the expected param counts.");
-        }
-        // Iterate over the parts and split them by "," to generate the arrays
+        System.out.println(Arrays.toString(parts));
+        // Iterate over the parts and split them by  to generate the arrays
         for (int i = 0; i < parts.length; i++) {
             // Split the part by ","
-            String[] params = parts[i].split(",");
+            String[] params = parts[i].split(Protocol.ARG_SEPARATOR);
+            System.out.println(params.length+"=="+paramCounts);
+            System.out.println(params.length == paramCounts );
             // Check if the number of parameters matches the expected count
-            if (params.length != paramCounts) {
-                throw new IllegalArgumentException("The number of parameters in section " + (i+1) + " does not match the expected count.");
+            if (params.length != paramCounts ) {
+                throw new IllegalArgumentException("The number of parameters in section " + Arrays.toString(params) + " does not match the expected count.");
             }
             // Add the params array to the result list
             result.add(params);
@@ -115,16 +147,30 @@ public class WareHouseDataHandler {
     public static void parseAndSendToServer(String header,String[] data) {
         String output = header + Protocol.SEPARATOR;
         if(!header.contains("DELETE")) {
-            for (int i = 0; i < data.length; i++) {
-                if (i != data.length - 1) {
-                    output = output + data[i] + Protocol.SEPARATOR;
-                } else {
-                    output = output + data[i];
+            if (header.equals(Protocol.ADD_USER)){
+               output +=  data[0] + Protocol.SEPARATOR
+                       + data[2] + Protocol.SEPARATOR
+                       + data[3] + Protocol.SEPARATOR
+                       + data[1]  ;
+            } else if (header.equals(Protocol.UPDATE_USER)) {
+                output +=  data[0] + Protocol.SEPARATOR
+                        + data[1] + Protocol.SEPARATOR
+                        + data[3] + Protocol.SEPARATOR
+                        + data[4] + Protocol.SEPARATOR
+                        + data[2]  ;
+            }else {
+                for (int i = 0; i < data.length; i++) {
+                    if (i != data.length - 1) {
+                        output = output + data[i] + Protocol.SEPARATOR;
+                    } else {
+                        output = output + data[i];
+                    }
                 }
             }
         }else {
             output = output + data[0];
         }
+        System.out.println(output);
         ServerApplication.getNetworkingObject().sendMessage(output);
     }
 }

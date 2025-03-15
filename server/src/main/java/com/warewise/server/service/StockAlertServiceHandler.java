@@ -36,12 +36,12 @@ public class StockAlertServiceHandler extends ServiceHandler {
                 if (connectionUser == null) {
                     response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
-                    if (params.length == 3) {
+                    if (params.length == 4) {
                         int productID = Integer.parseInt(params[0]);
                         StockAlertStatus threshold = StockAlertStatus.valueOf(params[1]);
                         String createdAt = params[2];
-
-                        StockAlert stockAlert = new StockAlert(productID, threshold, createdAt, null);
+                        String resolvedBy = params[3];
+                        StockAlert stockAlert = new StockAlert(productID, threshold, createdAt, resolvedBy);
                         server.getDbLoader().addStockAlert(stockAlert);
                         response=sendCommand(Protocol.STOCK_ALERT, "Stock alert added successfully: " + stockAlert.getID());
                     } else {
@@ -57,11 +57,11 @@ public class StockAlertServiceHandler extends ServiceHandler {
                     if (params.length == 3) {
                         int stockAlertID = Integer.parseInt(params[0]);
                         StockAlertStatus threshold = StockAlertStatus.valueOf(params[1]);
-                        String resolved = params[2];
+                        String resolvedBy = params[2];
 
                         StockAlert stockAlert = serverUtil.stockAlertExists(stockAlertID);
                         if (stockAlert != null) {
-                            server.getDbLoader().updateStockAlert(stockAlert, threshold, resolved);
+                            server.getDbLoader().updateStockAlert(stockAlert, threshold, resolvedBy);
                             response=sendCommand(Protocol.RESOLVE_ALERT, "Stock alert " + stockAlertID + " updated successfully");
                         } else {
                             response=sendCommand(Protocol.ERRORTAG, "Stock alert does not exist");
@@ -81,12 +81,12 @@ public class StockAlertServiceHandler extends ServiceHandler {
                         int productID = Integer.parseInt(params[1]);
                         StockAlertStatus threshold = StockAlertStatus.valueOf(params[2]);
                         String createdAt = params[3];
-                        String resolved = params[4];
+                        String resolvedBy = params[4];
 
                         StockAlert stockAlert = serverUtil.stockAlertExists(stockAlertID);
                         if (stockAlert != null) {
                             System.out.println("Updating stock alert " + stockAlertID);
-                            if (server.getDbLoader().updateStockAlert(stockAlert, productID, threshold, createdAt, resolved)) {
+                            if (server.getDbLoader().updateStockAlert(stockAlert, productID, threshold, createdAt, resolvedBy)) {
                                 response=sendCommand(Protocol.UPDATE_STOCK_ALERT, "Stock alert " + stockAlertID + " updated successfully");
                             } else {
                                 response=sendCommand(Protocol.ERRORTAG, "No changes detected for stock alert " + stockAlertID);
@@ -105,7 +105,7 @@ public class StockAlertServiceHandler extends ServiceHandler {
                 String suppliers = server.getStockAlertList().stream()
                         .map(StockAlert::toString)
                         .collect(Collectors.joining(Protocol.SEPARATOR));
-                response=sendCommand(Protocol.LIST_SUPPLIERS, suppliers);
+                response=sendCommand(Protocol.LIST_STOCK_ALERTS, suppliers);
                 break;
 
             case Protocol.DELETE_STOCK_ALERT:
