@@ -30,10 +30,10 @@ public class ItemHandler {
 
             stmt.setInt(1, item.getID());
             stmt.setInt(2, item.getOrderID());
-            stmt.setInt(3, item.getInventoryID());
-            stmt.setInt(4, item.getQuantity());
-            stmt.setDouble(5, item.getPrice());
-            stmt.setDouble(6, item.getCategoryID());
+            stmt.setInt(3, item.getQuantity());
+            stmt.setDouble(4, item.getPrice());
+            stmt.setDouble(5, item.getCategoryID());
+            stmt.setDouble(6, item.getInventoryID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -55,8 +55,8 @@ public class ItemHandler {
             stmt.setInt(2, item.getQuantity());
             stmt.setDouble(3, item.getPrice());
             stmt.setInt(4, item.getCategoryID());
-            stmt.setInt(6, item.getID());
             stmt.setInt(5, item.getInventoryID());
+            stmt.setInt(6, item.getID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

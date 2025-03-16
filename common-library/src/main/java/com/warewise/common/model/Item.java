@@ -11,19 +11,8 @@ public class Item {
     private int quantity;
     private double price;
     private double total;
-    private Category category;
     private int categoryID;
 
-
-    public Item(int ID, int orderID, int inventoryID, int quantity, double price, Category category) {
-        this.ID = ID;
-        this.orderID = orderID;
-        this.inventoryID = inventoryID;
-        this.quantity = quantity;
-        this.price = price;
-        this.total = price*quantity;
-        this.category = category;
-    }
 
     public Item(int ID, int orderID, int inventoryID, int quantity, double price, int categoryID) {
         this.ID = ID;
@@ -36,13 +25,14 @@ public class Item {
     }
 
 
-    public Item(int orderID, int inventoryID, int quantity, double price, Category category) {
+    public Item(int orderID, int inventoryID, int quantity, double price, int category) {
         this.setID(SequenceManager.getInstance().getNextId(TableName.ORDER_ITEMS.getTableName()));
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
         this.price = price;
-        this.category = category;
+        this.categoryID = category;
+        this.total = price * (double)quantity;
     }
 
     public int getID() {
@@ -93,13 +83,6 @@ public class Item {
         this.total = total;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public String toString(){
         String output = "";
@@ -109,7 +92,7 @@ public class Item {
         output = output + quantity+Protocol.ARG_SEPARATOR;
         output = output + price+Protocol.ARG_SEPARATOR;
         output = output + total+Protocol.ARG_SEPARATOR;
-        output = output + category;
+        output = output + categoryID;
         return output;
     }
 

@@ -80,6 +80,7 @@ public class Order {
         this.customerEmail = customerEmail;
         this.status = status;
         this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
     }
 
 

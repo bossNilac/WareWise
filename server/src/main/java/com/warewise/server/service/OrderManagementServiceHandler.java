@@ -52,6 +52,7 @@ public class OrderManagementServiceHandler extends ServiceHandler {
                             updatedAt = formattedDate;
                         }
                         Order order = new Order(customerName, customerEmail, status, createdAt, updatedAt);
+
                         server.getDbLoader().addOrder(order);
                         response=sendCommand(Protocol.CREATE_ORDER, "Order added successfully: " + order.getID());
                     } else {

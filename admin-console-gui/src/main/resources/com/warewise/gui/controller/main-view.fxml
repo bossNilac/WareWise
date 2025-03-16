@@ -21,14 +21,15 @@
         <menus>
           <Menu mnemonicParsing="false" text="Menu">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#logInAction" text="Login" />
                   <MenuItem mnemonicParsing="false" onAction="#logOutAction" text="Logout" />
               <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Help" />
-                  <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#helpAction" text="Help" />
+                  <MenuItem mnemonicParsing="false" onAction="#aboutAction" text="About" />
             </items>
           </Menu>
         </menus>
@@ -172,7 +173,7 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <Button fx:id="recoverMenuButton" layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#menuButtonAction" style="-fx-background-color: transparent;" visible="false">
+            <Button fx:id="recoverMenuButton" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#menuButtonAction" prefHeight="29.0" prefWidth="47.0" style="-fx-background-color: transparent;" visible="false">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
@@ -203,7 +204,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="refreshButton" layoutX="345.0" layoutY="324.0" mnemonicParsing="false" onAction="#refreshTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" visible="false">
+            <Button fx:id="refreshButton" layoutX="345.0" layoutY="324.0" mnemonicParsing="false" onAction="#refreshConnectionTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true">
                      <image>
@@ -218,7 +219,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="usersTableView" prefHeight="256.0" prefWidth="419.0" />
+                              <TableView fx:id="usersTableView" prefHeight="256.0" prefWidth="435.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -279,9 +280,30 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <Button fx:id="addTableButton" layoutX="18.0" layoutY="348.0" mnemonicParsing="false" onAction="#addToTableAction" style="-fx-background-color: transparent;" text="Add" textFill="WHITE" />
-            <Button fx:id="updateTableButton" layoutX="73.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateToTableAction" style="-fx-background-color: transparent;" text="Update" textFill="WHITE" />
-            <Button fx:id="deleteTableButton" layoutX="148.0" layoutY="348.0" mnemonicParsing="false" onAction="#deleteToTableAction" style="-fx-background-color: transparent;" text="Delete" textFill="WHITE" />
+            <Button fx:id="addTableButton" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onAction="#addToTableAction" style="-fx-background-color: transparent;" text="Add" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-add-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="updateTableButton" layoutX="94.0" layoutY="343.0" mnemonicParsing="false" onAction="#updateToTableAction" style="-fx-background-color: transparent;" text="Update" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-update-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="deleteTableButton" layoutX="190.0" layoutY="343.0" mnemonicParsing="false" onAction="#deleteToTableAction" style="-fx-background-color: transparent;" text="Delete" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-close-window-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <Label fx:id="dbMenuLabel" layoutX="176.0" layoutY="8.0" prefHeight="45.0" prefWidth="91.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
@@ -291,7 +313,14 @@
                   </ImageView>
                </graphic>
             </Label>
-            <Button fx:id="refreshDbTableButton" layoutX="393.0" layoutY="348.0" mnemonicParsing="false" onAction="#refreshToTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" />
+            <Button fx:id="refreshDbTableButton" layoutX="341.0" layoutY="343.0" mnemonicParsing="false" onAction="#refreshToTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../../../../../../images/icons8-refresh-60.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
          </children>
       </AnchorPane>
    </center>

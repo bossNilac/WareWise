@@ -44,9 +44,9 @@ import java.util.stream.Collectors;
                         if (params.length == 4) {
                             String username = params[0];
                             if (!connectionUser.equals(username) ) {
-                                String role = params[1];
-                                String email = params[2];
-                                String password = Encrypt.hashPassword(params[3]);
+                                String role = params[2];
+                                String email = params[3];
+                                String password = Encrypt.hashPassword(params[1]);
                                 String formattedDate = LocalDateTime.now().format(
                                         DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
                                 User user = new User(formattedDate, email,
@@ -77,9 +77,9 @@ import java.util.stream.Collectors;
                     if (params.length == 4) {
                         String username = params[0];
                         if (!connectionUser.equals(username)  && !server.getUserList().contains(username)) {
-                            String role = params[1];
-                            String email = params[2];
-                            String password = Encrypt.hashPassword(params[3]);
+                            String role = params[2];
+                            String email = params[3];
+                            String password = Encrypt.hashPassword(params[1]);
 
                             User user = serverUtil.userExists(username);
                             if(serverUtil.userExists(username)!= null){

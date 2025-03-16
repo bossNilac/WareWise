@@ -36,13 +36,18 @@ public class SupplierManagementServiceHandler extends ServiceHandler {
                 if (connectionUser == null) {
                     response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
-                    if (params.length == 4) {
+                    if (params.length == 4 || params.length == 5 ) {
                         String name = params[0];
                         String contactEmail = params[1];
                         String contactPhoneNo = params[2];
                         String address = params[3];
-                        String formattedDate = LocalDateTime.now().format(
-                                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                        String formattedDate ;
+                        if (params.length == 4){
+                             formattedDate = LocalDateTime.now().format(
+                                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                        }else {
+                            formattedDate = params[4];
+                        }
                         Supplier supplier = new Supplier(name, contactEmail, contactPhoneNo, address);
                         supplier.setCreatedAt(formattedDate);
                         server.getDbLoader().addSupplier(supplier);

@@ -9,6 +9,8 @@ import com.warewise.common.model.Inventory;
 import com.warewise.common.util.enums.UserRole;
 import com.warewise.server.server.util.ServerUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 /**
@@ -60,7 +62,11 @@ public class InventoryManagementServiceHandler extends ServiceHandler {
                         String description = params[2];
                         int quantity = Integer.parseInt(params[3]);
                         String lastUpdated = params[4];
-
+                        String formattedDate = LocalDateTime.now().format(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                        if(lastUpdated == null){
+                            lastUpdated = formattedDate;
+                        }
                         Inventory inventory = serverUtil.inventoryExists(inventoryID);
                         if (inventory != null) {
                             System.out.println("Updating inventory " + inventoryID);

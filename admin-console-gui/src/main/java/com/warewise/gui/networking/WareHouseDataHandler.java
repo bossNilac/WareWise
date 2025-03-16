@@ -23,7 +23,7 @@ public class WareHouseDataHandler {
     };
 
     public static final String[] ORDER_ITEMS_COLUMNS = {
-            "order_item_id", "order_id", "quantity", "price", "total" , "inventory_id", "category_id"
+            "order_item_id", "order_id", "inventory_id" , "quantity", "price", "total" , "category_id"
     };
 
     public static final String[] STOCK_ALERTS_COLUMNS = {
@@ -147,23 +147,26 @@ public class WareHouseDataHandler {
     public static void parseAndSendToServer(String header,String[] data) {
         String output = header + Protocol.SEPARATOR;
         if(!header.contains("DELETE")) {
-            if (header.equals(Protocol.ADD_USER)){
-               output +=  data[0] + Protocol.SEPARATOR
-                       + data[2] + Protocol.SEPARATOR
-                       + data[3] + Protocol.SEPARATOR
-                       + data[1]  ;
-            } else if (header.equals(Protocol.UPDATE_USER)) {
-                output +=  data[0] + Protocol.SEPARATOR
-                        + data[1] + Protocol.SEPARATOR
+            if (header.equals(Protocol.UPDATE_USER)) {
+                output += data[1] + Protocol.SEPARATOR
+                        + data[2] + Protocol.SEPARATOR
                         + data[3] + Protocol.SEPARATOR
-                        + data[4] + Protocol.SEPARATOR
-                        + data[2]  ;
+                        + data[4]  ;
             }else {
-                for (int i = 0; i < data.length; i++) {
-                    if (i != data.length - 1) {
-                        output = output + data[i] + Protocol.SEPARATOR;
-                    } else {
-                        output = output + data[i];
+                //"order_item_id", "order_id", "inventory_id" , "quantity", "price", "total" , "category_id"
+                if (header.equals(Protocol.ADD_ITEM)){
+                    output += data[0] + Protocol.SEPARATOR
+                            + data[1] + Protocol.SEPARATOR
+                            + data[2] + Protocol.SEPARATOR
+                            + data[3] + Protocol.SEPARATOR
+                            + data[5] + Protocol.SEPARATOR;
+                }else {
+                    for (int i = 0; i < data.length; i++) {
+                        if (i != data.length - 1) {
+                            output = output + data[i] + Protocol.SEPARATOR;
+                        } else {
+                            output = output + data[i];
+                        }
                     }
                 }
             }

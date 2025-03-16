@@ -106,7 +106,10 @@ public class MainController {
 
     private boolean isDashboardVisible = true; // Track dashboard state
     private boolean areAllTableInit = false; // Track init of db table state
-    private static boolean addPressed;
+    private boolean isInfoUpdated = false; // Track init of db table state
+    private static boolean addPressed=false;
+    private boolean isServerOn = false;
+    private boolean isLogin = false;
 
     private static List<String[]> parsedUsersList;
     private static List<String[]> parsedCategoriesList;
@@ -123,7 +126,6 @@ public class MainController {
     private static EnhancedTableView ordersTable;
     private static EnhancedTableView alertsTable;
     private static EnhancedTableView suppliersTable;
-
 
     @FXML
     public void initialize() {
@@ -144,42 +146,42 @@ public class MainController {
               inventoryTableView, categoryTableView, usersTableView,refreshDbTableButton));
         resetUi();
         toggleDashboardUI(null );
+        isServerOn = UtilityCommands.pingServer();
     }
 
 
     public void stopServerAction(ActionEvent actionEvent) {
-        AdminUtil.closeServer(ServerApplication.getNetworkingObject());
-        try {
-            ServerApplication.getNetworkingObject().close();
-            usernameLabel.setText("N/A");
-            cpuNumberLabel.setText("N/A");
-            memNumberLabel.setText("N/A");
-            connNumberLabel.setText("N/A");
-            UtilityCommands.displayNotificationPanel(1,"Closed server!");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(isServerOn) {
+            if (UtilityCommands.displayWarning("Are you sure you want to close the server?", true)) {
+                AdminUtil.closeServer(ServerApplication.getNetworkingObject());
+                try {
+                    ServerApplication.getNetworkingObject().close();
+                    setServerOff();
+                    UtilityCommands.displayNotificationPanel(1, "Closed server!");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }else{
+            UtilityCommands.displayWarning("Server is already off!",false);
         }
     }
 
     public void startServerAction(ActionEvent actionEvent) {
-        File file = new File(AdminUtil.CREDENTIALS_FILE);
-        AdminUtil.startServer();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(!isServerOn && !isLogin){
+            AdminUtil.startServer();
+            ServerApplication.initNetworkingObject();
+            UtilityCommands.displayNotificationPanel(1,"Started server!\nTrying to login");
+            logIn();
+        }else{
+            if(!isLogin) {
+                UtilityCommands.displayNotificationPanel(1, "Server already started!\nTrying to login");
+                logIn();
+            }else{
+                UtilityCommands.displayWarning("Already started server !\n Already logged in!",false);
+            }
         }
-        ServerApplication.initNetworkingObject();
-        if(UtilityCommands.isFileEmpty(file) || !file.exists()){
-            String[] loginPrompt = LoginPrompt.promptLogin();
-            AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
-            AdminUtil.logIn(ServerApplication.getNetworkingObject(),loginPrompt[0],loginPrompt[1]);
-            setUsernameLabel(loginPrompt[0]);
-        }else {
-            String[] params = AdminUtil.getLoginCred();
-            AdminUtil.logIn(ServerApplication.getNetworkingObject(),params[0],params[1]);
-            setUsernameLabel(params[0]);
-        }
+        isServerOn = true;
     }
 
     public void menuButtonAction(ActionEvent actionEvent){
@@ -249,24 +251,36 @@ public class MainController {
     }
 
     public void exitAction(){
-        System.exit(0);
+        if(UtilityCommands.displayWarning("Are you sure you want to exit?",true)) System.exit(0);
     }
 
     public void logOutAction(){
-        AdminUtil.logOut(ServerApplication.getNetworkingObject());
-        usernameLabel.setText("N/A");
-        cpuNumberLabel.setText("N/A");
-        memNumberLabel.setText("N/A");
-        connNumberLabel.setText("N/A");
-        try {
-            ServerApplication.getNetworkingObject().close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(isServerOn){
+            if(UtilityCommands.displayWarning("Are you sure you want to log out?",true)) {
+                AdminUtil.logOut(ServerApplication.getNetworkingObject());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    ServerApplication.getNetworkingObject().close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                usernameLabel.setText("N/A");
+                cpuNumberLabel.setText("N/A");
+                memNumberLabel.setText("N/A");
+                connNumberLabel.setText("N/A");
+                UtilityCommands.displayNotificationPanel(1, "Logged out!");
+                isLogin = false;
+            }
+        }else{
+            UtilityCommands.displayWarning("Server is not running!",false);
         }
-        UtilityCommands.displayNotificationPanel(1,"Logged out!");
     }
 
-    public void refreshTableAction(ActionEvent actionEvent){
+    public void refreshConnectionTableAction(ActionEvent actionEvent){
         ServerApplication.getNetworkingObject().sendMessage(Protocol.HEARTBEAT);
         try {
             Thread.sleep(2500);
@@ -287,11 +301,13 @@ public class MainController {
         connectionTableView.refresh();
     }
 
-    public void endConnectionAction(ActionEvent actionEvent){
-        Pair<String, String> selectedRow = connectionTableView.getSelectionModel().getSelectedItem();
-        if (selectedRow != null) {
-            AdminUtil.kickUser(ServerApplication.getNetworkingObject(),selectedRow.getKey());
-            refreshTableAction(null);
+    public void endConnectionAction(ActionEvent actionEvent) {
+        if (UtilityCommands.displayWarning("Are you sure you want to log out?",true)) {
+            Pair<String, String> selectedRow = connectionTableView.getSelectionModel().getSelectedItem();
+            if (selectedRow != null) {
+                AdminUtil.kickUser(ServerApplication.getNetworkingObject(), selectedRow.getKey());
+                refreshConnectionTableAction(null);
+            }
         }
     }
 
@@ -302,7 +318,7 @@ public class MainController {
 
     public void toggleConnectionsDashboardUI(ActionEvent event){
         resetUi();
-        refreshTableAction(null);
+        refreshConnectionTableAction(null);
         connectionsUiElements.forEach(node -> node.setVisible(true));
     }
 
@@ -359,6 +375,7 @@ public class MainController {
             default:break;
         }
     }
+
     public void updateToTableAction(ActionEvent actionEvent) {
         String[] data = null;
         String header = null;
@@ -456,6 +473,7 @@ public class MainController {
         }
         addPressed = false;
     }
+
     public void deleteToTableAction(ActionEvent actionEvent){
         String[] data = null;
         String header = null;
@@ -519,6 +537,12 @@ public class MainController {
         }else {
             String table = getCurrentTabName();
             WareHouseDataHandler.initTables(table);
+            if(!isInfoUpdated){
+                UtilityCommands.displayNotificationPanel(1,"Item was sent to DB.\nRefresh the page");
+                isInfoUpdated =  true;
+            }else {
+                isInfoUpdated =  false;
+            }
             switch (table) {
                 case "Users":
                     usersTable = new EnhancedTableView(usersTableView, USER_COL_NO, USERS_COLUMNS, parsedUsersList);
@@ -555,7 +579,6 @@ public class MainController {
         }
     }
 
-
     public String getCurrentTabName() {
         Tab selectedTab = dbTablePane.getSelectionModel().getSelectedItem();
 
@@ -569,24 +592,70 @@ public class MainController {
     public static void setParsedSuppliersList(List<String[]> data) {
         parsedSuppliersList = data;
     }
+
     public static void setParsedAlertsList(List<String[]> data) {
         parsedAlertsList = data;
     }
+
     public static void setParsedOrdersList(List<String[]> data) {
         parsedOrdersList = data;
     }
+
     public static void setParsedItemsList(List<String[]> data) {
         parsedItemsList = data;
     }
+
     public static void setParsedInventoryList(List<String[]> data) {
         parsedInventoryList = data;
     }
+
     public static void setParsedCategoriesList(List<String[]> data) {
         parsedCategoriesList = data;
     }
+
     public static void setParsedUsersList(List<String[]> data) {
         parsedUsersList = data;
     }
 
 
+    public void helpAction(ActionEvent actionEvent) {
+        //TODO
+    }
+
+    public void logInAction(ActionEvent event){
+        if(isServerOn){
+            ServerApplication.initNetworkingObject();
+            logIn();
+        }else{
+            UtilityCommands.displayWarning("Server is not running!",false);
+        }
+    }
+
+    private void logIn() {
+        File file = new File(AdminUtil.CREDENTIALS_FILE);
+        if(UtilityCommands.isFileEmpty(file) || !file.exists()){
+            String[] loginPrompt = LoginPrompt.promptLogin();
+            AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
+            AdminUtil.logIn(ServerApplication.getNetworkingObject(),loginPrompt[0],loginPrompt[1]);
+            setUsernameLabel(loginPrompt[0]);
+        }else {
+            String[] params = AdminUtil.getLoginCred();
+            AdminUtil.logIn(ServerApplication.getNetworkingObject(),params[0],params[1]);
+            setUsernameLabel(params[0]);
+        }
+        isLogin = true;
+    }
+
+    public void aboutAction(ActionEvent actionEvent) {
+        UtilityCommands.openLink("https://github.com/bossNilac/WareWise/blob/master/README.md");
+    }
+
+    public void setServerOff() {
+        isServerOn = false;
+        isLogin = false;
+        usernameLabel.setText("N/A");
+        cpuNumberLabel.setText("N/A");
+        memNumberLabel.setText("N/A");
+        connNumberLabel.setText("N/A");
+    }
 }

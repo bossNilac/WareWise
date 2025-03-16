@@ -1,5 +1,6 @@
 package com.warewise.gui.util;
 
+import com.warewise.gui.networking.Protocol;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -129,9 +130,7 @@ public class EnhancedTableView {
         int columns = columnList.size();
         String[] newRow = new String[columns];
         // Initialize with empty strings.
-        for (int i = 0; i < columns; i++) {
-            newRow[i] = "";
-        }
+        Arrays.fill(newRow, "");
         data.add(newRow);
         // Store the index and a backup copy of the new row.
         editingRowIndex = data.size() - 1;
@@ -161,30 +160,20 @@ public class EnhancedTableView {
 
         // Validate: all cells must be filled (non-null and not just whitespace)
         for (int i = 0 ; i< editedRow.length; i++){
-            String cell = editedRow[i];
-            if((columnNames[i].contains("updated") || columnNames[i].contains("created") ) && (cell == null || cell.trim().isEmpty())){
-                continue;
+            if(columnNames[i].equals("total")){
+
             }
-            if (update && (cell == null || cell.trim().isEmpty())) {
+            if((columnNames[i].contains("updated") || columnNames[i].contains("created") ) && (editedRow[i] == null || editedRow[i].trim().isEmpty())){
+                editedRow[i] = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss"));
+            }
+            if (update && (editedRow[i] == null || editedRow[i].trim().isEmpty())) {
                 System.out.println("sunt null ");
                 // Incomplete row: changes won't be saved.
                 return null;
             }
         }
 
-
-        for (String cell : editedRow) {
-            if((cell.contains("created") || cell.contains("updated") ) && (cell == null || cell.trim().isEmpty())){
-                continue;
-            }
-            if (update && (cell == null || cell.trim().isEmpty())) {
-                System.out.println("sunt null ");
-                // Incomplete row: changes won't be saved.
-                return null;
-            }
-        }
-
-        return data.get(editingRowIndex);
+        return data.set(editingRowIndex,editedRow);
     }
 
     public void refresh(){

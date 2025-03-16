@@ -9,11 +9,10 @@ import com.warewise.gui.util.UtilityCommands;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 
 public class NetworkingClass {
@@ -71,8 +70,19 @@ public class NetworkingClass {
                         }
                     }
                 }
+            } catch (SocketException e) {
+                System.err.println("Socket error: " + e.getMessage());
+                Platform.runLater(controller::setServerOff);
+            } catch (EOFException e) {
+                System.err.println("Server closed connection: " + e.getMessage());
+                handleDisconnect();
+            } catch (SocketTimeoutException e) {
+                System.err.println("Connection timed out: " + e.getMessage());
+                handleDisconnect();
             } catch (IOException e) {
-                System.err.println("Error reading from server: " + e.getMessage());
+                System.err.println("I/O error: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Unexpected error: " + e.getMessage());
             }
         }).start();
     }
@@ -83,9 +93,24 @@ public class NetworkingClass {
     }
 
     public void close() throws IOException {
-        in.close();
-        out.close();
-        socket.close();
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (SocketException e) {
+            System.err.println("Socket error: " + e.getMessage());
+            handleDisconnect();
+        } catch (EOFException e) {
+            System.err.println("Server closed connection: " + e.getMessage());
+            handleDisconnect();
+        } catch (SocketTimeoutException e) {
+            System.err.println("Connection timed out: " + e.getMessage());
+            handleDisconnect();
+        } catch (IOException e) {
+            System.err.println("I/O error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+        }
     }
 
     public static String formatNumber(double number) {
@@ -104,6 +129,13 @@ public class NetworkingClass {
 
         // Ensure the output is max 5 characters long
         return formatted.length() > 5 ? formatted.substring(0, 5) : formatted;
+    }
+
+    private void handleDisconnect(){
+        Platform.runLater(() -> {
+            controller.setServerOff();
+            UtilityCommands.displayWarning("Server suddenly stopped",false);
+        });
     }
 
 }

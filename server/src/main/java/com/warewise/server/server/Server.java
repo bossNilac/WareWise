@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The Server class accepts client connections and stores them.
@@ -24,14 +25,14 @@ public class Server extends SocketServer {
     private final Set<String> userList = Collections.synchronizedSet(new java.util.HashSet<>());
 
     // Fields for storing data from the database
-    private final List<User> users = new ArrayList<>();
-    private final List<Category> categories = new ArrayList<>();
-    private final List<Inventory> inventories = new ArrayList<>();
-    private final List<Item> items = new ArrayList<>();
-    private final List<Logs> logs = new ArrayList<>();
-    private final List<Order> orders = new ArrayList<>();
-    private final List<StockAlert> stockAlertList = new ArrayList<>();
-    private final List<Supplier> suppliers = new ArrayList<>();
+    private final List<User> users = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Category> categories = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Inventory> inventories = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Item> items = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Logs> logs = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Order> orders = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<StockAlert> stockAlertList = new CopyOnWriteArrayList<>( new ArrayList<>());
+    private final List<Supplier> suppliers = new CopyOnWriteArrayList<>( new ArrayList<>());
 
 
     protected Server(int port) throws IOException {

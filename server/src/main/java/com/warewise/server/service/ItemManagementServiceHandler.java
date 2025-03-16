@@ -38,21 +38,19 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                 if (connectionUser == null) {
                     response=sendCommand(Protocol.ERRORTAG, "Not logged in");
                 } else {
-                    if (params.length == 6) {
-                        int itemID = Integer.parseInt(params[0]);
-                        int orderID = Integer.parseInt(params[1]);
+                    if (params.length == 5) {
+                        int orderID = Integer.parseInt(params[0]);
+                        int inventoryId =  Integer.parseInt(params[1]);
                         int quantity = Integer.parseInt(params[2]);
                         double price = Double.parseDouble(params[3]);
-                        int inventoryId =  Integer.parseInt(params[4]);
-                        int categoryName =  Integer.parseInt(params[5]);
+                        int categoryName =  Integer.parseInt(params[4]);
 
-                        Category category = serverUtil.categoryExists(categoryName);
 //                        if (category == null) {
 //                            response=sendCommand(Protocol.ERRORTAG, "Invalid category");
 //                            break;
 //                        }
 
-                        Item item = new Item(itemID,orderID, inventoryId, quantity, price, category);
+                        Item item = new Item(orderID, inventoryId, quantity, price, categoryName);
                         server.getDbLoader().addItem(item);
                         response=sendCommand(Protocol.ADD_ITEM, "Item added successfully: " + item.getID());
                     } else {
@@ -68,15 +66,14 @@ public class ItemManagementServiceHandler extends ServiceHandler {
                     if (params.length == 6) {
                         int itemID = Integer.parseInt(params[0]);
                         int orderID = Integer.parseInt(params[1]);
-                        int quantity = Integer.parseInt(params[2]);
-                        double price = Double.parseDouble(params[3]);
-                        int inventoryId =  Integer.parseInt(params[4]);
+                        int inventoryId =  Integer.parseInt(params[2]);
+                        int quantity = Integer.parseInt(params[3]);
+                        double price = Double.parseDouble(params[4]);
                         int categoryID =  Integer.parseInt(params[5]);
-                        Category category = serverUtil.categoryExists(categoryID);
                         Item item = serverUtil.itemExists(itemID);
                         if (item != null) {
                             System.out.println("Updating item " + itemID );
-                            if (server.getDbLoader().updateItem(item, orderID, inventoryId,quantity,price,category)) {
+                            if (server.getDbLoader().updateItem(item, orderID, inventoryId,quantity,price,categoryID)) {
                                 response=sendCommand(Protocol.UPDATE_ITEM, "Item " + itemID + " updated successfully");
                             } else {
                                 response=sendCommand(Protocol.ERRORTAG, "No changes detected for item " + itemID);

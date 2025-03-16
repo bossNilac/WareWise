@@ -97,16 +97,16 @@ public class DataBaseLoader {
         categoryHandler.deleteCategory(category);
     }
 
-    public boolean updateItem(Item item, int orderID, int inventoryID, int quantity, double price, Category category) {
+    public boolean updateItem(Item item, int orderID, int inventoryID, int quantity, double price, int category) {
         if (item.getOrderID() == orderID &&
                 item.getInventoryID() == inventoryID &&
                 item.getQuantity() == quantity &&
                 item.getPrice() == price &&
-                item.getCategory() == category) {
+                item.getCategoryID() == category) {
             return false; // No changes detected
         }
 
-        if (orderID >= 0 || inventoryID >= 0 || quantity >= 0 || price >= 0 || category != item.getCategory()) {
+        if (orderID >= 0 || inventoryID >= 0 || quantity >= 0 || price >= 0 || category != item.getCategoryID()) {
             if (orderID >= 0) {
                 item.setOrderID(orderID);
             }
@@ -119,9 +119,8 @@ public class DataBaseLoader {
             if (price >= 0) {
                 item.setPrice(price);
             }
-            if (item.getCategory()!= category) {
-                item.setCategory(category);
-                item.setCategoryID(category.getID());
+            if (item.getCategoryID()!= category) {
+                item.setCategoryID(category);
             }
             itemHandler.updateItem(item); // Save changes to DB
             return true;
