@@ -1,13 +1,13 @@
 # WareWise
 
-**WareWise** is a **multi-interface Warehouse Management System** built on Java, JavaFX, and Oracle SQL. It offers both **text-based (TUI) and graphical (GUI) admin consoles**, as well as a **dedicated client GUI** for managers and workers. This architecture ensures efficient warehouse operations while centralizing all data and business logic in a **Java server** connected to an **Oracle SQL** database.
+**WareWise** is a **multi-interface Warehouse Management System** built on Java, JavaFX, and SQLite. It offers both **text-based (TUI) and graphical (GUI) admin consoles**, as well as a **dedicated client GUI** for managers and workers. This architecture ensures efficient warehouse operations while centralizing all data and business logic in a **Java server** connected to an **SQLite** database.
 
 ---
 
 ## **Key Features**
 
 1. **Server-Client Architecture**
-    - A standalone **Java server** hosts the Oracle SQL database and handles requests from admin and client applications.
+    - A standalone **Java server** hosts the SQLite database and handles requests from admin and client applications.
 
 2. **Admin Console (TUI & GUI)**
     - **Text-Based UI** for quick, command-driven operations (user management, backups, etc.).
@@ -17,8 +17,8 @@
     - **JavaFX** application for daily tasks: inventory management, order processing, and basic reporting.
     - **Role-based UI** restricts or enables features depending on whether the user is a Worker or Manager.
 
-4. **Oracle SQL Backend**
-    - All data is stored securely in **Oracle SQL**.
+4. **SQLite Backend**
+    - All data is stored securely in **SQLite**.
     - Uses **JDBC** for communication and supports optional **field-level encryption** (AES).
 
 5. **Security & Encryption**
@@ -27,7 +27,7 @@
     - **Optional Data Encryption**: AES-256 for sensitive fields.
 
 6. **Backup & Restore**
-    - Admin commands to back up or restore the Oracle SQL database.
+    - Admin commands to back up or restore the SQLite database.
     - Securely stored on the server side to prevent unauthorized access.
 
 7. **Reporting & Analytics**
@@ -42,7 +42,7 @@
 warewise/
 ├── server/
 │   ├── src/
-│   │   └── ...            # Java server code, Oracle DB connectivity, business logic
+│   │   └── ...            # Java server code, SQLite connectivity, business logic
 ├── admin-console/
 │   ├── tui/
 │   │   └── ...            # Text-based UI (commands, console interactions)
@@ -57,7 +57,6 @@ warewise/
 └── README.md              # This file
 ```
 
-
 ---
 
 ## **Getting Started**
@@ -65,8 +64,8 @@ warewise/
 ### **Prerequisites**
 
 1. **Java 17+** installed.
-2. **Oracle SQL** database (locally installed or on-prem server).
-3. **JDBC Driver** for Oracle (`ojdbc8` or newer).
+2. **SQLite** database (embedded or file-based).
+3. **JDBC Driver** for SQLite (`sqlite-jdbc`).
 4. **Maven or Gradle** for building the project.
 
 ### **Installation & Configuration**
@@ -74,9 +73,11 @@ warewise/
 **Clone the Repository**
    ```bash
    git clone https://github.com/yourusername/warewise.git
-## **Set Up Oracle SQL**
+   ```
 
-1. **Install Oracle SQL** and create a database instance.
+## **Set Up SQLite**
+
+1. **Ensure SQLite is installed** (or use an embedded version).
 2. **Run the provided scripts** (if any) to create necessary tables (e.g., `inventory`, `orders`, `users`).
 
 ## **Configure Database Connection**
@@ -84,9 +85,9 @@ warewise/
 In the `application.properties` or a similar config file, update the database connection settings:
 
 ```properties
-db.url=jdbc:oracle:thin:@localhost:1521:xe
-db.username=your_username
-db.password=your_password
+db.url=jdbc:sqlite:warewise.db
+db.username=
+db.password=
 ```
 
 ## **Build the Project**
@@ -111,7 +112,7 @@ Launch the **server JAR** or run from your IDE:
 java -jar server/target/warewise-server.jar
 ```
 
-Ensures it can connect to **Oracle SQL** on startup.
+Ensures it can connect to **SQLite** on startup.
 
 ### **Admin Console (TUI)**
 
