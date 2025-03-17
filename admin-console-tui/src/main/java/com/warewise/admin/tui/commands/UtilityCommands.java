@@ -144,21 +144,6 @@ public class UtilityCommands {
         simulateTyping(ANSI_CYAN + "Processing your input: " + input + ANSI_RESET, 20);
     }
 
-    public static void animateGraph(double[] data) throws InterruptedException {
-        // Dummy data for the bar chart (fictional values)
-        System.out.println(ANSI_CYAN + ANSI_BOLD + "\n== Performance Graph ==" + ANSI_RESET);
-        for (double value : data) {
-            // Each bar will be built with a sequence of '#' characters.
-            StringBuilder bar = new StringBuilder();
-            for (int i = 0; i < value/10; i++) {
-                bar.append("#");
-                System.out.print("\r" + bar);
-                Thread.sleep(50);
-            }
-            System.out.println(" (" + value + ")");
-        }
-    }
-
     public static boolean isFileEmpty(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             return reader.readLine() == null;  // Returns true if the file is empty

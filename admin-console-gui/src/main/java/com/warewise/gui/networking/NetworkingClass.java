@@ -45,7 +45,7 @@ public class NetworkingClass {
                         if(response.equals(Protocol.LOGIN_SUCCESS)){
                             AdminUtil.loggedIn = true;
                         }else {
-                            if (response.equals(Protocol.LOGIN_FAILURE)){
+                            if (response.contains(Protocol.LOGIN_FAILURE)){
                                 UtilityCommands.displayNotificationPanel(3,"Login failure");
                                 String[] params =  LoginPrompt.promptLogin();
                                 AdminUtil.logIn(this,params[0],params[1]);

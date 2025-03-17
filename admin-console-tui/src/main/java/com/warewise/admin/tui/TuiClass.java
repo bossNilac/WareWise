@@ -163,19 +163,17 @@ public class TuiClass {
         }
 
         return switch (command) {
-            case "1" -> actionPrefix + "USER" + buildParams(isAdd, id, "Username", "Role", "Email", "Password");
-            case "2" ->
-                    actionPrefix + "ITEM" + buildParams(isAdd, id, "Product Name", "Description", "Quantity", "Price", "Supplier ID");
-            case "3" -> actionPrefix + "CATEGORY" + buildParams(isAdd, id, "Category Name", "Description");
-            case "4" ->
-                    actionPrefix + "INVENTORY" + buildParams(isAdd, id, "Inventory Name", "Description", "Quantity", "Last Updated");
+            case "1" -> actionPrefix + "USER" + buildParams(isAdd, "Username", "Password", "Role", "Email");
+            case "2" -> actionPrefix + "ITEM" + buildParams(isAdd, "Order id", "Inventory id", "Quantity", "Price", "Category id");
+            case "3" -> actionPrefix + "CATEGORY" + buildParams(isAdd, "Category Name", "Description");
+            case "4" -> actionPrefix + "INVENTORY" + buildParams(isAdd, "Inventory Name", "Description", "Quantity", "Last Updated");
             case "5" -> isAdd
-                    ? "CREATE_ORDER" + buildParams(true, "", "Customer Name", "Item ID", "Quantity")
-                    : "UPDATE_ORDER" + buildParams(false, id, "Status");
-            case "6" -> actionPrefix + "SUPPLIER" + buildParams(isAdd, id, "Name", "Email", "Phone", "Address");
+                    ? "CREATE_ORDER" + buildParams(true, "Customer Name", "Item ID", "Quantity")
+                    : "UPDATE_ORDER" + buildParams(false, "Status");
+            case "6" -> actionPrefix + "SUPPLIER" + buildParams(isAdd, "Name", "Email", "Phone", "Address");
             case "7" -> isAdd
-                    ? "STOCK_ALERT" + buildParams(true, "", "Product ID", "Threshold")
-                    : "UPDATE_STOCK_ALERT" + buildParams(false, id, "Product ID", "Threshold", "Created At", "Resolved");
+                    ? "STOCK_ALERT" + buildParams(true, "Product ID", "Threshold")
+                    : "UPDATE_STOCK_ALERT" + buildParams(false, "Product ID", "Threshold", "Created At", "Resolved");
             case "8" -> {
                 displayAppHeader();
                 yield "";

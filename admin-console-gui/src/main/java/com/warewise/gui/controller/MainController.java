@@ -4,6 +4,7 @@ import com.warewise.gui.networking.Protocol;
 import com.warewise.gui.networking.WareHouseDataHandler;
 import com.warewise.gui.util.AdminUtil;
 import com.warewise.gui.util.EnhancedTableView;
+import com.warewise.gui.util.PropertiesReader;
 import com.warewise.gui.util.UtilityCommands;
 import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,7 +29,6 @@ import java.util.List;
 import static com.warewise.gui.networking.WareHouseDataHandler.*;
 
 public class MainController {
-
     @FXML
     private Label cpuUsageLabel;
     @FXML
@@ -95,6 +95,24 @@ public class MainController {
     private TableView<String[]> usersTableView;
     @FXML
     private Button refreshDbTableButton;
+    @FXML
+    private Label settingsLabel;
+    @FXML
+    private CheckBox mode1CheckBox;
+    @FXML
+    private CheckBox mode4CheckBox;
+    @FXML
+    private CheckBox mode3CheckBox;
+    @FXML
+    private CheckBox mode2CheckBox;
+    @FXML
+    private Label settingsLabel1;
+    @FXML
+    private Button linkdinButton;
+    @FXML
+    private Button gitHubButton;
+    @FXML
+    private Button saveSettingsButton;
 
     TableColumn<Pair<String, String>, String> nameColumn = new TableColumn<>("Username");
     TableColumn<Pair<String, String>, String> ageColumn = new TableColumn<>("IP");
@@ -103,6 +121,7 @@ public class MainController {
     private List<Node> dashboardUiElements = new ArrayList<>();
     private List<Node> connectionsUiElements = new ArrayList<>();
     private List<Node> dbUiElements = new ArrayList<>();
+    private List<Node> settingsUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
     private boolean areAllTableInit = false; // Track init of db table state
@@ -110,6 +129,7 @@ public class MainController {
     private static boolean addPressed=false;
     private boolean isServerOn = false;
     private boolean isLogin = false;
+    private int  checkedCount = 0;
 
     private static List<String[]> parsedUsersList;
     private static List<String[]> parsedCategoriesList;
@@ -126,6 +146,7 @@ public class MainController {
     private static EnhancedTableView ordersTable;
     private static EnhancedTableView alertsTable;
     private static EnhancedTableView suppliersTable;
+    private CheckBox[] checkBoxes = new CheckBox[4];
 
     @FXML
     public void initialize() {
@@ -144,11 +165,43 @@ public class MainController {
                 updateTableButton, addTableButton, alertsTableView,
               ordersTableView, suppliersTableView, itemTableView,
               inventoryTableView, categoryTableView, usersTableView,refreshDbTableButton));
+        settingsUiElements.addAll(List.of(settingsLabel,
+                mode1CheckBox,mode4CheckBox,mode3CheckBox,mode2CheckBox,
+                settingsLabel1,linkdinButton,gitHubButton,saveSettingsButton));
         resetUi();
         toggleDashboardUI(null );
         isServerOn = UtilityCommands.pingServer();
+        switch (PropertiesReader.getActiveIndex(ServerApplication.settings)){
+            case 0:startServerAction(null);break;
+            case 1:
+                autoStartServer();
+                promptLogin();
+                break;
+            case 2:
+                autoStartServer();
+                break;
+            case 3:break;
+            default:UtilityCommands.displayNotificationPanel(3,"Cannot run app;");System.exit(0);
+        }
+        checkBoxes[0]=mode1CheckBox;
+        checkBoxes[1]=mode2CheckBox;
+        checkBoxes[2]=mode3CheckBox;
+        checkBoxes[3]=mode4CheckBox;
+        for(int i = 0 ; i< checkBoxes.length;i++){
+            checkBoxes[i].setSelected(ServerApplication.settings[i]);
+        }
     }
 
+    private void autoStartServer(){
+        if(!isServerOn) {
+            AdminUtil.startServer();
+            ServerApplication.initNetworkingObject();
+            UtilityCommands.displayNotificationPanel(1, "Started server!");
+            isServerOn = true;
+        }else {
+            UtilityCommands.displayNotificationPanel(1, "Already started server!");
+        }
+    }
 
     public void stopServerAction(ActionEvent actionEvent) {
         if(isServerOn) {
@@ -174,7 +227,7 @@ public class MainController {
             UtilityCommands.displayNotificationPanel(1,"Started server!\nTrying to login");
             logIn();
         }else{
-            if(!isLogin) {
+            if(isServerOn && !isLogin) {
                 UtilityCommands.displayNotificationPanel(1, "Server already started!\nTrying to login");
                 logIn();
             }else{
@@ -331,6 +384,7 @@ public class MainController {
         dashboardUiElements.forEach(node -> node.setVisible(false));
         connectionsUiElements.forEach(node -> node.setVisible(false));
         dbUiElements.forEach(node -> node.setVisible(false));
+        settingsUiElements.forEach(node -> node.setVisible(false));
     }
 
     public void loadConnectionsTableData(String output){
@@ -617,7 +671,6 @@ public class MainController {
         parsedUsersList = data;
     }
 
-
     public void helpAction(ActionEvent actionEvent) {
         //TODO
     }
@@ -634,16 +687,20 @@ public class MainController {
     private void logIn() {
         File file = new File(AdminUtil.CREDENTIALS_FILE);
         if(UtilityCommands.isFileEmpty(file) || !file.exists()){
-            String[] loginPrompt = LoginPrompt.promptLogin();
-            AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
-            AdminUtil.logIn(ServerApplication.getNetworkingObject(),loginPrompt[0],loginPrompt[1]);
-            setUsernameLabel(loginPrompt[0]);
+            promptLogin();
         }else {
             String[] params = AdminUtil.getLoginCred();
             AdminUtil.logIn(ServerApplication.getNetworkingObject(),params[0],params[1]);
             setUsernameLabel(params[0]);
         }
         isLogin = true;
+    }
+
+    private void promptLogin(){
+        String[] loginPrompt = LoginPrompt.promptLogin();
+        AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
+        AdminUtil.logIn(ServerApplication.getNetworkingObject(),loginPrompt[0],loginPrompt[1]);
+        setUsernameLabel(loginPrompt[0]);
     }
 
     public void aboutAction(ActionEvent actionEvent) {
@@ -658,4 +715,58 @@ public class MainController {
         memNumberLabel.setText("N/A");
         connNumberLabel.setText("N/A");
     }
+
+    public void toggleSettingsButton(ActionEvent actionEvent){
+        resetUi();
+        settingsUiElements.forEach(node -> node.setVisible(true));
+    }
+
+    public void toGitHubAction(ActionEvent actionEvent) {
+        UtilityCommands.openLink("https://github.com/bossNilac");
+    }
+
+    public void toLinkdinAction(ActionEvent actionEvent) {
+        UtilityCommands.openLink("https://www.linkedin.com/in/calin-baculescu-a47297206/");
+    }
+
+    public void updateCheckBox1(ActionEvent actionEvent) {
+        handleSelection(checkBoxes,0);
+    }
+
+    public void updateCheckBox4(ActionEvent actionEvent) {
+        handleSelection(checkBoxes,3);
+    }
+
+    public void updateCheckBox3(ActionEvent actionEvent) {
+        handleSelection(checkBoxes,2);
+    }
+
+    public void updateCheckBox2(ActionEvent actionEvent) {
+        handleSelection(checkBoxes,1);
+    }
+
+    private void handleSelection(CheckBox[] checkBoxes, int selectedIndex) {
+        checkedCount = 0 ;
+        boolean[] tempSettings = new boolean[4];
+        for ( int i = 0 ;i < 4; i++) {
+            tempSettings[i] = checkBoxes[i].isSelected();
+            if (checkBoxes[i].isSelected()) {
+                checkedCount++;
+            }
+        }
+        if (checkedCount > 1) {
+            checkBoxes[selectedIndex].setSelected(false); // Deselect the last one checked
+            UtilityCommands.displayWarning("Cannot have two modes selected at the same time",false); // Call method when invalid selection occurs
+        }else {
+            System.arraycopy(tempSettings, 0,
+                    ServerApplication.settings, 0, 4);
+        }
+    }
+
+    public void saveSettingsAction(ActionEvent actionEvent){
+        UtilityCommands.displayNotificationPanel(1,"Saved settings");
+        PropertiesReader.setSettings(ServerApplication.settings);
+    }
+
+
 }

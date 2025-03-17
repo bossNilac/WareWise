@@ -5,43 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/PropertiesReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/UtilityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/UtilityCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/PropertiesReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/PropertiesReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/handler/ItemHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/handler/ItemHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-library/src/main/java/com/warewise/common/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/libs/common-library-0.0.5.9.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../server/libs/common-library-0.0.6.4.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/server/util/DataBaseLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/server/util/DataBaseLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/InventoryManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/ItemManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/OrderManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/SupplierManagementServiceHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/warewise/server/service/UserManagementServiceHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/TuiClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/TuiClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/commands/UtilityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/commands/UtilityCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-add-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-close-window-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-connections-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-dashboard-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-database-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-menu-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-refresh-60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-server-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-settings-100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../images/icons8-update-64.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,33 +67,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.admin-console-gui [:App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.warewise.gui.controller" />
@@ -175,7 +156,8 @@
       <workItem from="1741997120453" duration="16960000" />
       <workItem from="1742082897349" duration="4062000" />
       <workItem from="1742087196011" duration="3865000" />
-      <workItem from="1742091374099" duration="4768000" />
+      <workItem from="1742091374099" duration="12877000" />
+      <workItem from="1742130851088" duration="3468000" />
     </task>
     <servers />
   </component>
