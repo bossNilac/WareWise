@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 
 public class ServerApplication extends javafx.application.Application {
 
@@ -25,6 +26,7 @@ public class ServerApplication extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        JMetro jMetro = new JMetro(Style.LIGHT);
         settings = PropertiesReader.loadSettings();
         dashboardHandler = new DashboardHandler();
         fxmlLoader = new FXMLLoader(ServerApplication.class.getResource("main-view.fxml"));
@@ -40,6 +42,7 @@ public class ServerApplication extends javafx.application.Application {
             if (newValue) stage.setFullScreen(false); // Prevent entering fullscreen
         });
         Scene scene = new Scene(fxmlLoader.load());
+        jMetro.setScene(scene);
         stage.setScene(scene);
         stage.show();
     }

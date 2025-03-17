@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Suppliers" styleClass="header"/>
+    <Label wrapText="true" text="Supplier Management Interface:
+• Supplier List: Display supplier name, contact email, phone number, and address.
+• Detail View: Show additional supplier details (e.g., creation date, associated products).
+• Edit/Remove Options: Update or remove supplier information.
+• Add Supplier: Form for adding new supplier details.
+• Search &amp; Filter: Easily search or filter suppliers by name or region."/>
+</VBox>

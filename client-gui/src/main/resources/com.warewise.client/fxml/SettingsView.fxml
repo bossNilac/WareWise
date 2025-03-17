@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Settings" styleClass="header"/>
+    <Label wrapText="true" text="User Preferences &amp; Profile:
+• Profile Information: Update contact details, email, password.
+• Notification Settings: Choose how to receive alerts (email, in-app).
+• Display Options: Toggle themes (light/dark), adjust layout preferences.
+• Language &amp; Regional Settings: Configure date formats, currencies, language.
+• Data Refresh Rate: Set how frequently the dashboard updates."/>
+</VBox>

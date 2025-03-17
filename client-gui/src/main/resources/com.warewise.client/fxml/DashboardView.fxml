@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Dashboard" styleClass="header"/>
+    <Label wrapText="true" text="Overview &amp; Metrics:
+• KPIs: Total orders (pending, fulfilled), current inventory levels, low-stock items, overall sales.
+• Visual Charts: Bar and pie charts for inventory distribution and order trends.
+• Recent Activity Feed: Orders processed and inventory updates.
+• Quick Actions: Create Order, Update Inventory.
+• Notifications: Critical alerts such as low stock."/>
+</VBox>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.warewise.client.controller.MainController">
+
+<!-- Sidebar (VBox) -->
+<left>
+    <VBox fx:id="sideMenu" alignment="CENTER" spacing="15" styleClass="sidebar">
+
+        <!--  Centered Logo -->
+        <ImageView fx:id="logoImage" fitWidth="150" preserveRatio="true" />
+
+        <!--  Dashboard Button with Icon -->
+        <Button fx:id="btnDashboard" styleClass="menu-item" text="Dashboard">
+            <graphic>
+                <FontAwesomeIconView glyphName="HOME" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Orders -->
+        <Button fx:id="btnOrders" styleClass="menu-item" text="Orders">
+            <graphic>
+                <FontAwesomeIconView glyphName="SHOPPING_CART" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Categories -->
+        <Button fx:id="btnCategories" styleClass="menu-item" text="Categories">
+            <graphic>
+                <FontAwesomeIconView glyphName="LIST" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Update Inventory -->
+        <Button fx:id="btnUpdateInventory"  styleClass="menu-item" text="Inventory">
+            <graphic>
+                <FontAwesomeIconView glyphName="CUBE" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Items -->
+        <Button fx:id="btnItems" styleClass="menu-item" text="Items">
+            <graphic>
+                <FontAwesomeIconView glyphName="CUBES" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Alerts -->
+        <Button fx:id="btnAlerts" styleClass="menu-item" text="Alerts">
+            <graphic>
+                <FontAwesomeIconView glyphName="BELL" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Suppliers -->
+        <Button fx:id="btnSuppliers" styleClass="menu-item" text="Suppliers">
+            <graphic>
+                <FontAwesomeIconView glyphName="TRUCK" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!--  Settings -->
+        <Button fx:id="btnSettings" styleClass="menu-item" text="Settings">
+            <graphic>
+                <FontAwesomeIconView glyphName="COG" styleClass="icon" />
+            </graphic>
+        </Button>
+
+        <!-- Filler Pane to Adjust Layout (Prevents Spacing Issues) -->
+        <Pane VBox.vgrow="ALWAYS" />
+    </VBox>
+</left>
+    <!-- Content Area -->
+    <center>
+        <StackPane fx:id="contentPane" styleClass="content-pane" />
+    </center>
+</BorderPane>

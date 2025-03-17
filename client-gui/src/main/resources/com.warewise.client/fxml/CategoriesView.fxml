@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Categories" styleClass="header"/>
+    <Label wrapText="true" text="Manage Product Categories:
+• Category List: Display category name, description, and item count.
+• Edit/Remove Options: Update or remove categories (with confirmation).
+• Add New Category: Form for creating a new category.
+• Sorting &amp; Filtering: Sort alphabetically or filter by active/inactive status."/>
+</VBox>

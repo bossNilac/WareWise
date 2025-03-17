@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Orders" styleClass="header"/>
+    <Label wrapText="true" text="Order Management Interface:
+• Order List: Display Order ID, customer name, order date, status, total amount.
+• Filter &amp; Search: Filter orders by date range, status, or customer.
+• Order Details: View detailed information (items, quantities, prices, shipping).
+• Actions: Create new orders, update statuses, cancel orders; support for bulk actions."/>
+</VBox>

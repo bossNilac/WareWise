@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Alerts" styleClass="header"/>
+    <Label wrapText="true" text="Stock Alerts and Notifications:
+• Alert List: Show alert ID, product name/ID, current stock level, and threshold.
+• Status Indicators: Use visual cues (colors/icons) for active/resolved alerts.
+• Resolve Action: Option to mark alerts as resolved.
+• History Log: Record of past alerts and resolution actions.
+• Filter/Sort: Filter alerts by severity, date, or product."/>
+</VBox>

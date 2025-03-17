@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Items" styleClass="header"/>
+    <Label wrapText="true" text="Manage Order Items or Product Variants:
+• Item List: Display item ID, order/product reference, quantity, individual price, and total.
+• CRUD Actions: Buttons/icons for adding, editing, or removing items.
+• Form Interface: Inline or modal forms for item details.
+• Automatic Calculations: Compute totals as quantities/prices are entered.
+• Inventory Link: Easily select or update associated inventory records."/>
+</VBox>

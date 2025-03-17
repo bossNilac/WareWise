@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
+    <Label text="Update Inventory" styleClass="header"/>
+    <Label wrapText="true" text="Select and Modify Inventory Levels:
+• Inventory List: Show product name, current quantity, price, and supplier.
+• Selection Mechanism: Multi-select options (e.g., checkboxes).
+• Bulk Update: Update multiple items at once.
+• Detailed Edit: Open a modal for adjusting stock levels with real-time validation."/>
+</VBox>

@@ -37,7 +37,7 @@
       </MenuBar>
    </top>
    <left>
-      <VBox fx:id="dashboard" minHeight="0.0" minWidth="0.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+      <VBox fx:id="dashboard" minHeight="0.0" minWidth="0.0" style="-fx-background-color: 1E1E1E;" BorderPane.alignment="CENTER">
           <children>
             <Button fx:id="menuButton" onAction="#menuButtonAction" prefHeight="36.0" prefWidth="135.0" style="-fx-background-color: transparent;" text="Menu" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
@@ -46,43 +46,43 @@
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-menu-100.png" />
+                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-menu-100%20-%20black.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="menuDashBoardButton" mnemonicParsing="false" onAction="#toggleDashboardUI" prefHeight="45.0" prefWidth="100.0" style="-fx-background-color: transparent;" text="Dashboard" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuDashBoardButton" mnemonicParsing="false" onAction="#toggleDashboardUI" prefHeight="45.0" prefWidth="133.0" style="-fx-background-color: transparent;" text="Dashboard" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-dashboard-100.png" />
+                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-dashboard-100%20-%20black.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="menuConnBoardButton" mnemonicParsing="false" onAction="#toggleConnectionsDashboardUI" prefHeight="45.0" prefWidth="109.0" style="-fx-background-color: transparent;" text="Connections" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuConnBoardButton" mnemonicParsing="false" onAction="#toggleConnectionsDashboardUI" prefHeight="45.0" prefWidth="136.0" style="-fx-background-color: transparent;" text="Connections" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-connections-100.png" />
+                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-connections-100%20-%20black.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="menuDBButton" mnemonicParsing="false" onAction="#toggleDbUI" prefHeight="45.0" prefWidth="91.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuDBButton" mnemonicParsing="false" onAction="#toggleDbUI" prefHeight="45.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Database" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
+                  <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-database-100.png" />
+                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-database-100%20-%20black.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="menuSettingsButton" mnemonicParsing="false" onAction="#toggleSettingsButton" prefHeight="45.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="menuSettingsButton" mnemonicParsing="false" onAction="#toggleSettingsButton" prefHeight="45.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-settings-100.png" />
+                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-settings-100%20-%20baclk.png" />
                      </image>
                   </ImageView>
                </graphic>

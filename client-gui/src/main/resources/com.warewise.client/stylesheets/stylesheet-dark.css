@@ -1,0 +1,275 @@
+/* ============================================================================
+   Warehouse Management Dashboard – Improved JavaFX Theme (Fixed Buttons & UI)
+   ----------------------------------------------------------------------------
+   Font: "Poppins" (or fallback to sans-serif)
+   Base Background: #121212 (Dark Black)
+   Panels/Secondary: #1E1E1E to #2B2B2B range
+   Accent Colors:
+       Primary Accent: Blue (#4A90E2)
+       Secondary Accent: Warm Yellow (#FFD93D)
+       Error/Alert Accent: Red (#E63946)
+   Text Colors: Light (#E0E0E0) or white for headings
+============================================================================ */
+
+/* -------------------------------
+   Global Styles & Typography
+--------------------------------- */
+.root {
+    -fx-font-family: "Poppins", "Segoe UI", sans-serif;
+    -fx-background-color: #121212;
+    -fx-text-fill: #E0E0E0;
+}
+
+/* -------------------------------
+   Layout Containers & Panels
+--------------------------------- */
+.header, .footer {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 16;
+    -fx-alignment: center;
+}
+
+.card {
+    -fx-background-color: #2B2B2B;
+    -fx-background-radius: 8;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+/* KPI Blocks for Metrics */
+.kpi {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 8 0 4 0;
+}
+.kpi-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #B0B0B0;
+}
+
+.content-pane {
+    -fx-background-color: #1E1E1E; /* Dark background */
+    -fx-border-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+/* -------------------------------
+   FIXED: Side Menu Styling
+--------------------------------- */
+/* ============================================================================
+   🚀 IMPROVED SIDEBAR WITH ANIMATIONS & MODERN UI
+============================================================================ */
+
+/* Sidebar Container */
+.sidebar {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 5, 3);
+    -fx-min-width: 220px;
+    -fx-max-width: 220px;
+}
+
+/* Sidebar Buttons */
+.sidebar .menu-item {
+    -fx-font-size: 16px;
+    -fx-text-fill: #E0E0E0;
+    -fx-padding: 12px 16px;
+    -fx-background-radius: 5px;
+    -fx-border: none;
+    -fx-alignment: center-left;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
+    -fx-display: flex;
+    -fx-spacing: 10px;
+}
+
+/* Hover Effect */
+.sidebar .menu-item:hover {
+    -fx-background-color: #2B2B2B;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 3, 1);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Active (Selected) Tab Button */
+.sidebar .menu-item.selected {
+    -fx-background-color: linear-gradient(to right, #4A90E2, #357ABD);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Gliding Animation for Active Tab */
+.sidebar .menu-item.selected::before {
+    -fx-content: "";
+    -fx-background-color: #FFD93D;
+    -fx-width: 5px;
+    -fx-height: 100%;
+    -fx-position: absolute;
+    -fx-left: 0;
+}
+
+/* Sidebar Icons (Using FontAwesome) */
+.sidebar .icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: #E0E0E0;
+    -fx-padding: 0 10px 0 0;
+    -fx-fill: white; /* Ensures the icons are visible */
+}
+
+/* -------------------------------
+   FIXED: Dashboard Styling (Safe)
+--------------------------------- */
+.dashboard {
+    -fx-background-color: #121212;
+    -fx-padding: 20px;
+}
+.dashboard .card {
+    -fx-background-color: #2B2B2B;
+    -fx-border-radius: 8px;
+    -fx-padding: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+.dashboard .header {
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* -------------------------------
+   FIXED: Buttons & Quick Actions
+--------------------------------- */
+.button {
+    -fx-background-color: linear-gradient(to right, #4A90E2, #357ABD);
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+/* Button Hover */
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #357ABD, #2A6496);
+}
+
+/* Button Pressed (Fixed) */
+.button:pressed {
+    -fx-background-color: linear-gradient(to right, #4A90E2, #357ABD);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 1);
+    -fx-translate-y: 2px;
+}
+
+/* Quick Action Buttons */
+.quick-action {
+    -fx-background-color: #FFD93D;
+    -fx-text-fill: #222222;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 16px;
+}
+.quick-action:hover {
+    -fx-background-color: #FFC107;
+}
+
+/* -------------------------------
+   FIXED: Forms & Input Fields
+--------------------------------- */
+.text-field, .text-area, .combo-box, .password-field {
+    -fx-background-color: #2B2B2B;
+    -fx-border-color: #444;
+    -fx-border-width: 1;
+    -fx-padding: 8px;
+    -fx-text-fill: #E0E0E0;
+    -fx-background-radius: 4px;
+}
+.text-field:focused, .text-area:focused, .combo-box:focused, .password-field:focused {
+    -fx-border-color: #4A90E2;
+}
+
+/* -------------------------------
+   FIXED: Table Styling (Safe)
+--------------------------------- */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: #1E1E1E;
+}
+.table-view .column-header {
+    -fx-background-color: #2B2B2B;
+    -fx-text-fill: white;
+}
+.table-view .cell {
+    -fx-padding: 8px;
+}
+
+/* -------------------------------
+   FIXED: Charts & Graphs
+--------------------------------- */
+.chart {
+    -fx-background-color: #121212;
+    -fx-border-color: #2B2B2B;
+    -fx-padding: 16px;
+}
+.chart-legend {
+    -fx-text-fill: #E0E0E0;
+}
+
+/* -------------------------------
+   FIXED: Notifications & Alerts
+--------------------------------- */
+.notification {
+    -fx-background-color: #E63946;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-background-radius: 5px;
+    -fx-margin: 4px 0;
+}
+.notification.info {
+    -fx-background-color: #4A90E2;
+}
+.notification.success {
+    -fx-background-color: #4CAF50;
+}
+.notification.warning {
+    -fx-background-color: #FFD93D;
+    -fx-text-fill: #222222;
+}
+
+/* -------------------------------
+   FIXED: ScrollPane & ScrollBars
+--------------------------------- */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: #1E1E1E;
+}
+.scroll-bar:vertical {
+    -fx-background-color: #2B2B2B;
+}
+.scroll-bar:horizontal {
+    -fx-background-color: #2B2B2B;
+}
+
+/* -------------------------------
+   FIXED: Activity Feed & Timeline
+--------------------------------- */
+.activity-feed {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 16px;
+    -fx-background-radius: 5px;
+}
+.activity-feed .activity-item {
+    -fx-border-color: #444;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8px 0;
+    -fx-text-fill: #B0B0B0;
+}
+.activity-feed .activity-item:last-child {
+    -fx-border-width: 0;
+}
