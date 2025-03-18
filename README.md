@@ -11,7 +11,7 @@
 
 2. **Admin Console (TUI & GUI)**
     - **Text-Based UI** for quick, command-driven operations (user management, backups, etc.).
-    - **Admin GUI** (JavaFX or Swing) with a graphical dashboard for system configuration, logs, and monitoring.
+    - **Admin GUI** (JavaFX) with a graphical dashboard for system configuration, logs, and monitoring.
 
 3. **Client GUI (Manager & Worker)**
     - **JavaFX** application for daily tasks: inventory management, order processing, and basic reporting.
@@ -23,7 +23,7 @@
 
 5. **Security & Encryption**
     - **Role-Based Access Control (RBAC)**: Admin, Manager, Worker.
-    - **Password Hashing**: BCrypt (or Argon2).
+    - **Password Hashing**:Argon2.
     - **Optional Data Encryption**: AES-256 for sensitive fields.
 
 6. **Backup & Restore**
