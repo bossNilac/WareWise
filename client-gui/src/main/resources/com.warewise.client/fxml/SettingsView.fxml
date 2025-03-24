@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
-    <Label text="Settings" styleClass="header"/>
-    <Label wrapText="true" text="User Preferences &amp; Profile:
-• Profile Information: Update contact details, email, password.
-• Notification Settings: Choose how to receive alerts (email, in-app).
-• Display Options: Toggle themes (light/dark), adjust layout preferences.
-• Language &amp; Regional Settings: Configure date formats, currencies, language.
-• Data Refresh Rate: Set how frequently the dashboard updates."/>
-</VBox>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.client.controller.SettingsController">
+    <top>
+        <VBox fx:id="settingsPane" styleClass="settings-pane">
+            <VBox styleClass="settings-header">
+                <Label text="Settings" styleClass="settings-title"/>
+            </VBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Theme Mode:"/>
+                <ToggleButton fx:id="themeToggle" text="🌙 Dark Mode"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Data Refresh Rate:"/>
+                <ComboBox fx:id="refreshRateDropdown"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Auto Logout Timer:"/>
+                <ComboBox fx:id="logoutTimerDropdown"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <CheckBox fx:id="rememberMeCheckbox" text="Remember Me"/>
+            </HBox>
+        </VBox>
+    </top>
+</BorderPane>
