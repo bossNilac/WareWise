@@ -133,6 +133,7 @@ public class SequenceManager implements Runnable {
         }
         updateSequenceAfterDelete(tableName);
         updateSequenceIdTable(tableName);
+        initializeSequences();
     }
 
 }

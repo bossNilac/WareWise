@@ -33,6 +33,7 @@ javafx {
 dependencies {
     implementation 'org.controlsfx:controlsfx:11.1.2'
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
+    implementation(files("libs/common-library-0.0.6.4.jar"))
 
     // https://mvnrepository.com/artifact/org.jfxtras/jmetro
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
-    <Label text="Categories" styleClass="header"/>
-    <Label wrapText="true" text="Manage Product Categories:
-• Category List: Display category name, description, and item count.
-• Edit/Remove Options: Update or remove categories (with confirmation).
-• Add New Category: Form for creating a new category.
-• Sorting &amp; Filtering: Sort alphabetically or filter by active/inactive status."/>
+<VBox spacing="10" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.client.controller.CategoriesController">
+    <Label alignment="CENTER" styleClass="header" text="Categories" textAlignment="CENTER">
+      <padding>
+         <Insets left="570.0" />
+      </padding>
+<!--        <graphic>-->
+<!--            <FontAwesomeIconView glyphName="LIST" styleClass="icon" />-->
+<!--        </graphic>-->
+    </Label>
+    <TableView fx:id="categoryTableView" editable="true" onKeyPressed="#deleteCategoryAction" styleClass="table-view">
+      <columns>
+         <TableColumn fx:id="idColumn" editable="false" prefWidth="204.5" text="ID" />
+         <TableColumn fx:id="nameColumn" prefWidth="200" text="Name" />
+         <TableColumn fx:id="descriptionColumn" prefWidth="600" text="Description" />
+      </columns></TableView>
+    <HBox prefHeight="31.0" prefWidth="1007.0">
+        <Label prefHeight="25.0" prefWidth="86.0" styleClass="label" text="Category Name:" />
+        <TextField fx:id="nameTextField" prefHeight="0.0" styleClass="text-field" />
+        <Label prefHeight="26.0" prefWidth="63.0" styleClass="label" text="Description:" />
+        <TextField fx:id="descriptionTextField" prefHeight="0.0" prefWidth="149.0" styleClass="text-field" />
+        <Button mnemonicParsing="false" onAction="#addNewCategoryAction" styleClass="button" text="Add New Category" />
+      <Button mnemonicParsing="false" onAction="#deleteCategoryActionEvent" styleClass="button" text="Add New Category" />
+    </HBox>
 </VBox>

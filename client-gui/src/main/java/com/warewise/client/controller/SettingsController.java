@@ -9,7 +9,7 @@ import javafx.scene.control.ToggleButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.warewise.client.Main.scene;
+import static com.warewise.client.apps.Main.scene;
 
 public class SettingsController implements Initializable {
 

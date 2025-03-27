@@ -40,6 +40,8 @@ public class ConfigManager {
         properties.setProperty("refreshRate", "30s");
         properties.setProperty("logoutTime", "Never");
         properties.setProperty("rememberMe", "false");
+        properties.setProperty("username", "null");
+        properties.setProperty("password", "null");
     }
 
     // Get a setting value

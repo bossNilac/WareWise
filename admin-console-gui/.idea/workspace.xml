@@ -4,7 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="" />
+    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../client-gui/libs/common-library-0.0.6.4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/LoginApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/CategoriesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/network/DataHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/network/ServerConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AlertUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/Login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/SettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/SettingsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/config/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-dark.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-dark.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-light.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-light.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,6 +191,15 @@
       <workItem from="1742176127055" duration="784000" />
       <workItem from="1742179860783" duration="16000" />
       <workItem from="1742792996189" duration="23000" />
+      <workItem from="1742826211724" duration="278000" />
+      <workItem from="1742826754342" duration="52000" />
+      <workItem from="1742832023716" duration="755000" />
+      <workItem from="1742904296102" duration="9000" />
+      <workItem from="1742904354418" duration="260000" />
+      <workItem from="1742908976028" duration="556000" />
+      <workItem from="1742915682698" duration="39000" />
+      <workItem from="1742916210616" duration="1302000" />
+      <workItem from="1742919554739" duration="90000" />
     </task>
     <servers />
   </component>
