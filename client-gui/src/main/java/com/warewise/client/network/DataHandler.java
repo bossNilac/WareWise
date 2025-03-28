@@ -19,9 +19,7 @@ public class DataHandler {
     public static List<Order> orderList;
     public static List<StockAlert> stockAlertList;
 
-    public static final String[] CATEGORIES_COLUMNS = {
-            "category_id", "category_name", "description"
-    };
+
 
     public static void askForWarehouseData(){
         try {
