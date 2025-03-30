@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -24,6 +25,7 @@ public class Main extends Application {
         stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWiseFiles/images/logo.png"));
         // Prevent fullscreen and always on top behavior
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
 
     }

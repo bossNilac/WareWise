@@ -38,15 +38,15 @@
 }
 
 /* KPI Blocks for Metrics */
-.kpi {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #FFFFFF;
-    -fx-padding: 8 0 4 0;
-}
-.kpi-label {
+.kpi-title {
     -fx-font-size: 14px;
     -fx-text-fill: #B0B0B0;
+}
+
+/* KPI Values */
+.kpi-value {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
 }
 
 .content-pane {
@@ -137,10 +137,28 @@
     -fx-padding: 16px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);
 }
-.dashboard .header {
-    -fx-font-size: 22px;
-    -fx-text-fill: white;
+
+.dashboard-view {
+    -fx-background-color: #121212;
+    -fx-padding: 20px;
+}
+
+
+/* Section Titles (Activity Feed and Notifications) */
+.section-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 10px 0;
+}
+
+/* Quick Action Buttons */
+.quick-action-btn {
+    -fx-background-color: linear-gradient(to right, #4A90E2, #357ABD);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
 }
 
 /* -------------------------------
@@ -183,7 +201,7 @@
 /* -------------------------------
    FIXED: Forms & Input Fields
 --------------------------------- */
-.text-field, .text-area, .combo-box, .password-field {
+.text-field, .text-area, .password-field {
     -fx-background-color: #2B2B2B;
     -fx-border-color: #444;
     -fx-border-width: 1;
@@ -191,7 +209,7 @@
     -fx-text-fill: #E0E0E0;
     -fx-background-radius: 4px;
 }
-.text-field:focused, .text-area:focused, .combo-box:focused, .password-field:focused {
+.text-field:focused, .text-area:focused, .password-field:focused {
     -fx-border-color: #4A90E2;
 }
 
@@ -219,13 +237,89 @@
    FIXED: Charts & Graphs
 --------------------------------- */
 .chart {
-    -fx-background-color: #121212;
-    -fx-border-color: #2B2B2B;
+    -fx-background-color: transparent;
     -fx-padding: 16px;
-}
-.chart-legend {
     -fx-text-fill: #E0E0E0;
 }
+
+.chart-plot-background {
+    -fx-background-color: #1E1E1E;
+    -fx-border-color: transparent;
+}
+
+/* Grid lines */
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #2B2B2B;
+}
+
+/* Chart title */
+.chart-title {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Legend */
+.chart-legend-item {
+    -fx-text-fill: #E0E0E0;
+}
+
+/* Axis tick labels and marks */
+.chart .axis {
+    -fx-tick-label-fill: #E0E0E0;
+}
+.axis .tick-mark {
+    -fx-stroke: #2B2B2B;
+}
+.axis .tick-label {
+    -fx-fill: #E0E0E0;
+    -fx-font-size: 12px;
+}
+
+/* Axis titles */
+.axis .axis-label,
+.axis-label {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: normal;
+}
+
+/* Chart container wrapper */
+.chart-container {
+    -fx-background-color: #1E1E1E;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* Chart placeholder (e.g., 'Chart will be displayed here') */
+.chart-placeholder {
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 16px;
+}
+
+.chart-pie-label {
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 12px;
+}
+
+/* Legend text next to pie slices */
+.chart-legend-item {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Default color for bars/series 0 */
+.default-color0.chart-bar {
+    -fx-bar-fill: #4A90E2;
+}
+
+/* Optional: secondary series styling */
+.default-color1.chart-bar {
+    -fx-bar-fill: #FFD93D;
+}
+.default-color2.chart-bar {
+    -fx-bar-fill: #E63946;
+}
+
 
 /* -------------------------------
    FIXED: Notifications & Alerts
@@ -339,19 +433,50 @@
 }
 
 /* ComboBox */
-ComboBox {
+/* Main ComboBox field */
+.combo-box {
     -fx-background-color: #2B2B2B;
     -fx-border-color: #4A90E2;
-    -fx-text-fill: white;
     -fx-border-radius: 5px;
     -fx-padding: 8px;
 }
 
-/* ComboBox Dropdown */
+/* Text inside the ComboBox (selected value) */
+.combo-box .text {
+    -fx-fill: white;
+}
+
+/* Arrow button */
+.combo-box .arrow-button {
+    -fx-background-color: #2B2B2B;
+}
+.combo-box .arrow {
+    -fx-background-color: white;
+}
+
+/* Dropdown list */
 .combo-box-popup .list-view {
     -fx-background-color: #2B2B2B;
     -fx-border-color: #4A90E2;
 }
+
+/* Items inside the dropdown */
+.combo-box-popup .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: #2B2B2B;
+}
+
+/* Hovered/selected items */
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: black;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: black;
+}
+
 
 /* CheckBox */
 CheckBox {

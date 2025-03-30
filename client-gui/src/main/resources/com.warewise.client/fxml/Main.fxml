@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.warewise.client.controller.MainController">
-
 <!-- Sidebar (VBox) -->
 <left>
     <VBox fx:id="sideMenu" alignment="CENTER" spacing="15" styleClass="sidebar">
