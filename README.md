@@ -51,8 +51,6 @@ warewise/
 ├── client-gui/
 │   └── src/
 │       └── ...            # JavaFX app for managers/workers
-├── common-library/
-│   └── ...                # Shared models, utilities, encryption libraries
 ├── pom.xml (or build.gradle)
 └── README.md              # This file
 ```
@@ -173,7 +171,6 @@ java -jar client-gui/target/warewise-client.jar
 1. **Fork the Repository**
 2. **Create a Feature Branch** (`feat/new-feature`)
 3. **Commit Changes**
-4. **Open a Pull Request** against the `develop` or `main` branch.
 
 ---
 
