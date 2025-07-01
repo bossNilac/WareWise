@@ -29,6 +29,12 @@ dependencies {
     implementation('org.jboss.weld.se:weld-se-core:6.0.0.Beta1')
     implementation("com.zaxxer:HikariCP:2.3.2")
     implementation("de.mkammerer:argon2-jvm:2.12")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.13.1")
+    // https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
+    implementation("com.sun.mail:jakarta.mail:2.0.1")
+    // https://mvnrepository.com/artifact/jakarta.ejb/jakarta.ejb-api
+    implementation("jakarta.ejb:jakarta.ejb-api:4.0.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

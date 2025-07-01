@@ -13,7 +13,14 @@ import java.util.List;
 
 public class UserHandler {
 
+    private static UserHandler instance;
 
+    public static UserHandler getInstance(){
+        if(instance == null){
+            instance = new UserHandler();
+        }
+        return instance;
+    }
 
     public void addUser(User user) {
         String sql = "INSERT INTO users (username, password_hash, role, email) VALUES (?, ?, ?, ?)";
@@ -80,6 +87,30 @@ public class UserHandler {
                          password_hash,username);
                  output.add(user);
              }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public User loadUser(int userId) {
+        String sql = "SELECT * FROM users where user_id=?";
+        ResultSet result;
+        User output = null;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1,userId);
+            result= stmt.executeQuery();
+            while (result.next()){
+                int id = result.getInt(1);
+                String username = result.getString(2);
+                String password_hash = result.getString(3);
+                String role = result.getString(4);
+                String email = result.getString(5);
+                String created_at =result.getString(6);
+                 output = new User(id,created_at,email, UserRole.valueOf(role),
+                        password_hash,username);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

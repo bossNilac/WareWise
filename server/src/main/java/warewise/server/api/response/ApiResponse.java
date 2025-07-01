@@ -31,6 +31,7 @@ public class ApiResponse<T> {
     public ApiResponse(boolean success, String message, T data) {
         this.success = success;
         this.data = data;
+        this.message = message;
     }
 
     /**
