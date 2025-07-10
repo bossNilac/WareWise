@@ -1,4 +1,4 @@
-package warewise.server.api.resources;
+package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

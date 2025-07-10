@@ -1,4 +1,4 @@
-package warewise.server.api.resources;
+package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -31,7 +31,7 @@ public class UserResource {
      */@GET
     @Path("/get_users")
     public Response get_users() {
-        String data = JsonSerializer.serializeListToJson(UserHandler.getInstance().loadUsers(),List.of("passwordHash"));
+        String data = JsonSerializer.serializeListToJson(UserHandler.getInstance().getAllUsers(),List.of("passwordHash"));
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
@@ -44,7 +44,7 @@ public class UserResource {
      */@GET
     @Path("/get_users/{role}")
     public Response get_users_by_role(@PathParam("role") String role) {
-        List<User> dat = UserHandler.getInstance().loadUsers();
+        List<User> dat = UserHandler.getInstance().getAllUsers();
         dat.removeIf(u -> !u.getRole().name().equals(role));
         String data = JsonSerializer.serializeListToJson(dat);
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
@@ -63,7 +63,7 @@ public class UserResource {
      **/@POST
     @Path("/add_user")
     public Response addUser(AddRequest req){
-        for  (User u: UserHandler.getInstance().loadUsers()){
+        for  (User u: UserHandler.getInstance().getAllUsers()){
             if(u.getUsername().equals(req.username)){
                 ApiResponse<Void> resp = new ApiResponse<>(false, "User already exists", null);
                 return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
@@ -73,7 +73,7 @@ public class UserResource {
         String password = Encrypt.hashPassword(req.password);
         User newUser = new User(LocalDateTime.now(Clock.systemDefaultZone())
                 .toString(), req.email,
-                UserRole.fromLabel(req.role),password, req.username);
+                UserRole.fromLabel(req.role),password, req.username,req.warehouseId);
         NotificationService.notifyNewAccount(newUser, req.password);
         UserHandler.getInstance().addUser(newUser);
         ApiResponse<Void> resp = new ApiResponse<>(false, "User added", null);
@@ -97,7 +97,7 @@ public class UserResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
         }
 
-        User user = UserHandler.getInstance().loadUser(updateUserRequest.userId);
+        User user = UserHandler.getInstance().getUser(updateUserRequest.userId);
         if (user == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "User does not exist", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
@@ -117,6 +117,10 @@ public class UserResource {
             user.setPasswordHash(passHash);
         }
 
+        if (updateUserRequest.warehouseId != null) {
+            user.setWarehouseId(updateUserRequest.warehouseId);
+        }
+
         UserHandler.getInstance().updateUser(user);
 
         ApiResponse<Void> resp = new ApiResponse<>(true, "User updated!", null);
@@ -131,17 +135,17 @@ public class UserResource {
      * @return a {@link Response} indicating deletion result.
      */@DELETE
     @Path("/delete_user")
-    public Response link_department(DeleteUserRequest deleteUserRequest){
+    public Response delete_user(DeleteUserRequest deleteUserRequest){
         if(deleteUserRequest.userId ==null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "userId is needed", null);
             return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
         }
-        User user = UserHandler.getInstance().loadUser(deleteUserRequest.userId) ;
+        User user = UserHandler.getInstance().getUser(deleteUserRequest.userId) ;
         if (user == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "User not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         } else {
-            UserHandler.getInstance().deleteUser(user);
+            UserHandler.getInstance().deleteUser(user.getID());
             ApiResponse<Void> resp = new ApiResponse<>(true, "Deleted user!", null);
             return Response.status(Response.Status.OK).entity(resp).build();
         }
@@ -161,6 +165,7 @@ public class UserResource {
         public String password;
         public String email;
         public String role;
+        public Integer warehouseId;
     }
 
     static class AddRequest {
@@ -168,5 +173,6 @@ public class UserResource {
         public String email;
         public String role;
         public String password;
+        public Integer warehouseId;
     }
 }

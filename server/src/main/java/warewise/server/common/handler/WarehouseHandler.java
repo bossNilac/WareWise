@@ -10,7 +10,7 @@ public class WarehouseHandler {
 
     private WarehouseHandler instance;
 
-    public WarehouseHandler getInstance(){
+    public static WarehouseHandler getInstance(){
         if(instance == null){
             instance = new WarehouseHandler();
         }
