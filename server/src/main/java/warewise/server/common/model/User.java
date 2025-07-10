@@ -10,22 +10,25 @@ public class User {
     private UserRole role;
     private String email;
     private String createdAt;
+    private int warehouseId;
 
-    public User(String createdAt, String email, UserRole role, String passwordHash, String username) {
+    public User(String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
         this.createdAt = createdAt;
         this.email = email;
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
+        this.warehouseId = warehouseId;
     }
 
-    public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username) {
+    public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
         this.ID = ID;
         this.createdAt = createdAt;
         this.email = email;
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
+        this.warehouseId = warehouseId;
     }
 
     public int getID() {
@@ -76,4 +79,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public int getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
+    }
 }

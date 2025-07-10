@@ -8,7 +8,7 @@ public class StockAlert {
     private int productID;
     private StockAlertStatus threshold;
     private String createdAt;
-    private String resolved;
+    private boolean resolved;
 
     public int getID() {
         return ID;
@@ -42,16 +42,16 @@ public class StockAlert {
         this.createdAt = createdAt;
     }
 
-    public String getResolved() {
+    public boolean getResolved() {
         return resolved;
     }
 
-    public void setResolved(String resolved) {
+    public void setResolved(boolean resolved) {
         this.resolved = resolved;
     }
 
     public StockAlert(int ID, int productID, StockAlertStatus threshold, String createdAt,
-                      String resolved) {
+                      boolean resolved) {
         this.ID = ID;
         this.productID = productID;
         this.threshold = threshold;
@@ -60,7 +60,7 @@ public class StockAlert {
     }
 
     public StockAlert(int productID, StockAlertStatus threshold, String createdAt,
-                      String resolved) {
+                      boolean resolved) {
         this.productID = productID;
         this.threshold = threshold;
         this.createdAt = createdAt;

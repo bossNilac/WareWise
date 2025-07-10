@@ -1,21 +1,21 @@
 package warewise.server.common.model;
 
 
-public class Logs {
+public class Log {
     private int ID;
     private int userID;
     private String action;
     private String description;
     private String createdAt;
 
-    public Logs(int ID, int userID, String action, String description, String createdAt) {
+    public Log(int ID, int userID, String action, String description, String createdAt) {
         this.ID = ID;
         this.userID = userID;
         this.action = action;
         this.description = description;
         this.createdAt = createdAt;
     }
-    public Logs(int userID, String action, String description, String createdAt) {
+    public Log(int userID, String action, String description, String createdAt) {
         this.userID = userID;
         this.action = action;
         this.description = description;

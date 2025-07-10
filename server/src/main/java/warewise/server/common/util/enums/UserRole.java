@@ -20,4 +20,9 @@ public enum UserRole {
                 throw new IllegalArgumentException("Unknown user role label: " + label);
         }
     }
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }

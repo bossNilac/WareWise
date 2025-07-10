@@ -1,35 +1,34 @@
 package warewise.server.common.handler;
 
-import warewise.server.common.model.Supplier;
+import warewise.server.common.model.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierHandler {
+public class LogHandler {
 
-    private static SupplierHandler instance;
+    private static LogHandler instance;
 
-    public static SupplierHandler getInstance() {
+    public static LogHandler getInstance() {
         if (instance == null) {
-            instance = new SupplierHandler();
+            instance = new LogHandler();
         }
         return instance;
     }
 
-    public void addSupplier(Supplier supplier) {
+    public void addLog(Log log) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO suppliers (supplier_id, supplier_name, contact_email, contact_phone, address, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO logs (log_id, user_id, action, description, created_at) VALUES (?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplier.getID());
-            stmt.setString(2, supplier.getName());
-            stmt.setString(3, supplier.getContactEmail());
-            stmt.setString(4, supplier.getContactPhoneNo());
-            stmt.setString(5, supplier.getAddress());
-            stmt.setString(6, supplier.getCreatedAt());
+            stmt.setInt(1, log.getID());
+            stmt.setInt(2, log.getUserID());
+            stmt.setString(3, log.getAction());
+            stmt.setString(4, log.getDescription());
+            stmt.setString(5, log.getCreatedAt());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -49,19 +48,18 @@ public class SupplierHandler {
         }
     }
 
-    public void updateSupplier(Supplier supplier) {
+    public void updateLog(Log log) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE suppliers SET supplier_name = ?, contact_email = ?, contact_phone = ?, address = ?, created_at = ? WHERE supplier_id = ?";
+            String query = "UPDATE logs SET user_id = ?, action = ?, description = ?, created_at = ? WHERE log_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, supplier.getName());
-            stmt.setString(2, supplier.getContactEmail());
-            stmt.setString(3, supplier.getContactPhoneNo());
-            stmt.setString(4, supplier.getAddress());
-            stmt.setString(5, supplier.getCreatedAt());
-            stmt.setInt(6, supplier.getID());
+            stmt.setInt(1, log.getUserID());
+            stmt.setString(2, log.getAction());
+            stmt.setString(3, log.getDescription());
+            stmt.setString(4, log.getCreatedAt());
+            stmt.setInt(5, log.getID());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -81,14 +79,14 @@ public class SupplierHandler {
         }
     }
 
-    public void deleteSupplier(int supplierId) {
+    public void deleteLog(int logId) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "DELETE FROM suppliers WHERE supplier_id = ?";
+            String query = "DELETE FROM logs WHERE log_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplierId);
+            stmt.setInt(1, logId);
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -108,24 +106,23 @@ public class SupplierHandler {
         }
     }
 
-    public Supplier getSupplier(int supplierId) {
+    public Log getLog(int logId) {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Supplier supplier = null;
+        Log log = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM suppliers WHERE supplier_id = ?";
+            String query = "SELECT * FROM logs WHERE log_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplierId);
+            stmt.setInt(1, logId);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                supplier = new Supplier(
-                        rs.getInt("supplier_id"),
-                        rs.getString("supplier_name"),
-                        rs.getString("contact_email"),
-                        rs.getString("contact_phone"),
-                        rs.getString("address"),
+                log = new Log(
+                        rs.getInt("log_id"),
+                        rs.getInt("user_id"),
+                        rs.getString("action"),
+                        rs.getString("description"),
                         rs.getString("created_at")
                 );
             }
@@ -140,29 +137,28 @@ public class SupplierHandler {
                 e.printStackTrace();
             }
         }
-        return supplier;
+        return log;
     }
 
-    public List<Supplier> getAllSuppliers() {
+    public List<Log> getAllLogs() {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
-        List<Supplier> suppliers = new ArrayList<>();
+        List<Log> logs = new ArrayList<>();
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM suppliers";
+            String query = "SELECT * FROM logs";
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Supplier supplier = new Supplier(
-                        rs.getInt("supplier_id"),
-                        rs.getString("supplier_name"),
-                        rs.getString("contact_email"),
-                        rs.getString("contact_phone"),
-                        rs.getString("address"),
+                Log log = new Log(
+                        rs.getInt("log_id"),
+                        rs.getInt("user_id"),
+                        rs.getString("action"),
+                        rs.getString("description"),
                         rs.getString("created_at")
                 );
-                suppliers.add(supplier);
+                logs.add(log);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,6 +171,6 @@ public class SupplierHandler {
                 e.printStackTrace();
             }
         }
-        return suppliers;
+        return logs;
     }
 }

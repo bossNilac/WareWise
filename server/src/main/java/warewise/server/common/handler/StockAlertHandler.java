@@ -3,78 +3,175 @@ package warewise.server.common.handler;
 import warewise.server.common.model.StockAlert;
 import warewise.server.common.util.enums.StockAlertStatus;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StockAlertHandler {
 
-    public void addStockAlert(StockAlert alert) {
-        String sql = "INSERT INTO stock_alerts (alert_id,product_id, threshold, created_at, resolved) VALUES (?,?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, alert.getID());
-            stmt.setInt(2, alert.getProductID());
-            // Store the enum name for threshold (or its ordinal, if preferred)
-            stmt.setString(3, alert.getThreshold().name());
-            stmt.setString(4, alert.getCreatedAt());
-            stmt.setString(5, alert.getResolved());
+    private static StockAlertHandler instance;
+
+    public static StockAlertHandler getInstance() {
+        if (instance == null) {
+            instance = new StockAlertHandler();
+        }
+        return instance;
+    }
+
+    public void addStockAlert(StockAlert stockAlert) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "INSERT INTO stock_alerts (stock_alert_id, product_id, threshold, created_at, resolved) VALUES (?, ?, ?, ?, ?)";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, stockAlert.getID());
+            stmt.setInt(2, stockAlert.getProductID());
+            stmt.setString(3, stockAlert.getThreshold().toString());
+            stmt.setString(4, stockAlert.getCreatedAt());
+            stmt.setBoolean(5, stockAlert.getResolved());
             stmt.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void updateStockAlert(StockAlert alert) {
-        String sql = "UPDATE stock_alerts SET product_id = ?, threshold = ?, created_at = ?, resolved = ? WHERE alert_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, alert.getProductID());
-            stmt.setString(2, alert.getThreshold().name());
-            stmt.setString(3, alert.getCreatedAt());
-            stmt.setString(4, alert.getResolved());
-            stmt.setInt(5, alert.getID());
+    public void updateStockAlert(StockAlert stockAlert) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "UPDATE stock_alerts SET product_id = ?, threshold = ?, created_at = ?, resolved = ? WHERE stock_alert_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, stockAlert.getProductID());
+            stmt.setString(2, stockAlert.getThreshold().toString());
+            stmt.setString(3, stockAlert.getCreatedAt());
+            stmt.setBoolean(4, stockAlert.getResolved());
+            stmt.setInt(5, stockAlert.getID());
             stmt.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void deleteStockAlert(StockAlert alert) {
-        String sql = "DELETE FROM stock_alerts WHERE alert_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, alert.getID());
+    public void deleteStockAlert(int stockAlertId) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "DELETE FROM stock_alerts WHERE stock_alert_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, stockAlertId);
             stmt.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public List<StockAlert> loadStockAlerts() {
-        String sql = "SELECT * FROM stock_alerts";
-        List<StockAlert> alerts = new ArrayList<>();
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet resultSet = stmt.executeQuery()) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("alert_id");
-                int productID = resultSet.getInt("product_id");
-                // Convert stored threshold string back to enum
-                String thresholdStr = resultSet.getString("threshold");
-                StockAlertStatus threshold = StockAlertStatus.valueOf(thresholdStr);
-                String createdAt = resultSet.getString("created_at");
-                String resolved = resultSet.getString("resolved");
-
-                StockAlert alert = new StockAlert(id, productID, threshold, createdAt, resolved);
-                alerts.add(alert);
+    public StockAlert getStockAlert(int stockAlertId) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        StockAlert stockAlert = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM stock_alerts WHERE stock_alert_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, stockAlertId);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                stockAlert = new StockAlert(
+                        rs.getInt("stock_alert_id"),
+                        rs.getInt("product_id"),
+                        StockAlertStatus.fromLabel(rs.getString("threshold")),
+                        rs.getString("created_at"),
+                        rs.getBoolean("resolved")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return alerts;
+        return stockAlert;
+    }
+
+    public List<StockAlert> getAllStockAlerts() {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        List<StockAlert> stockAlerts = new ArrayList<>();
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM stock_alerts";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                StockAlert stockAlert = new StockAlert(
+                        rs.getInt("stock_alert_id"),
+                        rs.getInt("product_id"),
+                        StockAlertStatus.fromLabel(rs.getString("threshold")),
+                        rs.getString("created_at"),
+                        rs.getBoolean("resolved")
+                );
+                stockAlerts.add(stockAlert);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return stockAlerts;
     }
 }

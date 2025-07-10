@@ -7,22 +7,25 @@ public class Inventory {
     private String description;
     private int quantity;
     private String lastUpdated;
+    private int warehouseId;
 
     public Inventory(int ID, String name, String description , int quantity,
-                     String lastUpdated) {
+                     String lastUpdated,int warehouseId) {
         this.ID = ID;
         this.description = description;
         this.name = name;
         this.quantity = quantity;
         this.lastUpdated = lastUpdated;
+        this.warehouseId = warehouseId;
     }
 
     public Inventory(String name, String description , int quantity,
-                     String lastUpdated) {
+                     String lastUpdated,int warehouseId) {
         this.description = description;
         this.name = name;
         this.quantity = quantity;
         this.lastUpdated = lastUpdated;
+        this.warehouseId = warehouseId;
     }
 
     public String getName() {
@@ -63,5 +66,13 @@ public class Inventory {
 
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public int getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
     }
 }

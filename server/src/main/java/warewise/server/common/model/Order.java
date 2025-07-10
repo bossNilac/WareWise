@@ -10,6 +10,9 @@ public class Order {
     private OrderStatus status;
     private String createdAt;
     private String updatedAt;
+    private int userId;
+
+
 
     public int getID() {
         return ID;
@@ -60,21 +63,31 @@ public class Order {
     }
 
     public Order(int ID, String customerName, String customerEmail, OrderStatus status,
-                 String createdAt, String updatedAt) {
+                 String createdAt, String updatedAt,int  userId) {
         this.ID = ID;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.userId = userId;
     }
 
     public Order(String customerName, String customerEmail, OrderStatus status,
-                 String createdAt, String updatedAt) {
+                 String createdAt, String updatedAt,int userId) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.status = status;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

@@ -1,117 +1,187 @@
 package warewise.server.common.handler;
 
-
 import warewise.server.common.model.Item;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemHandler {
 
-    /**
-     * Inserts a new order item into the order_items table.
-     * The 'total' field is computed automatically by SQLite.
-     *
-     * @param item The item to insert.
-     */
-    public void addItem(Item item) {
-        String sql = "INSERT INTO order_items (order_item_id,order_id, quantity, price , category_id ,inventory_id ) VALUES (?,?, ? , ?, ? , ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    private static ItemHandler instance;
 
+    public static ItemHandler getInstance() {
+        if (instance == null) {
+            instance = new ItemHandler();
+        }
+        return instance;
+    }
+
+    public void addItem(Item item) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "INSERT INTO items (item_id, order_id, inventory_id, quantity, price, total, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            stmt = connection.prepareStatement(query);
             stmt.setInt(1, item.getID());
             stmt.setInt(2, item.getOrderID());
+            stmt.setInt(3, item.getInventoryID());
+            stmt.setInt(4, item.getQuantity());
+            stmt.setDouble(5, item.getPrice());
+            stmt.setDouble(6, item.getTotal());
+            stmt.setInt(7, item.getCategoryID());
+            stmt.setInt(8, item.getSupplierId());
+            stmt.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateItem(Item item) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "UPDATE items SET order_id = ?, inventory_id = ?, quantity = ?, price = ?, total = ?, category_id = ?, supplier_id = ? WHERE item_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, item.getOrderID());
+            stmt.setInt(2, item.getInventoryID());
             stmt.setInt(3, item.getQuantity());
             stmt.setDouble(4, item.getPrice());
-            stmt.setDouble(5, item.getCategoryID());
-            stmt.setDouble(6, item.getInventoryID());
-
+            stmt.setDouble(5, item.getTotal());
+            stmt.setInt(6, item.getCategoryID());
+            stmt.setInt(7, item.getSupplierId());
+            stmt.setInt(8, item.getID());
             stmt.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    /**
-     * Updates an existing order item.
-     *
-     * @param item The item with updated values.
-     */
-    public void updateItem(Item item) {
-        String sql = "UPDATE order_items SET order_id = ? , quantity = ?, price = ? , category_id = ? ,inventory_id = ?  WHERE order_item_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, item.getOrderID());
-            stmt.setInt(2, item.getQuantity());
-            stmt.setDouble(3, item.getPrice());
-            stmt.setInt(4, item.getCategoryID());
-            stmt.setInt(5, item.getInventoryID());
-            stmt.setInt(6, item.getID());
-
+    public void deleteItem(int itemId) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "DELETE FROM items WHERE item_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, itemId);
             stmt.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    /**
-     * Deletes an order item from the order_items table.
-     *
-     * @param item The item to delete.
-     */
-    public void deleteItem(Item item) {
-        String sql = "DELETE FROM order_items WHERE order_item_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, item.getID());
-            stmt.executeUpdate();
+    public Item getItem(int itemId) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Item item = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM items WHERE item_id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, itemId);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                item = new Item(
+                        rs.getInt("item_id"),
+                        rs.getInt("order_id"),
+                        rs.getInt("inventory_id"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("total"),
+                        rs.getInt("category_id"),
+                        rs.getInt("supplier_id")
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return item;
     }
 
-    /**
-     * Loads order items.
-     *
-     * @param orderId If provided, only load items for that order; otherwise, load all items.
-     * @return A list of order items.
-     */
-    public List<Item> loadItems(Integer orderId) {
+    public List<Item> getAllItems() {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
         List<Item> items = new ArrayList<>();
-        String sql;
-        if (orderId != null) {
-            sql = "SELECT * FROM order_items WHERE order_id = ?";
-        } else {
-            sql = "SELECT * FROM order_items";
-        }
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            if (orderId != null) {
-                stmt.setInt(1, orderId);
-            }
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    int id = rs.getInt("order_item_id");
-                    int orderID = rs.getInt("order_id");
-                    int quantity = rs.getInt("quantity");
-                    double price = rs.getDouble("price");
-                    int categoryID = rs.getInt("category_id");
-                    int inventory = rs.getInt("inventory_id");
-
-                    // As the SQL table does not include a category column, set category to null.
-                    Item item = new Item(id, orderID, inventory, quantity, price, categoryID);
-                    items.add(item);
-                }
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM items";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Item item = new Item(
+                        rs.getInt("item_id"),
+                        rs.getInt("order_id"),
+                        rs.getInt("inventory_id"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("total"),
+                        rs.getInt("category_id"),
+                        rs.getInt("supplier_id")
+                );
+                items.add(item);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return items;
     }

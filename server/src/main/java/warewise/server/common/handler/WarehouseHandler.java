@@ -1,35 +1,32 @@
 package warewise.server.common.handler;
 
-import warewise.server.common.model.Supplier;
+import warewise.server.common.model.Warehouse;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierHandler {
+public class WarehouseHandler {
 
-    private static SupplierHandler instance;
+    private WarehouseHandler instance;
 
-    public static SupplierHandler getInstance() {
-        if (instance == null) {
-            instance = new SupplierHandler();
+    public WarehouseHandler getInstance(){
+        if(instance == null){
+            instance = new WarehouseHandler();
         }
-        return instance;
+        return  instance;
     }
 
-    public void addSupplier(Supplier supplier) {
+    public void addWarehouse(Warehouse warehouse) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO suppliers (supplier_id, supplier_name, contact_email, contact_phone, address, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO warehouse (warehouse_id, name, address) VALUES (?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplier.getID());
-            stmt.setString(2, supplier.getName());
-            stmt.setString(3, supplier.getContactEmail());
-            stmt.setString(4, supplier.getContactPhoneNo());
-            stmt.setString(5, supplier.getAddress());
-            stmt.setString(6, supplier.getCreatedAt());
+            stmt.setInt(1, warehouse.getWarehouse_id());
+            stmt.setString(2, warehouse.getName());
+            stmt.setString(3, warehouse.getAddress());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -49,19 +46,16 @@ public class SupplierHandler {
         }
     }
 
-    public void updateSupplier(Supplier supplier) {
+    public void updateWarehouse(Warehouse warehouse) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE suppliers SET supplier_name = ?, contact_email = ?, contact_phone = ?, address = ?, created_at = ? WHERE supplier_id = ?";
+            String query = "UPDATE warehouse SET name = ?, address = ? WHERE warehouse_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, supplier.getName());
-            stmt.setString(2, supplier.getContactEmail());
-            stmt.setString(3, supplier.getContactPhoneNo());
-            stmt.setString(4, supplier.getAddress());
-            stmt.setString(5, supplier.getCreatedAt());
-            stmt.setInt(6, supplier.getID());
+            stmt.setString(1, warehouse.getName());
+            stmt.setString(2, warehouse.getAddress());
+            stmt.setInt(3, warehouse.getWarehouse_id());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -81,14 +75,14 @@ public class SupplierHandler {
         }
     }
 
-    public void deleteSupplier(int supplierId) {
+    public void deleteWarehouse(int warehouse_id) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "DELETE FROM suppliers WHERE supplier_id = ?";
+            String query = "DELETE FROM warehouse WHERE warehouse_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplierId);
+            stmt.setInt(1, warehouse_id);
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -108,25 +102,22 @@ public class SupplierHandler {
         }
     }
 
-    public Supplier getSupplier(int supplierId) {
-        Connection connection = null;
+    public Warehouse getWarehouse(int warehouse_id) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Supplier supplier = null;
+        Warehouse warehouse = null;
+        Connection connection = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM suppliers WHERE supplier_id = ?";
+            String query = "SELECT * FROM warehouse WHERE warehouse_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplierId);
+            stmt.setInt(1, warehouse_id);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                supplier = new Supplier(
-                        rs.getInt("supplier_id"),
-                        rs.getString("supplier_name"),
-                        rs.getString("contact_email"),
-                        rs.getString("contact_phone"),
-                        rs.getString("address"),
-                        rs.getString("created_at")
+                warehouse = new Warehouse(
+                    rs.getInt("warehouse_id"),
+                    rs.getString("name"),
+                    rs.getString("address")
                 );
             }
         } catch (SQLException e) {
@@ -135,34 +126,29 @@ public class SupplierHandler {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return supplier;
+        return warehouse;
     }
 
-    public List<Supplier> getAllSuppliers() {
-        Connection connection = null;
+    public List<Warehouse> getAllWarehouses() {
         Statement stmt = null;
         ResultSet rs = null;
-        List<Supplier> suppliers = new ArrayList<>();
+        List<Warehouse> warehouses = new ArrayList<>();
+        Connection connection = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM suppliers";
+            String query = "SELECT * FROM warehouse";
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Supplier supplier = new Supplier(
-                        rs.getInt("supplier_id"),
-                        rs.getString("supplier_name"),
-                        rs.getString("contact_email"),
-                        rs.getString("contact_phone"),
-                        rs.getString("address"),
-                        rs.getString("created_at")
-                );
-                suppliers.add(supplier);
+                warehouses.add(new Warehouse(
+                    rs.getInt("warehouse_id"),
+                    rs.getString("name"),
+                    rs.getString("address")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -170,11 +156,10 @@ public class SupplierHandler {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return suppliers;
+        return warehouses;
     }
 }

@@ -8,26 +8,31 @@ public class Item {
     private double price;
     private double total;
     private int categoryID;
+    private int supplierId;
 
 
-    public Item(int ID, int orderID, int inventoryID, int quantity, double price, int categoryID) {
+
+
+    public Item(int ID, int orderID, int inventoryID,double price, int quantity, double total,  int categoryID,int supplierId) {
         this.ID = ID;
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
         this.price = price;
-        this.total = price*quantity;
+        this.total = total;
         this.categoryID = categoryID;
+        this.supplierId = supplierId;
     }
 
 
-    public Item(int orderID, int inventoryID, int quantity, double price, int category) {
+    public Item(int orderID, int inventoryID, int quantity, double price, int category,int supplierId) {
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
         this.price = price;
         this.categoryID = category;
         this.total = price * (double)quantity;
+        this.supplierId = supplierId;
     }
 
     public int getID() {
@@ -84,5 +89,13 @@ public class Item {
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
+    }
+
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(int supplierId) {
+        this.supplierId = supplierId;
     }
 }

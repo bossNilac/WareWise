@@ -31,7 +31,7 @@ public class UserResource {
      */@GET
     @Path("/get_users")
     public Response get_users() {
-        String data = JsonSerializer.serializeListToJson(UserHandler.getInstance().loadUsers());
+        String data = JsonSerializer.serializeListToJson(UserHandler.getInstance().loadUsers(),List.of("passwordHash"));
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
