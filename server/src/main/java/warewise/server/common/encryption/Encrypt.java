@@ -9,7 +9,7 @@ public class Encrypt {
     private static final int MEMORY = 262144; // 256 MB
     private static final int PARALLELISM = 4;
 
-    private static final String pepper = System.getenv("PEPPER_KEY");
+    private static final String pepper = System.getenv("PEPPER_KEY");//for now 1234
 
 
     // Hash the password (during registration)
@@ -30,7 +30,7 @@ public class Encrypt {
     }
 
     public static void main(String[] args) {
-        System.out.println(hashPassword("calin123"));
+        System.out.println(hashPassword("1234"));
     }
 
 }
