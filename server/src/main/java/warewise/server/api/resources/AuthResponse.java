@@ -5,10 +5,16 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 import warewise.server.api.JwtUtil;
+import warewise.server.api.NotificationService;
 import warewise.server.api.response.ApiResponse;
 import warewise.server.common.encryption.Encrypt;
+import warewise.server.common.handler.ForgotPasswordHandler;
 import warewise.server.common.handler.UserHandler;
+import warewise.server.common.model.ForgotPasswordToken;
 import warewise.server.common.model.User;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Path("/auth")
 public class AuthResponse {
@@ -18,7 +24,7 @@ public class AuthResponse {
         for  (User u: UserHandler.getInstance().getAllUsers()){
             if(u.getUsername().equals(req.username)){
                 if(Encrypt.verifyPassword(u.getPasswordHash(),req.password)){
-                    ApiResponse<Void> resp = new ApiResponse<>(true, "Login success", null);
+                    ApiResponse<String> resp = new ApiResponse<>(true, "Login success", JwtUtil.generateLoginToken(req.username));
                     return Response.status(Response.Status.OK).entity(resp).build();
                 }else {
                     ApiResponse<Void> resp = new ApiResponse<>(false, "Wrong password", null);
@@ -34,10 +40,12 @@ public class AuthResponse {
     @POST
     @Path("/forgot_password-{token}")
     public Response forgot_password(@PathParam("token") String token, AuthResponse.LoginRequest req) {
-        //verify token
-//        if(!verifyToken(token)){
-//            ApiResponse<Void> resp = new ApiResponse<>(true, "Token Invalid", null);
-//        }
+
+        if(ForgotPasswordHandler.getInstance().getTokenByToken(token).isExpired()){
+            ApiResponse<Void> resp = new ApiResponse<>(true, "Token Invalid", null);
+            return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
+        }
+
         for (User u : UserHandler.getInstance().getAllUsers()) {
             if (u.getUsername().equals(req.username)) {
                     u.setPasswordHash(Encrypt.hashPassword(req.password));
@@ -60,8 +68,16 @@ public class AuthResponse {
             return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
         }
 
+        String token = JwtUtil.generateLoginToken(user.getUsername());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String exp = now.format(formatter);
+        ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken(req.userId,token,exp);
+        ForgotPasswordHandler.getInstance().addToken(forgotPasswordToken);
+        NotificationService.notifyForgotPassword(user,"/forgot_password-{token}");
+
         ApiResponse<String> resp = new ApiResponse<>(true, "Token generated successfully",
-                JwtUtil.generateLoginToken(user.getUsername()));
+                token);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
 

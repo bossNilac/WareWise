@@ -7,7 +7,6 @@ import warewise.server.api.response.ApiResponse;
 import warewise.server.common.handler.JsonSerializer;
 import warewise.server.common.handler.StockAlertHandler;
 import warewise.server.common.model.StockAlert;
-import warewise.server.common.util.enums.StockAlertStatus;
 
 /**
  * REST resource providing endpoints to manage stock alerts.
@@ -33,7 +32,6 @@ public class StockAlertResource {
         StockAlert newAlert = new StockAlert(
                 req.stockAlertId,
                 req.productId,
-                StockAlertStatus.fromLabel(req.threshold),
                 req.createdAt,
                 req.resolved
         );
@@ -57,7 +55,6 @@ public class StockAlertResource {
         }
 
         if (req.productId != null) alert.setProductID(req.productId);
-        if (req.threshold != null) alert.setThreshold(StockAlertStatus.fromLabel(req.threshold));
         if (req.createdAt != null) alert.setCreatedAt(req.createdAt);
         if (req.resolved != null) alert.setResolved(req.resolved);
 
@@ -89,7 +86,6 @@ public class StockAlertResource {
     static class AddRequest {
         public Integer stockAlertId;
         public Integer productId;
-        public String threshold;
         public String createdAt;
         public Boolean resolved;
     }
@@ -97,7 +93,6 @@ public class StockAlertResource {
     static class UpdateRequest {
         public Integer stockAlertId;
         public Integer productId;
-        public String threshold;
         public String createdAt;
         public Boolean resolved;
     }

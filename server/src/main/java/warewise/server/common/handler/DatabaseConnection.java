@@ -25,9 +25,13 @@ public class DatabaseConnection {
     static {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.postgresql.Driver");
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/WareWise");
-        config.setUsername("postgres");
-        config.setPassword("Nilac291229122912");
+//        config.setJdbcUrl("jdbc:postgresql://localhost:5432/WareWise");
+//        config.setUsername("postgres");
+//        config.setPassword("Nilac291229122912");
+
+        config.setJdbcUrl("jdbc:postgresql://192.168.1.200:5432/warewisedb");
+        config.setUsername("admin");
+        config.setPassword("2912");
 
         // pool settings
         config.setMaximumPoolSize(100);
@@ -50,7 +54,7 @@ public class DatabaseConnection {
     public static Connection getConnection() throws SQLException {
         try {
             if (!notloaded) {
-                Class.forName("com.warewise.common.handler.DatabaseConnection");
+                Class.forName("warewise.server.common.handler.DatabaseConnection");
                 Class.forName("org.postgresql.Driver");
                 Class.forName("com.zaxxer.hikari.HikariDataSource");
                 System.out.println("DatabaseConnection initialized successfully.");

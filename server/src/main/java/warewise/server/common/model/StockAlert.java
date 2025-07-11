@@ -1,12 +1,9 @@
 package warewise.server.common.model;
 
 
-import warewise.server.common.util.enums.StockAlertStatus;
-
 public class StockAlert {
     private int ID;
     private int productID;
-    private StockAlertStatus threshold;
     private String createdAt;
     private boolean resolved;
 
@@ -26,13 +23,6 @@ public class StockAlert {
         this.productID = productID;
     }
 
-    public StockAlertStatus getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(StockAlertStatus threshold) {
-        this.threshold = threshold;
-    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -50,19 +40,17 @@ public class StockAlert {
         this.resolved = resolved;
     }
 
-    public StockAlert(int ID, int productID, StockAlertStatus threshold, String createdAt,
+    public StockAlert(int ID, int productID, String createdAt,
                       boolean resolved) {
         this.ID = ID;
         this.productID = productID;
-        this.threshold = threshold;
         this.createdAt = createdAt;
         this.resolved = resolved;
     }
 
-    public StockAlert(int productID, StockAlertStatus threshold, String createdAt,
+    public StockAlert(int productID, String createdAt,
                       boolean resolved) {
         this.productID = productID;
-        this.threshold = threshold;
         this.createdAt = createdAt;
         this.resolved = resolved;
     }

@@ -52,6 +52,25 @@ public class UserResource {
     }
 
     /**
+     * Retrieves the user's role.
+     *
+     * @param userid the id to filter users by.
+     * @return a {@link Response} containing filtered user role.
+     */@GET
+    @Path("/{userid}/get_user_role")
+    public Response get_users_by_role(@PathParam("userid") int userid) {
+        List<User> dat = UserHandler.getInstance().getAllUsers();
+        for(User u : dat){
+            if(u.getID()== userid){
+                u.setPasswordHash(null);
+                return Response.status(Response.Status.OK).entity(u).build();
+            }
+        }
+        ApiResponse<String> resp = new ApiResponse<>(false, "User not found", null);
+        return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
+    }
+
+    /**
      * Registers a new user with the provided data.
      * <p>
      * Checks for duplicate usernames, hashes the password,

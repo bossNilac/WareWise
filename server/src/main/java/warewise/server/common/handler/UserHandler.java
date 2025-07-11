@@ -125,11 +125,11 @@ public class UserHandler {
             if (rs.next()) {
                 user = new User(
                         rs.getInt("user_id"),
-                        rs.getString("username"),
+                        rs.getString("created_at"),
                         rs.getString("email"),
                         UserRole.fromLabel(rs.getString("role")),
                         rs.getString("password"),
-                        rs.getString("created_at"),
+                        rs.getString("username"),
                         rs.getInt("warehouse_id")
                 );
             }
@@ -160,11 +160,11 @@ public class UserHandler {
             while (rs.next()) {
                 User user = new User(
                         rs.getInt("user_id"),
-                        rs.getString("username"),
+                        rs.getString("created_at"),
                         rs.getString("email"),
                         UserRole.fromLabel(rs.getString("role")),
                         rs.getString("password"),
-                        rs.getString("created_at"),
+                        rs.getString("username"),
                         rs.getInt("warehouse_id")
                 );
                 users.add(user);

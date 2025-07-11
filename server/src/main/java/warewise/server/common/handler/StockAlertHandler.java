@@ -1,7 +1,6 @@
 package warewise.server.common.handler;
 
 import warewise.server.common.model.StockAlert;
-import warewise.server.common.util.enums.StockAlertStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,13 +22,12 @@ public class StockAlertHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO stock_alerts (stock_alert_id, product_id, threshold, created_at, resolved) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO stock_alerts (stock_alert_id, product_id, created_at, resolved) VALUES (?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
             stmt.setInt(1, stockAlert.getID());
             stmt.setInt(2, stockAlert.getProductID());
-            stmt.setString(3, stockAlert.getThreshold().toString());
-            stmt.setString(4, stockAlert.getCreatedAt());
-            stmt.setBoolean(5, stockAlert.getResolved());
+            stmt.setString(3, stockAlert.getCreatedAt());
+            stmt.setBoolean(4, stockAlert.getResolved());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -54,13 +52,12 @@ public class StockAlertHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE stock_alerts SET product_id = ?, threshold = ?, created_at = ?, resolved = ? WHERE stock_alert_id = ?";
+            String query = "UPDATE stock_alerts SET product_id = ?, created_at = ?, resolved = ? WHERE stock_alert_id = ?";
             stmt = connection.prepareStatement(query);
             stmt.setInt(1, stockAlert.getProductID());
-            stmt.setString(2, stockAlert.getThreshold().toString());
-            stmt.setString(3, stockAlert.getCreatedAt());
-            stmt.setBoolean(4, stockAlert.getResolved());
-            stmt.setInt(5, stockAlert.getID());
+            stmt.setString(2, stockAlert.getCreatedAt());
+            stmt.setBoolean(3, stockAlert.getResolved());
+            stmt.setInt(4, stockAlert.getID());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -122,7 +119,6 @@ public class StockAlertHandler {
                 stockAlert = new StockAlert(
                         rs.getInt("stock_alert_id"),
                         rs.getInt("product_id"),
-                        StockAlertStatus.fromLabel(rs.getString("threshold")),
                         rs.getString("created_at"),
                         rs.getBoolean("resolved")
                 );
@@ -155,7 +151,6 @@ public class StockAlertHandler {
                 StockAlert stockAlert = new StockAlert(
                         rs.getInt("stock_alert_id"),
                         rs.getInt("product_id"),
-                        StockAlertStatus.fromLabel(rs.getString("threshold")),
                         rs.getString("created_at"),
                         rs.getBoolean("resolved")
                 );
