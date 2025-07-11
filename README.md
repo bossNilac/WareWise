@@ -1,13 +1,13 @@
 # WareWise
 
-**WareWise** is a **multi-interface Warehouse Management System** built on Java, JavaFX, and SQLite. It offers both **text-based (TUI) and graphical (GUI) admin consoles**, as well as a **dedicated client GUI** for managers and workers. This architecture ensures efficient warehouse operations while centralizing all data and business logic in a **Java server** connected to an **SQLite** database.
+**WareWise** is a **multi-interface Warehouse Management System** built on Java, JavaFX,Jakarta, React and Postgresql. It offers both **text-based (TUI) and graphical (GUI) admin consoles**, as well as a **dedicated client GUI** for managers and workers. This architecture ensures efficient warehouse operations while centralizing all data and business logic in a **Java server** connected to an **Postgresql** database.
 
 ---
 
 ## **Key Features**
 
 1. **Server-Client Architecture**
-    - A standalone **Java server** hosts the SQLite database and handles requests from admin and client applications.
+    - A standalone **Java server** hosts the Postgresql database and handles requests from admin and client applications.
 
 2. **Admin Console (TUI & GUI)**
     - **Text-Based UI** for quick, command-driven operations (user management, backups, etc.).
@@ -17,8 +17,8 @@
     - **JavaFX** application for daily tasks: inventory management, order processing, and basic reporting.
     - **Role-based UI** restricts or enables features depending on whether the user is a Worker or Manager.
 
-4. **SQLite Backend**
-    - All data is stored securely in **SQLite**.
+4. **Postgresql Backend**
+    - All data is stored securely in **Postgresql**.
     - Uses **JDBC** for communication and supports optional **field-level encryption** (AES).
 
 5. **Security & Encryption**
@@ -27,7 +27,7 @@
     - **Optional Data Encryption**: AES-256 for sensitive fields.
 
 6. **Backup & Restore**
-    - Admin commands to back up or restore the SQLite database.
+    - Admin commands to back up or restore the Postgresql database.
     - Securely stored on the server side to prevent unauthorized access.
 
 7. **Reporting & Analytics**
@@ -62,8 +62,8 @@ warewise/
 ### **Prerequisites**
 
 1. **Java 17+** installed.
-2. **SQLite** database (embedded or file-based).
-3. **JDBC Driver** for SQLite (`sqlite-jdbc`).
+2. **Postgresql** database (embedded or file-based).
+3. **JDBC Driver** for Postgresql (`postgresql-jdbc`).
 4. **Maven or Gradle** for building the project.
 
 ### **Installation & Configuration**
@@ -73,20 +73,12 @@ warewise/
    git clone https://github.com/yourusername/warewise.git
    ```
 
-## **Set Up SQLite**
+## **Set Up Postgresql**
 
-1. **Ensure SQLite is installed** (or use an embedded version).
+1. **Ensure Postgresql is installed** .
 2. **Run the provided scripts** (if any) to create necessary tables (e.g., `inventory`, `orders`, `users`).
 
-## **Configure Database Connection**
 
-In the `application.properties` or a similar config file, update the database connection settings:
-
-```properties
-db.url=jdbc:sqlite:warewise.db
-db.username=
-db.password=
-```
 
 ## **Build the Project**
 
