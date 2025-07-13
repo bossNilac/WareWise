@@ -10,8 +10,6 @@ public class UiConstants {
     public static final String ANSI_GREEN  = "\u001B[32m";
     public static final String ANSI_RED    = "\u001B[31m";
     public static final String ANSI_WHITE  = "\u001B[37m";
-    public static final String SAVE_CURSOR = "\033[s";
-    public static final String RESTORE_CURSOR = "\033[u";
     // ANSI code to clear the screen and reset cursor position
     public static final String CLEAR_SCREEN = "\033[H\033[2J";
 

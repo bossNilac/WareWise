@@ -17,7 +17,7 @@ public class Encrypt {
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2d);
 
         try {
-            return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, pepper+password);
+            return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, (pepper+password).toCharArray());
         } finally {
             argon2.wipeArray(password.toCharArray());
         }
@@ -26,11 +26,13 @@ public class Encrypt {
     // Verify the password (during login)
     public static boolean verifyPassword(String storedHash, String inputPassword) {
         Argon2 argon2 = Argon2Factory.create((Argon2Factory.Argon2Types.ARGON2d));
-        return argon2.verify(storedHash, pepper+inputPassword);
+        return argon2.verify(storedHash, (pepper+inputPassword).toCharArray());
     }
 
     public static void main(String[] args) {
-        System.out.println(hashPassword("1234"));
+        String username = hashPassword("1234");
+        System.out.println(username);
+        System.out.println(verifyPassword(username,"1234"));
     }
 
 }

@@ -19,11 +19,8 @@ public class UtilityCommands {
     public static void printServerControlMenu() {
         System.out.println(ANSI_WHITE + ANSI_BOLD);
         System.out.println(topBorder);
-        System.out.println("| 1. Start Server  |");
-        System.out.println("| 2. Close Server  |");
         System.out.println("| 3. DB Action     |");
         System.out.println("| 4. List Users    |");
-        System.out.println("| 5. Kick User     |");
         System.out.println("| 6. Exit          |");
         System.out.println("| 7. Clear screen  |");
         System.out.println("| 0. Setup profile |");
@@ -54,7 +51,8 @@ public class UtilityCommands {
         System.out.println("| 5. Order Management         |");
         System.out.println("| 6. Supplier Management      |");
         System.out.println("| 7. Stock Alert Management   |");
-        System.out.println("| 8. Exit                     |");
+        System.out.println("| 8. Warehouse Management     |");
+        System.out.println("| 9. Exit                     |");
         System.out.println(bottomBorder + ANSI_RESET);
     }
 
@@ -103,7 +101,7 @@ public class UtilityCommands {
         moveCursor(termRows - 4, 1);
         switch (type){
             case 1:
-                System.out.println(ANSI_GREEN + "[INFO]"+ message +   ANSI_RESET);
+                System.out.println(ANSI_GREEN + "[INFO]"+ "\n" +message +   ANSI_RESET);
                 break;
             case 2:
                 System.out.println(ANSI_YELLOW + "[WARN]"+ message  + ANSI_RESET);

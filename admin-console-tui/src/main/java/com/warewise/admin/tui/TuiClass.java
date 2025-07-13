@@ -1,50 +1,58 @@
 package com.warewise.admin.tui;
 
+import com.google.gson.GsonBuilder;
 import com.warewise.admin.tui.commands.*;
-import com.warewise.admin.tui.network.NetworkingClass;
-import com.warewise.admin.tui.ui.Dashboard;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-import static com.warewise.admin.tui.Protocol.*;
+import static com.warewise.admin.tui.commands.AdminUtil.loggedIn;
 import static com.warewise.admin.tui.ui.UiConstants.*;
 import static com.warewise.admin.tui.commands.UtilityCommands.*;
 
 public class TuiClass {
 
-    static Dashboard dashboard;
-    static NetworkingClass networkingObject;
-    static Socket socket;
     static Scanner scanner = new Scanner(System.in);
-    private static final int port = 12345;
     private boolean DbActionFlag = false;
     private boolean running = true;
 
-    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWiseFiles/passwd/user_credentials.json";
-    private String[] loginCreds = new String[2];
+    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWise/user_credentials.json";
 
 
-    public void serverInit() {
+    public void doLogin(){
+        String loginResponse = ApiHandler.sendApiCall("POST","auth","login",AdminUtil.getLoginCred());
         try {
-            dashboard = new Dashboard();
-            animateProgressBar("Dashboard", 10, 100); // 30 steps with a 50ms delay each
-            animateProgressBar("ServerResponseHandler", 10, 100); // 30 steps with a 50ms delay each
-            socket = new Socket(InetAddress.getLocalHost(), port);
-            networkingObject = new NetworkingClass(socket,dashboard);
-            animateProgressBar("Networking Module", 10, 100); // 30 steps with a 50ms delay each
-        } catch (IOException | InterruptedException e) {
+            animateProgressBar("Login",5,200);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        clearScreen();
-        printHeader();
-        dashboard.start();
-        networkingObject.listenToServer();
-        running = true;
-        this.runDbActionMenu();
+        ApiResponse response = new ApiResponse(loginResponse);
+        ApiHandler.TOKEN =  response.getData()
+                .substring(1, response.getData().length() - 1);
+        if(!response.getSuccess()){
+            UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
+            loggedIn = false;
+        }else {
+            loggedIn = true;
+        }
+    }
+
+    public void serverInit() {
+        String loginResponse = ApiHandler.sendApiCall("GET","status","",null);
+        if(loginResponse == null){
+            UtilityCommands.displayNotificationPanel(3,"Login Failed,server down");
+        }else {
+            doLogin();
+            clearScreen();
+            printHeader();
+            running = true;
+            while (!loggedIn) {
+                askForCred();
+                doLogin();
+            }
+            this.runDbActionMenu();
+        }
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -52,42 +60,18 @@ public class TuiClass {
     }
 
     public void runMainMenu() {
-        File file = new File(CREDENTIALS_FILE);
-        if (!file.exists() || UtilityCommands.isFileEmpty(file)) {
-            UtilityCommands.askForCred();
-        }else {
-            loginCreds = AdminUtil.getLoginCred();
-        }
+        serverInit();
         displayAppHeader();
         while (running) {
             switch (askForInput()) {
-                case "1":
-                    AdminUtil.startServer();
-                    try {
-                        Thread.sleep(2000);
-                        serverInit();
-                        login();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "2":
-                    AdminUtil.closeServer(networkingObject);
-                    break;
                 case "3":
                     this.DbActionFlag = true;
-                    if(AdminUtil.isServerStarted) runDbActionMenu();
-                    else AdminUtil.notLoggedInError();
+                    runDbActionMenu();
                     break;
                 case "4":
-                    AdminUtil.listUsers(networkingObject);
-                    break;
-                case "5":
-                    System.out.print(ANSI_WHITE + "Enter your username: " + ANSI_RESET);
-                    String userID = scanner.nextLine();
-                    if(showModalDialog("You are about to kick user:" + userID )) {
-                        AdminUtil.kickUser(networkingObject, userID);
-                    }
+                    String usersResponse = ApiHandler.sendApiCall("GET",ApiHandler.USERS,"get_users",null);
+                    ApiResponse apiResponse = new ApiResponse(usersResponse);
+                    UtilityCommands.displayNotificationPanel(1,apiResponse.getData());
                     break;
                 case "6":
                     if (showModalDialog("Exit")) {
@@ -102,34 +86,31 @@ public class TuiClass {
                     break;
                 default:
                     System.out.println("\n Invalid option. Please try again.");
+                }
             }
-        }
     }
-
-    private void login() {
-        networkingObject.sendMessage(HELLO);
-        networkingObject.sendMessage(LOGIN+SEPARATOR+loginCreds[0]+SEPARATOR+loginCreds[1]);
-        displayAppHeader();
-    }
-
 
     public  void runDbActionMenu() {
         while (DbActionFlag) {
             printDbActionMenu();
-            String command = "";
+            String command;
 
             switch (askForInput()) {
                 case "1":
-                    command = handleAddOrUpdate(true);  // Add
+                    handleAddOrUpdate(true);  // Add
                     break;
                 case "2":
-                    command = handleAddOrUpdate(false); // Update
+                    handleAddOrUpdate(false); // Update
                     break;
                 case "3":
                     command = handleList();
+                    ApiHandler.sendListCall(command);
                     break;
                 case "4":
                     command = handleDelete();
+                    System.out.print("Enter ID to delete: ");
+                    int id = scanner.nextInt();
+                    ApiHandler.sendDeleteCall(command, id);
                     break;
                 case "5":
                     displayAppHeader();
@@ -139,49 +120,143 @@ public class TuiClass {
                     System.out.println("Invalid option.");
                     break;
             }
-
-            if (!command.isBlank()) {
-                networkingObject.sendMessage(command);
-            }else {
-                DbActionFlag = false;
-            }
         }
     }
 
 
     // Method for Add and Update (Combined)
-    private static String handleAddOrUpdate(boolean isAdd) {
+    private static void handleAddOrUpdate(boolean isAdd) {
+        String method = "POST";
+        String command_prefix = "add_";
         printDbHandlerMenu();
         String command = askForInput();
 
-        String actionPrefix = isAdd ? "ADD_" : "UPDATE_";
         String id = "";
 
         if (!isAdd) {  // If updating, ask for ID
             System.out.print("Enter ID to update: ");
             id = scanner.nextLine();
+            method = "PATCH";
+            command_prefix = "update_";
         }
 
-        return switch (command) {
-            case "1" -> actionPrefix + "USER" + buildParams(isAdd, "Username", "Password", "Role", "Email");
-            case "2" -> actionPrefix + "ITEM" + buildParams(isAdd, "Order id", "Inventory id", "Quantity", "Price", "Category id");
-            case "3" -> actionPrefix + "CATEGORY" + buildParams(isAdd, "Category Name", "Description");
-            case "4" -> actionPrefix + "INVENTORY" + buildParams(isAdd, "Inventory Name", "Description", "Quantity", "Last Updated");
-            case "5" -> isAdd
-                    ? "CREATE_ORDER" + buildParams(true, "Customer Name", "Item ID", "Quantity")
-                    : "UPDATE_ORDER" + buildParams(false, "Status");
-            case "6" -> actionPrefix + "SUPPLIER" + buildParams(isAdd, "Name", "Email", "Phone", "Address");
-            case "7" -> isAdd
-                    ? "STOCK_ALERT" + buildParams(true, "Product ID", "Threshold")
-                    : "UPDATE_STOCK_ALERT" + buildParams(false, "Product ID", "Threshold", "Created At", "Resolved");
-            case "8" -> {
-                displayAppHeader();
-                yield "";
-            }
-            default -> {
-                System.out.println("Invalid category.");
-                yield "";
-            }
+        String apiCall;
+        ApiResponse apiResponse;
+        String body;
+
+         switch (command) {
+             case "1" :
+                     if(isAdd){
+                             body = buildParams(true,null ,null,
+                                     "username", "password", "email","role","warehouseId");
+                     }
+                     else{
+                             body = buildParams(false,id ,"userId",
+                                     "username", "password", "email","role","warehouseId");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.USERS, command_prefix+"user", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+
+             case "2" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "orderId", "inventoryId", "quantity","price","total","categoryId","supplierId");
+                     }
+                     else{
+                         body = buildParams(false,id ,"itemId",
+                                 "orderId", "inventoryId", "quantity","price","total","categoryId","supplierId");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.ITEMS, command_prefix+"item", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                 case "3" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "name", "description");
+                     }
+                     else{
+                         body = buildParams(false,id ,"categoryId",
+                                 "name", "description");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.CATEGORIES, command_prefix+"category", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                 case "4" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "name", "stockQuantity","description","lastUpdated","warehouseId");
+                     }
+                     else{
+                         body = buildParams(false,id ,"inventoryId",
+                                 "name", "stockQuantity","description","lastUpdated","warehouseId");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.INVENTORIES, command_prefix+"inventory", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                 case "5" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "customerName", "customerEmail","status","createdAt","updatedAt","userId");
+                     }
+                     else{
+                         body = buildParams(false,id ,"orderId",
+                                 "customerName", "customerEmail","status","createdAt","updatedAt","userId");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.ORDERS, command_prefix+"order", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                case "6" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "supplierName", "contactEmail","contactPhone","address","createdAt");
+                     }
+                     else{
+                         body = buildParams(false,id ,"supplierId",
+                                 "supplierName", "contactEmail","contactPhone","address","createdAt");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.SUPPLIERS, command_prefix+"supplier", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                case "7" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "productId", "createdAt","resolved");
+                     }
+                     else{
+                         body = buildParams(false,id ,"supplierId",
+                                 "productId", "createdAt","resolved");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.STOCK_ALERTS, command_prefix+"stock_alert", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+                case "8" :
+                     if(isAdd){
+                         body = buildParams(true,null ,null,
+                                 "name;", "address");
+                     }
+                     else{
+                         body = buildParams(false,id ,"warehouseId",
+                                 "name;", "address");
+                     }
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.STOCK_ALERTS, command_prefix+"warehouse", body);
+                     apiResponse = new ApiResponse(apiCall);
+                     System.out.println(apiResponse.getMessage());
+                     break;
+
+                case "9" :
+                    displayAppHeader();
+                    break;
+                default :
+                    System.out.println("Invalid category.");
+                    break;
         };
     }
 
@@ -195,14 +270,15 @@ public class TuiClass {
         String categoryChoice = scanner.nextLine();
 
         return switch (categoryChoice) {
-            case "1" -> LIST_USERS;
-            case "2" -> LIST_ITEMS;
-            case "3" -> LIST_CATEGORIES;
-            case "4" -> LIST_INVENTORY;
-            case "5" -> LIST_ORDERS;
-            case "6" -> LIST_SUPPLIERS;
-            case "7" -> LIST_STOCK_ALERTS;
-            case "8" -> "";
+            case "1" -> "LIST_USERS";
+            case "2" -> "LIST_ITEMS";
+            case "3" -> "LIST_CATEGORIES";
+            case "4" -> "LIST_INVENTORY";
+            case "5" -> "LIST_ORDERS";
+            case "6" -> "LIST_SUPPLIERS";
+            case "7" -> "LIST_STOCK_ALERTS";
+            case "8" -> "LIST_WAREHOUSES";
+            case "9" -> "";
             default -> {
                 System.out.println("Invalid category.");
                 yield "";
@@ -216,18 +292,16 @@ public class TuiClass {
         printDbHandlerMenu();
         String command = askForInput();
 
-        System.out.print("Enter ID to delete: ");
-        String id = scanner.nextLine();
-
         return switch (command) {
-            case "1" -> DELETE_USER + SEPARATOR + id;
-            case "2" -> DELETE_ITEM + SEPARATOR + id;
-            case "3" -> DELETE_CATEGORY + SEPARATOR + id;
-            case "4" -> DELETE_INVENTORY + SEPARATOR + id;
-            case "5" -> DELETE_ORDER + SEPARATOR + id;
-            case "6" -> DELETE_SUPPLIER + SEPARATOR + id;
-            case "7" -> DELETE_STOCK_ALERT + SEPARATOR + id;
-            case "8" -> "";
+            case "1" -> "DELETE_USER"  ;
+            case "2" -> "DELETE_ITEM"  ;
+            case "3" -> "DELETE_CATEGORY" ;
+            case "4" -> "DELETE_INVENTORY";
+            case "5" -> "DELETE_ORDER" ;
+            case "6" -> "DELETE_SUPPLIER"  ;
+            case "7" -> "DELETE_STOCK_ALERT" ;
+            case "8" -> "DELETE_WAREHOUSE" ;
+            case "9" -> "";
             default -> {
                 System.out.println("Invalid category.");
                 yield "";
@@ -236,29 +310,42 @@ public class TuiClass {
     }
 
     private static void exit() {
-        dashboard.stop();
+        System.exit(0);
+    }
+
+    private static Object parseValue(String input) {
+        if (input.equalsIgnoreCase("true") || input.equalsIgnoreCase("false")) {
+            return Boolean.parseBoolean(input);
+        }
         try {
-            networkingObject.close();
-            System.exit(0);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (input.contains(".")) {
+                return Double.parseDouble(input);
+            }
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return input; // fallback to string
         }
     }
 
-    // Helper method for handling parameters (empty fields become ~~)
-    private static String buildParams(boolean isAdd, String id, String... params) {
-        StringBuilder commandBuilder = new StringBuilder("~");
-        if (!isAdd) {
-            commandBuilder.append(id).append("~");
+    public static String buildParams(boolean isAdd, Object id, String idFieldName, String... paramNames) {
+        Map<String, Object> jsonMap = new LinkedHashMap<>();
+
+        if (!isAdd && id != null && idFieldName != null && !idFieldName.isEmpty()) {
+            jsonMap.put(idFieldName, id);
         }
 
-        for (String param : params) {
-            System.out.print(param + ": ");
+        for (String paramName : paramNames) {
+            if (paramName == null) continue;
+            System.out.print(paramName + ": ");
             String input = scanner.nextLine();
-            commandBuilder.append(input.isEmpty() ? "" : input).append("~");
+            if (input == null || input.trim().isEmpty()) {
+                continue;
+            }
+            Object value = input.isEmpty() ? "" : parseValue(input);
+            jsonMap.put(paramName, value);
         }
 
-        String command = commandBuilder.toString();
-        return command.endsWith("~") ? command.substring(0, command.length() - 1) : command; // Remove trailing '~'
+        return new GsonBuilder().setPrettyPrinting().create().toJson(jsonMap);
     }
+
 }

@@ -69,7 +69,7 @@ public class CategoryResource {
     @Path("/update_category")
     public Response update_user(UpdateCategoryRequest updateCategoryRequest) {
         if (updateCategoryRequest.categoryId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "userId", null);
+            ApiResponse<Void> resp = new ApiResponse<>(false, "categoryId field is needed", null);
             return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
         }
 

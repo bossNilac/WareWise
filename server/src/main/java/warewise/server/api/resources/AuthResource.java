@@ -1,8 +1,7 @@
 package warewise.server.api.resources;
 
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import warewise.server.api.JwtUtil;
 import warewise.server.api.NotificationService;
@@ -17,10 +16,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Path("/auth")
-public class AuthResponse {
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class AuthResource {
     @POST
     @Path("/login")
-    public Response addUser(AuthResponse.LoginRequest req){
+    public Response login(AuthResource.LoginRequest req){
         for  (User u: UserHandler.getInstance().getAllUsers()){
             if(u.getUsername().equals(req.username)){
                 if(Encrypt.verifyPassword(u.getPasswordHash(),req.password)){
@@ -39,7 +40,7 @@ public class AuthResponse {
 
     @POST
     @Path("/forgot_password-{token}")
-    public Response forgot_password(@PathParam("token") String token, AuthResponse.LoginRequest req) {
+    public Response forgot_password(@PathParam("token") String token, AuthResource.LoginRequest req) {
 
         if(ForgotPasswordHandler.getInstance().getTokenByToken(token).isExpired()){
             ApiResponse<Void> resp = new ApiResponse<>(true, "Token Invalid", null);

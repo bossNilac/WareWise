@@ -30,7 +30,6 @@ public class StockAlertResource {
     @Path("/add_stock_alert")
     public Response addStockAlert(AddRequest req) {
         StockAlert newAlert = new StockAlert(
-                req.stockAlertId,
                 req.productId,
                 req.createdAt,
                 req.resolved
@@ -84,7 +83,6 @@ public class StockAlertResource {
     }
 
     static class AddRequest {
-        public Integer stockAlertId;
         public Integer productId;
         public String createdAt;
         public Boolean resolved;

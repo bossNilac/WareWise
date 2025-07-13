@@ -30,7 +30,6 @@ public class WarehouseResource {
     @Path("/add_warehouse")
     public Response addWarehouse(AddRequest req) {
         Warehouse newWarehouse = new Warehouse(
-                req.warehouseId,
                 req.name,
                 req.address
         );
@@ -82,7 +81,6 @@ public class WarehouseResource {
     }
 
     static class AddRequest {
-        public Integer warehouseId;
         public String name;
         public String address;
     }

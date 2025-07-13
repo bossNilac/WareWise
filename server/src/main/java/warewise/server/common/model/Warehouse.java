@@ -8,6 +8,11 @@ public class Warehouse {
     public Warehouse() {
     }
 
+    public Warehouse(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
     public Warehouse(int warehouse_id, String name, String address) {
         this.warehouse_id = warehouse_id;
         this.name = name;
