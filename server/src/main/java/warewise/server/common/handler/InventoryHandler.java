@@ -22,14 +22,13 @@ public class InventoryHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO inventory (inventory_id, name, stock_quantity, description, last_updated, warehouse_id) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO inventory (name, stock_quantity, description, last_updated, warehouse_id) VALUES (?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, inventory.getID());
-            stmt.setString(2, inventory.getName());
-            stmt.setInt(3, inventory.getQuantity());
-            stmt.setString(4, inventory.getDescription());
-            stmt.setString(5, inventory.getLastUpdated());
-            stmt.setInt(6, inventory.getWarehouseId());
+            stmt.setString(1, inventory.getName());
+            stmt.setInt(2, inventory.getQuantity());
+            stmt.setString(3, inventory.getDescription());
+            stmt.setString(4, inventory.getLastUpdated());
+            stmt.setInt(5, inventory.getWarehouseId());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

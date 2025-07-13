@@ -22,14 +22,13 @@ public class SupplierHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO suppliers (supplier_id, supplier_name, contact_email, contact_phone, address, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO suppliers (supplier_name, contact_email, contact_phone, address, created_at) VALUES (?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, supplier.getID());
-            stmt.setString(2, supplier.getName());
-            stmt.setString(3, supplier.getContactEmail());
-            stmt.setString(4, supplier.getContactPhoneNo());
-            stmt.setString(5, supplier.getAddress());
-            stmt.setString(6, supplier.getCreatedAt());
+            stmt.setString(1, supplier.getName());
+            stmt.setString(2, supplier.getContactEmail());
+            stmt.setString(3, supplier.getContactPhoneNo());
+            stmt.setString(4, supplier.getAddress());
+            stmt.setString(5, supplier.getCreatedAt());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

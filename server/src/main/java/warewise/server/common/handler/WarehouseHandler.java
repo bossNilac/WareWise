@@ -22,11 +22,10 @@ public class WarehouseHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO warehouse (warehouse_id, name, address) VALUES (?, ?, ?)";
+            String query = "INSERT INTO warehouse (name, address) VALUES (?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, warehouse.getWarehouse_id());
-            stmt.setString(2, warehouse.getName());
-            stmt.setString(3, warehouse.getAddress());
+            stmt.setString(1, warehouse.getName());
+            stmt.setString(2, warehouse.getAddress());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

@@ -23,15 +23,14 @@ public class UserHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO users (user_id, username, password, email, created_at, warehouse_id, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (username, password, email, created_at, warehouse_id, role) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, user.getID());
-            stmt.setString(2, user.getUsername());
-            stmt.setString(3, user.getPasswordHash());
-            stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getCreatedAt());
-            stmt.setInt(6, user.getWarehouseId());
-            stmt.setString(7, user.getRole().toString());
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPasswordHash());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getCreatedAt());
+            stmt.setInt(5, user.getWarehouseId());
+            stmt.setString(6, user.getRole().toString());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

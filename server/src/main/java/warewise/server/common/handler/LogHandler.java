@@ -22,13 +22,12 @@ public class LogHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO logs (log_id, user_id, action, description, created_at) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO logs (user_id, action, description, created_at) VALUES (?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, log.getID());
-            stmt.setInt(2, log.getUserID());
-            stmt.setString(3, log.getAction());
-            stmt.setString(4, log.getDescription());
-            stmt.setString(5, log.getCreatedAt());
+            stmt.setInt(1, log.getUserID());
+            stmt.setString(2, log.getAction());
+            stmt.setString(3, log.getDescription());
+            stmt.setString(4, log.getCreatedAt());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

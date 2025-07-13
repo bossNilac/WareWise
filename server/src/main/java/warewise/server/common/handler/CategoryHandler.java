@@ -22,11 +22,10 @@ public class CategoryHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO categories (category_id, name, description) VALUES (?, ?, ?)";
+            String query = "INSERT INTO categories (name, description) VALUES (?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, category.getID());
-            stmt.setString(2, category.getName());
-            stmt.setString(3, category.getDescription());
+            stmt.setString(1, category.getName());
+            stmt.setString(2, category.getDescription());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

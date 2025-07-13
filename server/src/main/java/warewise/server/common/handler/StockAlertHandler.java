@@ -22,12 +22,11 @@ public class StockAlertHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO stock_alerts (stock_alert_id, product_id, created_at, resolved) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO stock_alerts (product_id, created_at, resolved) VALUES (?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, stockAlert.getID());
-            stmt.setInt(2, stockAlert.getProductID());
-            stmt.setString(3, stockAlert.getCreatedAt());
-            stmt.setBoolean(4, stockAlert.getResolved());
+            stmt.setInt(1, stockAlert.getProductID());
+            stmt.setString(2, stockAlert.getCreatedAt());
+            stmt.setBoolean(3, stockAlert.getResolved());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

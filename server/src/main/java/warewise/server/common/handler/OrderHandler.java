@@ -23,15 +23,14 @@ public class OrderHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO orders (order_id, customer_name, customer_email, status, created_at, updated_at, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO orders (customer_name, customer_email, status, created_at, updated_at, user_id) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, order.getID());
-            stmt.setString(2, order.getCustomerName());
-            stmt.setString(3, order.getCustomerEmail());
-            stmt.setString(4, order.getStatus().toString());
-            stmt.setString(5, order.getCreatedAt());
-            stmt.setString(6, order.getUpdatedAt());
-            stmt.setInt(7, order.getUserId());
+            stmt.setString(1, order.getCustomerName());
+            stmt.setString(2, order.getCustomerEmail());
+            stmt.setString(3, order.getStatus().toString());
+            stmt.setString(4, order.getCreatedAt());
+            stmt.setString(5, order.getUpdatedAt());
+            stmt.setInt(6, order.getUserId());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

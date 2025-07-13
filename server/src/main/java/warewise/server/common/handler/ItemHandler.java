@@ -22,16 +22,15 @@ public class ItemHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO items (item_id, order_id, inventory_id, quantity, price, total, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO items (order_id, inventory_id, quantity, price, total, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, item.getID());
-            stmt.setInt(2, item.getOrderID());
-            stmt.setInt(3, item.getInventoryID());
-            stmt.setInt(4, item.getQuantity());
-            stmt.setDouble(5, item.getPrice());
-            stmt.setDouble(6, item.getTotal());
-            stmt.setInt(7, item.getCategoryID());
-            stmt.setInt(8, item.getSupplierId());
+            stmt.setInt(1, item.getOrderID());
+            stmt.setInt(2, item.getInventoryID());
+            stmt.setInt(3, item.getQuantity());
+            stmt.setDouble(4, item.getPrice());
+            stmt.setDouble(5, item.getTotal());
+            stmt.setInt(6, item.getCategoryID());
+            stmt.setInt(7, item.getSupplierId());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

@@ -22,12 +22,11 @@ public class ForgotPasswordHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO forgot_password_table (id, user_id, token, expiration_date) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO forgot_password_table (user_id, token, expiration_date) VALUES (?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, token.getId());
-            stmt.setInt(2, token.getUserId());
-            stmt.setString(3, token.getToken());
-            stmt.setString(4, token.getExpirationDate());
+            stmt.setInt(1, token.getUserId());
+            stmt.setString(2, token.getToken());
+            stmt.setString(3, token.getExpirationDate());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
