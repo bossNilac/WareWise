@@ -1,35 +1,41 @@
 # WareWise
 
-**WareWise** is a **multi-interface Warehouse Management System** built on Java, JavaFX,Jakarta, React and Postgresql. It offers both **text-based (TUI) and graphical (GUI) admin consoles**, as well as a **dedicated client GUI** for managers and workers. This architecture ensures efficient warehouse operations while centralizing all data and business logic in a **Java server** connected to an **Postgresql** database.
+WareWise is a multi-interface Warehouse Management System built using Java, JavaFX, Jakarta EE, React Native, Vue.js, and PostgreSQL. It offers both text-based (CLI/TUI) and graphical (GUI) admin consoles, as well as dedicated client interfaces for managers and workers on desktop, mobile, and web. This robust architecture ensures efficient warehouse operations while centralizing all data and business logic within a Java (Jakarta EE) server connected to a PostgreSQL database.
 
----
+## Key Features
 
-## **Key Features**
+### 1. Server-Client Architecture
+- A standalone Java server using **Jakarta EE** hosts the PostgreSQL database and handles requests from admin and client applications across platforms.
 
-1. **Server-Client Architecture**
-    - A standalone **Java server** hosts the Postgresql database and handles requests from admin and client applications.
+### 2. Admin Console (CLI/TUI & GUI)
+- Java-based Text-Based UI (**CLI/TUI**) for quick, command-driven operations, such as user management.
+- **JavaFX-based GUI dashboard** for comprehensive logs and system monitoring.
 
-2. **Admin Console (TUI & GUI)**
-    - **Text-Based UI** for quick, command-driven operations (user management, etc.).
-    - **Admin GUI** (JavaFX) with a graphical dashboard for logs and monitoring.
+### 3. Client Interface (Manager & Worker)
+- **JavaFX desktop application** for daily tasks including inventory management, order processing, and basic reporting.
+- **React Native mobile app** for managers and workers, supporting barcode scanning and mobile-specific workflows.
+- Upcoming **Vue.js web application** for responsive, browser-based access, enhancing flexibility and accessibility.
+- Role-based UIs ensure users access only authorized features based on their roles (Worker or Manager).
 
-3. **Client GUI (Manager & Worker)**
-    - **JavaFX** application for daily tasks: inventory management, order processing, and basic reporting.
-    - **Role-based UI** restricts or enables features depending on whether the user is a Worker or Manager.
+### 4. PostgreSQL Backend
+- Secure storage of all data in **PostgreSQL**.
+- Communication facilitated via **JDBC**, supporting optional AES-256 field-level encryption.
 
-4. **Postgresql Backend**
-    - All data is stored securely in **Postgresql**.
-    - Uses **JDBC** for communication and supports optional **field-level encryption** (AES).
+### 5. Security & Encryption
+- **Role-Based Access Control (RBAC)**: Admin, Manager, Worker.
+- Password hashing using **Argon2** for robust security.
+- Optional AES-256 encryption for sensitive database fields.
 
-5. **Security & Encryption**
-    - **Role-Based Access Control (RBAC)**: Admin, Manager, Worker.
-    - **Password Hashing**:Argon2.
-    - **Optional Data Encryption**: AES-256 for sensitive fields.
+### 6. Reporting & Analytics
+- Real-time visibility into stock levels, order statuses, and sales trends.
+- Visualization through intuitive **JavaFX charts** in desktop clients and planned **Vue.js web dashboards**.
 
-6. **Reporting & Analytics**
-    - Real-time stock levels, order statuses, and sales trends.
-    - JavaFX charts in the Client  for easy visualization.
+## Strategic Technology Choices
 
+- **Jakarta EE** ensures enterprise-grade reliability, scalability, and maintainability.
+- **JavaFX** provides a native, performant desktop experience.
+- **React Native** allows efficient cross-platform mobile app development.
+- **Vue.js** offers rapid and flexible development for web interfaces, complementing desktop and mobile user experiences.
 ---
 
 ## **Project Structure**
