@@ -15,6 +15,8 @@ import warewise.server.common.model.User;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+
 @Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +39,21 @@ public class AuthResource {
         return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
 
     }
+
+    /**
+     * Logs out a user by revoking the provided JWT token.
+     *
+     * @param authHeader the Authorization header containing the Bearer token.
+     * @return a {@link Response} indicating logout success.
+     */@GET
+    @Path("/logout")
+    public Response logout(@HeaderParam("Authorization") String authHeader) {
+        authHeader = authHeader.replace("Bearer ","");
+        JwtUtil.removeToken(authHeader);
+        ApiResponse<Void> resp = new ApiResponse<>(true, "Logout",null);
+        return Response.status(Response.Status.OK).entity(resp).build();
+    }
+
 
     @POST
     @Path("/forgot_password-{token}")

@@ -35,6 +35,10 @@ javafx {
 }
 
 dependencies {
+  // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+  implementation("com.squareup.okhttp3:okhttp:5.1.0")
+  // https://mvnrepository.com/artifact/com.google.code.gson/gson
+  implementation("com.google.code.gson:gson:2.13.1")
   implementation 'org.controlsfx:controlsfx:11.1.2'
   // https://mvnrepository.com/artifact/org.jfxtras/jmetro
   implementation 'org.jfxtras:jmetro:11.6.16'

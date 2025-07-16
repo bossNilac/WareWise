@@ -1,10 +1,9 @@
 package com.warewise.gui.controller;
 
-import com.warewise.gui.util.AdminUtil;
 import com.warewise.gui.util.UtilityCommands;
 import javax.swing.*;
 
-public class LoginPrompt {
+public class  LoginPrompt {
     /**
      * Utility method to retrieve login credentials using Swing (No JavaFX Thread Issues)
      */
@@ -25,8 +24,7 @@ public class LoginPrompt {
             return new String[]{usernameField.getText(), new String(passwordField.getPassword())};
         } else {
             // Handle Cancel button
-            UtilityCommands.displayNotificationPanel(3, "Login canceled, closing server.");
-            AdminUtil.closeServer(ServerApplication.getNetworkingObject());
+            UtilityCommands.displayNotificationPanel(3, "Login canceled");
             return null;
         }
     }

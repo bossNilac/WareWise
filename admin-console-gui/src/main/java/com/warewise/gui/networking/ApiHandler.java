@@ -1,9 +1,13 @@
-package com.warewise.admin.tui;
+package com.warewise.gui.networking;
 
-import com.warewise.admin.tui.commands.UtilityCommands;
+import com.google.gson.GsonBuilder;
+import com.warewise.gui.util.UtilityCommands;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ApiHandler {
 
@@ -19,6 +23,7 @@ public class ApiHandler {
     public static String STOCK_ALERTS="stock_alerts";
     public static String ORDERS="orders";
     public static String SUPPLIERS="suppliers";
+    public static String LOGS="logs";
 
 
     public static String sendApiCall(String method, String subpath, String command, String string_body) {
@@ -106,6 +111,10 @@ public class ApiHandler {
                 usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.WAREHOUSES, "get_warehouses", null);
                 apiResponse = new ApiResponse(usersResponse);
                 break;
+//            case "LIST_LOGS":
+//                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.LOGS, "get_logs", null);
+//                apiResponse = new ApiResponse(usersResponse);
+//                break;
             case "":
                     return;
             default:
@@ -127,35 +136,35 @@ public class ApiHandler {
         switch (value) {
             case "DELETE_USER":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.USERS, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"userId"));
+                        buildDeleteParams(id,"userId"));
                 break;
             case "DELETE_ITEM":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ITEMS, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"itemId"));
+                        buildDeleteParams(id,"itemId"));
                 break;
             case "DELETE_CATEGORY":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.CATEGORIES, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"categoryId"));
+                        buildDeleteParams(id,"categoryId"));
                 break;
             case "DELETE_INVENTORY":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.INVENTORIES, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"inventoryId"));
+                        buildDeleteParams(id,"inventoryId"));
                 break;
             case "DELETE_ORDER":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ORDERS, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"orderId"));
+                       buildDeleteParams(id,"orderId"));
                 break;
             case "DELETE_SUPPLIER":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.SUPPLIERS, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"supplierId"));
+                        buildDeleteParams(id,"supplierId"));
                 break;
             case "DELETE_STOCK_ALERT":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.STOCK_ALERTS, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"supplierId"));
+                        buildDeleteParams(id,"supplierId"));
                 break;
             case "DELETE_WAREHOUSE":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.WAREHOUSES, value.toLowerCase(),
-                        TuiClass.buildParams(false, id,"warehouseId"));
+                        buildDeleteParams(id,"warehouseId"));
                 break;
             case "":
                 return;
@@ -170,5 +179,25 @@ public class ApiHandler {
         } else {
             UtilityCommands.displayNotificationPanel(3, "Unsuccessful operation");
         }
+    }
+
+    /**
+     * Builds a JSON payload for a DELETE request using a primitive id.
+     *
+     * @param id            the identifier value to include
+     * @param idFieldName   the JSON field name to use for the ID (e.g. "userId")
+     * @return              a pretty-printed JSON string containing only the ID
+     */
+    public static String buildDeleteParams(int id, String idFieldName) {
+        Map<String, Object> jsonMap = new LinkedHashMap<>();
+
+        if (idFieldName != null && !idFieldName.trim().isEmpty()) {
+            jsonMap.put(idFieldName, id);
+        }
+
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .create()
+                .toJson(jsonMap);
     }
 }

@@ -1,6 +1,5 @@
 package com.warewise.gui.controller;
 
-import com.warewise.gui.networking.NetworkingClass;
 import com.warewise.gui.util.DashboardHandler;
 import com.warewise.gui.util.PropertiesReader;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +16,8 @@ import jfxtras.styles.jmetro.Style;
 public class ServerApplication extends javafx.application.Application {
 
 
-    private static final int port    =  12345;
 
     private static DashboardHandler dashboardHandler ;
-    private static NetworkingClass networkingObject ;
     private static FXMLLoader fxmlLoader;
     public static boolean[] settings ;
 
@@ -31,7 +28,7 @@ public class ServerApplication extends javafx.application.Application {
         dashboardHandler = new DashboardHandler();
         fxmlLoader = new FXMLLoader(ServerApplication.class.getResource("main-view.fxml"));
         stage.setTitle("WareWise App");
-        stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWiseFiles/images/logo.png"));
+        stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWise/images/logo.png"));
         // Prevent fullscreen and always on top behavior
         stage.setFullScreen(false);
         stage.setFullScreenExitHint("");
@@ -53,20 +50,6 @@ public class ServerApplication extends javafx.application.Application {
 
     public static DashboardHandler getDashboardHandler(){
         return dashboardHandler;
-    }
-
-    public static NetworkingClass getNetworkingObject() {
-        return networkingObject;
-    }
-
-    public static void initNetworkingObject() {
-        try {
-            networkingObject = new NetworkingClass(
-                    new Socket(InetAddress.getLocalHost(),port),dashboardHandler,fxmlLoader);
-            networkingObject.listenToServer();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

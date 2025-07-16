@@ -1,7 +1,6 @@
 package com.warewise.gui.util;
 
-import com.warewise.gui.controller.ServerApplication;
-import com.warewise.gui.networking.Protocol;
+import com.warewise.gui.networking.ApiHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -92,13 +91,8 @@ public class UtilityCommands {
     }
 
     public static boolean pingServer() {
-        try {
-            ServerApplication.initNetworkingObject();
-            ServerApplication.getNetworkingObject().sendMessage(Protocol.HELLO);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        String loginResponse = ApiHandler.sendApiCall("GET","status","",null);
+        return loginResponse != null;
     }
 }
 

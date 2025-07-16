@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.gui.controller.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.gui.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -46,25 +46,16 @@
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-menu-100%20-%20black.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-menu-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <Button fx:id="menuDashBoardButton" mnemonicParsing="false" onAction="#toggleDashboardUI" prefHeight="45.0" prefWidth="133.0" style="-fx-background-color: transparent;" text="Dashboard" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
+                  <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-dashboard-100%20-%20black.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="menuConnBoardButton" mnemonicParsing="false" onAction="#toggleConnectionsDashboardUI" prefHeight="45.0" prefWidth="136.0" style="-fx-background-color: transparent;" text="Connections" textFill="WHITE" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-connections-100%20-%20black.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-dashboard-100.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -73,16 +64,16 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-database-100%20-%20black.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-database-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <Button fx:id="menuSettingsButton" mnemonicParsing="false" onAction="#toggleSettingsButton" prefHeight="45.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
+                  <ImageView fitHeight="27.0" fitWidth="29.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-settings-100%20-%20baclk.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-settings-100%2520-%2520baclk.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -90,15 +81,15 @@
          </children>
       </VBox>
    </left>
-   <center>
-      <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+   <right>
+      <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="510.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="connectedAsLabel" layoutX="33.0" layoutY="90.0" text="Connected as:" visible="false" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="301.5" AnchorPane.topAnchor="90.0">
+            <Label fx:id="connectedAsLabel" layoutX="33.0" layoutY="90.0" text="Connected as:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="301.5" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" layoutX="210.0" layoutY="90.0" text="N/A" visible="false" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="161.5" AnchorPane.topAnchor="90.0">
+            <Label fx:id="usernameLabel" layoutX="210.0" layoutY="90.0" text="N/A" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="161.5" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="21.0" />
                </font>
@@ -107,7 +98,7 @@
                <graphic>
                   <ImageView fitHeight="39.0" fitWidth="39.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-dashboard-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-dashboard-100.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -115,185 +106,113 @@
                   <Font size="21.0" />
                </font>
             </Button>
-            <Label fx:id="conncectionsUsageLabel" layoutX="34.0" layoutY="145.0" text="Number of connections:" visible="false" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="145.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="connNumberLabel" layoutX="210.0" layoutY="145.0" text="N/A" visible="false" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="145.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="cpuUsageLabel" layoutX="33.0" layoutY="178.0" text="Cpu usage: " visible="false" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="359.5" AnchorPane.topAnchor="178.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="cpuNumberLabel" layoutX="210.0" layoutY="178.0" text="N/A" visible="false" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="178.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="memoryUsageLabel" layoutX="33.0" layoutY="208.0" text="Memory usage: " visible="false" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="332.5" AnchorPane.topAnchor="208.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="memNumberLabel" layoutX="210.0" layoutY="208.0" text="N/A" visible="false" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="206.5" AnchorPane.topAnchor="208.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Button fx:id="startServerButton" layoutX="27.0" layoutY="319.0" mnemonicParsing="false" onAction="#startServerAction" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: transparent;" text="Start server" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="313.0" AnchorPane.topAnchor="319.0">
-               <graphic>
-                  <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-server-100.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="closeServerButton" layoutX="162.0" layoutY="314.0" mnemonicParsing="false" onAction="#stopServerAction" prefHeight="45.0" prefWidth="136.0" style="-fx-background-color: transparent;" text="Close server" textFill="WHITE" visible="false" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="319.0">
-               <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-close-window-100.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Label fx:id="serverActionsLabel" layoutX="33.0" layoutY="262.0" text="Server actions:" visible="false" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="298.0" AnchorPane.topAnchor="262.0">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
             <Button fx:id="recoverMenuButton" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#menuButtonAction" prefHeight="29.0" prefWidth="47.0" style="-fx-background-color: transparent;" visible="false">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-menu-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-menu-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <TableView fx:id="connectionTableView" layoutX="14.0" layoutY="70.0" prefHeight="245.0" prefWidth="414.0" visible="false" />
-            <Button fx:id="connectionsLabel" layoutX="138.0" layoutY="20.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="174.0" style="-fx-background-color: transparent;" text="Connections" textFill="WHITE" visible="false">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-connections-100.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Button>
-            <Button fx:id="endConnectionButton" layoutX="14.0" layoutY="329.0" mnemonicParsing="false" onAction="#endConnectionAction" style="-fx-background-color: transparent;" text="End connection" textFill="WHITE" visible="false">
-               <graphic>
-                  <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-close-window-100.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="refreshButton" layoutX="345.0" layoutY="324.0" mnemonicParsing="false" onAction="#refreshConnectionTableAction" style="-fx-background-color: transparent;" text="Refresh" textFill="WHITE" visible="false">
-               <graphic>
-                  <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-refresh-60.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <TabPane fx:id="dbTablePane" layoutX="12.0" layoutY="51.0" prefHeight="283.0" prefWidth="419.0" tabClosingPolicy="UNAVAILABLE" visible="false">
-              <tabs>
-                <Tab text="Users">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="usersTableView" prefHeight="256.0" prefWidth="435.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Category">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="categoryTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab text="Inventory">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="inventoryTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Item">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="itemTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Suppliers">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="suppliersTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Orders">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="ordersTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Alerts">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="alertsTableView" prefHeight="256.0" prefWidth="419.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-              </tabs>
+            <TabPane fx:id="dbTablePane" layoutX="12.0" layoutY="51.0" prefHeight="283.0" prefWidth="486.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+                <tabs>
+                    <Tab text="Users">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="usersTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Warehouse">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="warehouseTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Logs">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="435.0">
+                                <children>
+                                    <TableView fx:id="logsTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Category">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="categoryTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Inventory">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="inventoryTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Item">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="itemTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Suppliers">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="suppliersTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Orders">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="ordersTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Alerts">
+                        <content>
+                            <AnchorPane prefHeight="180.0" prefWidth="485.0">
+                                <children>
+                                    <TableView fx:id="alertsTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                </tabs>
             </TabPane>
             <Button fx:id="addTableButton" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onAction="#addToTableAction" style="-fx-background-color: transparent;" text="Add" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-add-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-add-100.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="updateTableButton" layoutX="94.0" layoutY="343.0" mnemonicParsing="false" onAction="#updateToTableAction" style="-fx-background-color: transparent;" text="Update" textFill="WHITE" visible="false">
+            <Button fx:id="updateTableButton" layoutX="94.0" layoutY="343.0" mnemonicParsing="false" onAction="#updateToTableAction" style="-fx-background-color: transparent;" text="Save" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-update-64.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-save-100.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -301,7 +220,7 @@
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-close-window-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-close-window-100.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -309,7 +228,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-database-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-database-100.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -318,15 +237,15 @@
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-refresh-60.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-refresh-60.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Label fx:id="settingsLabel" layoutX="158.0" layoutY="43.0" prefHeight="45.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+            <Label fx:id="settingsLabel" layoutX="158.0" layoutY="43.0" prefHeight="45.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-settings-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-settings-100.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -334,43 +253,62 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <CheckBox fx:id="mode1CheckBox" layoutX="184.0" layoutY="112.0" mnemonicParsing="false" onAction="#updateCheckBox1" text="Auto start server and login" />
-            <CheckBox fx:id="mode4CheckBox" layoutX="184.0" layoutY="229.0" mnemonicParsing="false" onAction="#updateCheckBox4" text="No startup actions" />
-            <CheckBox fx:id="mode3CheckBox" layoutX="184.0" layoutY="190.0" mnemonicParsing="false" onAction="#updateCheckBox3" text="Auto start server and no login" />
-            <CheckBox fx:id="mode2CheckBox" layoutX="184.0" layoutY="151.0" mnemonicParsing="false" onAction="#updateCheckBox2" text="Auto start server and prompt login" />
-            <Label fx:id="settingsLabel1" layoutX="14.0" layoutY="104.0" text="Startup modes:" textFill="WHITE">
+            <CheckBox fx:id="mode1CheckBox" layoutX="184.0" layoutY="112.0" mnemonicParsing="false" onAction="#updateCheckBox1" text="Prompt login on every run" visible="false" />
+            <CheckBox fx:id="mode2CheckBox" layoutX="184.0" layoutY="152.0" mnemonicParsing="false" onAction="#updateCheckBox2" text="No automatic login" visible="false" />
+            <CheckBox fx:id="mode3CheckBox" layoutX="184.0" layoutY="192.0" mnemonicParsing="false" onAction="#updateCheckBox3" text="Automatic login" visible="false" />
+            <Label fx:id="settingsLabel1" layoutX="14.0" layoutY="104.0" text="Startup modes:" textFill="WHITE" visible="false">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Button fx:id="linkdinButton" layoutX="80.0" layoutY="320.0" mnemonicParsing="false" onAction="#toLinkdinAction" prefHeight="45.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Calin Baculescu" textFill="WHITE">
+            <Button fx:id="linkdinButton" layoutX="80.0" layoutY="320.0" mnemonicParsing="false" onAction="#toLinkdinAction" prefHeight="45.0" prefWidth="144.0" style="-fx-background-color: transparent;" text="Calin Baculescu" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-linkedin-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-linkedin-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="gitHubButton" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" onAction="#toGitHubAction" prefHeight="45.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="\@bossNilac" textFill="WHITE">
+            <Button fx:id="gitHubButton" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" onAction="#toGitHubAction" prefHeight="45.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="\@bossNilac" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-github-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-github-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="saveSettingsButton" layoutX="159.0" layoutY="268.0" mnemonicParsing="false" onAction="#saveSettingsAction" style="-fx-background-color: transparent;" text="Save" textFill="WHITE">
+            <Button fx:id="saveSettingsButton" layoutX="159.0" layoutY="268.0" mnemonicParsing="false" onAction="#saveSettingsAction" style="-fx-background-color: transparent;" text="Save" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../../../../../../../../../../WareWiseFiles/images/icons8-save-100.png" />
+                        <Image url="@../../../../../../../../../../WareWise/images/icons8-save-100.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
+            <Label fx:id="usersTextLabel" layoutX="31.0" layoutY="145.0" text="Users:">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="numberOfUsers" layoutX="208.0" layoutY="145.0" text="N/A">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="warehousesTextLabel" layoutX="31.0" layoutY="194.0" text="Warehouses:">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="numberOfWarehouses" layoutX="208.0" layoutY="194.0" text="N/A">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-   </center>
+   </right>
 </BorderPane>

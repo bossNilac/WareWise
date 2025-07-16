@@ -1,69 +1,15 @@
 package com.warewise.gui.util;
 
-import com.warewise.gui.networking.Protocol;
-import com.warewise.gui.networking.NetworkingClass;
+import com.warewise.gui.networking.ApiHandler;
+import com.warewise.gui.networking.ApiResponse;
 
 import java.io.*;
 
 public class AdminUtil {
 
-    public static boolean isServerStarted = false;
     public static boolean loggedIn = false;
-
-    private static  String sessionUsername = null;
-    private static final String jarPath = System.getProperty("user.home") + "/WareWiseFiles/my-server-jar-1.0-all.jar";
-    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWiseFiles/passwd/user_credentials.json";
-
-    public static void startServer(){
-            try {
-                String os = System.getProperty("os.name").toLowerCase();
-                ProcessBuilder processBuilder;
-
-                if (os.contains("win")) {
-                    // Windows (cmd.exe)
-                    processBuilder = new ProcessBuilder("cmd", "/c", "start", "cmd", "/k",
-                            "java -jar \"" + jarPath + "\" " + 12345 );                }
-                else if (os.contains("mac")) {
-                    // macOS (Terminal.app)
-                    processBuilder = new ProcessBuilder("osascript", "-e",
-                            "tell app \"Terminal\" to do script \"java -jar " + jarPath + "\" "+ 12345);
-                } else {
-                    // Linux (GNOME/KDE/Xfce Terminal)
-                    processBuilder = new ProcessBuilder("x-terminal-emulator", "-e", "java -jar " + jarPath+ "\" "+ 12345);
-                }
-
-                isServerStarted = true;
-                processBuilder.start();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
-
-    public static void closeServer(NetworkingClass object){
-        if(isServerStarted){
-            object.sendMessage(Protocol.SHUTDOWN_SIGNAL+Protocol.SEPARATOR+10);
-            isServerStarted = false;
-            loggedIn = false;
-        }else {
-            notLoggedInError();
-        }
-    }
-
-    public static void listUsers(NetworkingClass object){
-        if(isServerStarted && loggedIn) object.sendMessage(Protocol.LIST_ONLINE_USERS);
-        else notLoggedInError();
-    }
-
-    public static void kickUser(NetworkingClass object,String name){
-        if (name.equals(sessionUsername)){
-            UtilityCommands.displayNotificationPanel(2,"Cannot kick yourself ");
-            return;
-        }
-        if(isServerStarted && loggedIn)object.sendMessage(Protocol.KICK_USER+Protocol.SEPARATOR+name);
-        else notLoggedInError();
-    }
+    public static  String sessionUsername = null;
+    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWise/user_credentials.json";
 
     public static void notLoggedInError(){
         UtilityCommands.displayNotificationPanel(3,"User not logged in");
@@ -81,15 +27,18 @@ public class AdminUtil {
         }
     }
 
-    public static String[] getLoginCred(){
+    public static String getLoginCred(){
         String username = null;
         String password = null;
+
+        StringBuilder sb = new StringBuilder();
 
         // Read and extract credentials manually
         try (BufferedReader reader = new BufferedReader(new FileReader(CREDENTIALS_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim(); // Remove leading/trailing spaces
+                sb.append(line);
 
                 if (line.startsWith("\"username\"")) {
                     username = extractValue(line);
@@ -98,6 +47,7 @@ public class AdminUtil {
                 }
             }
         } catch (IOException e) {
+            UtilityCommands.displayNotificationPanel(3,"File not found ");
             UtilityCommands.displayNotificationPanel(3,"Credentials were not read successfully ");
             return null;
         }
@@ -107,25 +57,35 @@ public class AdminUtil {
             return null;
         }
         sessionUsername = username;
-        return new String[]{username, password}; // Return extracted credentials
-    }
-
-    public static void logIn(NetworkingClass object,String sessionUsername,String passwd){
-        object.sendMessage(Protocol.HELLO);
-        object.sendMessage(Protocol.LOGIN+Protocol.SEPARATOR+sessionUsername+Protocol.SEPARATOR+passwd);
-    }
-
-    public static void logOut(NetworkingClass object){
-        System.out.println(sessionUsername);
-        object.sendMessage(Protocol.LOGOUT+sessionUsername);
+        return sb.toString(); // Return extracted credentials
     }
 
     private static String extractValue(String jsonLine) {
         return jsonLine.split(":")[1].trim().replace("\"", "").replace(",", "");
     }
 
-    public static String getSessionUsername() {
-        return sessionUsername;
+    public static void doLogin(){
+        String loginResponse = ApiHandler.sendApiCall("POST","auth","login",AdminUtil.getLoginCred());
+        ApiResponse response = new ApiResponse(loginResponse);
+        ApiHandler.TOKEN =  response.getData()
+                .substring(1, response.getData().length() - 1);
+        if(!response.getSuccess()){
+            UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
+            loggedIn = false;
+        }else {
+            loggedIn = true;
+        }
+    }
+
+    public static void logOut(){
+        String loginResponse = ApiHandler.sendApiCall("GET","auth","logout",null);
+        ApiResponse response = new ApiResponse(loginResponse);
+        if(!response.getSuccess()){
+            UtilityCommands.displayNotificationPanel(3,"Logout failed ");
+            loggedIn = true;
+        }else {
+            loggedIn = false;
+        }
     }
 
 }
