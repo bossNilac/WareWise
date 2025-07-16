@@ -4,49 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ApiHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ParamBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/enums/LogAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/enums/OrderStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/enums/TableName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/enums/UserRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Inventory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Log.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/StockAlert.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Supplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Warehouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/LoginPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/LoginPrompt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/NetworkingClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/Protocol.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/EnhancedTableView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/PropertiesReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/PropertiesReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/UtilityCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/UtilityCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/ApiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/ApiHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/AuthResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/AuthResource.java" afterDir="false" />
-    </list>
+    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="Admin GUI Rebooted" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -231,11 +189,24 @@
       <workItem from="1752240854628" duration="237000" />
       <workItem from="1752412459612" duration="4036000" />
       <workItem from="1752601546376" duration="2005000" />
-      <workItem from="1752603590914" duration="10144000" />
+      <workItem from="1752603590914" duration="10460000" />
     </task>
+    <task id="LOCAL-00001" summary="Admin GUI Rebooted">
+      <option name="closed" value="true" />
+      <created>1752673526304</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1752673526304</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Admin GUI Rebooted" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin GUI Rebooted" />
   </component>
 </project>
