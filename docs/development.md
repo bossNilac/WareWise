@@ -5,7 +5,7 @@
 ### 1.1 Project Scope
 - **Warehouse Management App** with a **client-server architecture**:
     1. **Server Application**
-        - Hosts the **Oracle SQL** database (locally or on-premise).
+        - Hosts the **Postgre SQL** database (locally or on-premise).
         - Runs a **Java server process** that handles requests from both Admin Console and Client GUI.
     2. **Admin Console**
         - **Text-Based UI (TUI)** and **GUI** options, both acting as clients.
@@ -32,7 +32,6 @@
 - **Stock Alerts** (automated notifications for low levels).
 - **Reporting & Analytics** (sales, inventory trends, order statistics).
 - **User Management** (admin-only tasks, via the server).
-- **Backup & Restore** (admin commands to the server, for database operations).
 - **Security & Encryption** (user credential protection, optional data encryption).
 
 ---
@@ -40,8 +39,8 @@
 ## 2. **High-Level Architecture**
 
 1. **Client-Server Model**
-    - **Server**: A Java process that connects to Oracle SQL and exposes functionality to clients.
-    - **Admin Console Clients**: TUI or GUI, connecting over a defined protocol (e.g., TCP sockets, RMI, or gRPC).
+    - **Server**: A Java process that connects to Postgre SQL and exposes functionality to clients.
+    - **Admin Console Clients**: TUI or GUI, connecting over a defined Api.
     - **Client GUI**: JavaFX desktop application for managers/workers.
 
 2. **MVC Within Client UIs**
@@ -61,18 +60,18 @@
     - What commands should the admin console be able to send?
     - How managers/workers interact with the server for daily tasks.
 2. Update **UI flows** for TUI, Admin GUI, and Client GUI (Manager/Worker).
-3. Define **database schema** and **communication protocol** (e.g., Java Sockets, RMI, or another RPC mechanism).
+3. Define **database schema** and **communication api**.
 
 ### **Stage 2: Architecture & Technology Choices**
 1. Confirm **Java 17+** for all components.
 2. **JavaFX** for the GUIs, console-based approach for the TUI.
 3. **Server**: Java-based, possibly a simple custom socket server or a light framework for concurrency.
-4. Oracle SQL for data storage.
+4. Postgre SQL for data storage.
 
 ### **Stage 3: Environment Setup**
 
 1. **Install & configure the following dependencies:**
-    - **Oracle SQL** (local server or on-prem VM).
+    - **Postgre SQL** (local server or on-prem VM).
     - **JDK + JavaFX** on development machines.
     - **JDBC driver** for Oracle.
 
@@ -88,21 +87,21 @@ warehouse-management-app/
 ```
 
 ### **Stage 4: Database Schema & Data Layer**
-1. Define schema in Oracle SQL (`inventory`, `orders`, `users`, etc.).
+1. Define schema in Postgre SQL (`inventory`, `orders`, `users`, etc.).
 2. Implement a **Data Access Layer** (DAL) or **DAO** classes within the **server** module.
 3. Test queries with minimal unit tests.
 
 ### **Stage 5: Server-Side Development**
 1. Create a **Java server** that listens for client requests:
-- Admin commands (create user, backups, encryption settings).
+- Admin commands (create user, encryption settings).
 - Manager/worker commands (inventory queries, order operations).
 2. **Thread handling/concurrency**: handle multiple admin & client connections.
 3. Incorporate **role-based logic** to restrict privileged operations.
 
 ### **Stage 6: Admin Console (TUI & GUI)**
 1. **TUI**:
-- Command-driven interface (e.g., `addUser`, `backupDB`, `setEncryptionKey`).
-- Connects via sockets (or chosen protocol) to the **server**.
+- Command-driven interface (e.g., `addUser`).
+- Connects via API to the **server**.
 - Minimal local logic; it sends commands, receives results.
 2. **Admin GUI**:
 - JavaFX or Swing front-end for admins who prefer a graphical dashboard.
@@ -117,14 +116,11 @@ warehouse-management-app/
 
 ### **Stage 8: Security & Encryption**
 1. **Authentication** at the server:
-- Store hashed/salted passwords (BCrypt).
+- Store hashed/salted passwords (Argon2).
 - Validate user roles on each request.
-2. **Encryption**:
-- Optional field-level encryption (AES) for sensitive data in Oracle SQL.
-- **TLS/SSL** for network connections (if needed for external or remote usage).
 
 ### **Stage 9: Reporting & Analytics**
-1. **Server** compiles data from Oracle for analytics queries.
+1. **Server** compiles data from Postgre for analytics queries.
 2. Client GUIs display results (charts, tables).
 3. Admin console can retrieve system-wide or log-based reports.
 
@@ -135,7 +131,7 @@ warehouse-management-app/
 
 ### **Stage 11: Deployment & Maintenance**
 1. Package the **server** as an executable JAR or service:
-- Runs on a dedicated machine with Oracle SQL.
+- Runs on a dedicated machine with Postgre SQL.
 2. Package **Admin Console** (TUI/GUI) and **Client GUI** as separate JARs for each user group.
 3. Provide **user documentation**:
 - Admin guide (commands, server config).
