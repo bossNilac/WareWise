@@ -10,8 +10,8 @@
     - A standalone **Java server** hosts the Postgresql database and handles requests from admin and client applications.
 
 2. **Admin Console (TUI & GUI)**
-    - **Text-Based UI** for quick, command-driven operations (user management, backups, etc.).
-    - **Admin GUI** (JavaFX) with a graphical dashboard for system configuration, logs, and monitoring.
+    - **Text-Based UI** for quick, command-driven operations (user management, etc.).
+    - **Admin GUI** (JavaFX) with a graphical dashboard for logs and monitoring.
 
 3. **Client GUI (Manager & Worker)**
     - **JavaFX** application for daily tasks: inventory management, order processing, and basic reporting.
@@ -26,13 +26,9 @@
     - **Password Hashing**:Argon2.
     - **Optional Data Encryption**: AES-256 for sensitive fields.
 
-6. **Backup & Restore**
-    - Admin commands to back up or restore the Postgresql database.
-    - Securely stored on the server side to prevent unauthorized access.
-
-7. **Reporting & Analytics**
+6. **Reporting & Analytics**
     - Real-time stock levels, order statuses, and sales trends.
-    - JavaFX charts in the Client and Admin GUI for easy visualization.
+    - JavaFX charts in the Client  for easy visualization.
 
 ---
 
@@ -51,7 +47,7 @@ warewise/
 ├── client-gui/
 │   └── src/
 │       └── ...            # JavaFX app for managers/workers
-├── pom.xml (or build.gradle)
+├──build.gradle
 └── README.md              # This file
 ```
 
@@ -151,8 +147,7 @@ java -jar client-gui/target/warewise-client.jar
 
 ## **Security Highlights**
 
-- **BCrypt** for password hashing ensures **no plaintext passwords** in the database.
-- **AES-256 encryption** (optional) secures **highly sensitive fields**.
+- **Argon2** for password hashing ensures **no plaintext passwords** in the database.
 - **Role-Based Access Control (RBAC)** enforces **strict permissions** for each role.
 - **Server-Side Authentication** validates **credentials** for every request from the **TUI** or **GUI** clients.
 
