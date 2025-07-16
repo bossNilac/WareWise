@@ -3,20 +3,20 @@ package com.warewise.gui.util.model;
 
 public class Log {
     private int ID;
-    private int userID;
+    private String username;
     private String action;
     private String description;
     private String createdAt;
 
-    public Log(int ID, int userID, String action, String description, String createdAt) {
+    public Log(int ID, String username, String action, String description, String createdAt) {
         this.ID = ID;
-        this.userID = userID;
+        this.username = username;
         this.action = action;
         this.description = description;
         this.createdAt = createdAt;
     }
-    public Log(int userID, String action, String description, String createdAt) {
-        this.userID = userID;
+    public Log(String username, String action, String description, String createdAt) {
+        this.username = username;
         this.action = action;
         this.description = description;
         this.createdAt = createdAt;
@@ -30,12 +30,12 @@ public class Log {
         this.ID = ID;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAction() {

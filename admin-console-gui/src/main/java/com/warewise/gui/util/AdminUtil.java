@@ -2,6 +2,9 @@ package com.warewise.gui.util;
 
 import com.warewise.gui.networking.ApiHandler;
 import com.warewise.gui.networking.ApiResponse;
+import com.warewise.gui.networking.WareHouseDataHandler;
+import com.warewise.gui.util.enums.UserRole;
+import com.warewise.gui.util.model.User;
 
 import java.io.*;
 
@@ -86,6 +89,16 @@ public class AdminUtil {
         }else {
             loggedIn = false;
         }
+    }
+
+    public static boolean checkIfAdmin(){
+        for (User u : WareHouseDataHandler.parsedUsersList) {
+            if(u.getUsername().equals(sessionUsername) && u.getRole() != UserRole.ADMIN){
+                UtilityCommands.displayWarning("You are not logged in as an Administrator ",false);
+                return false;
+            }
+        }
+        return true;
     }
 
 }

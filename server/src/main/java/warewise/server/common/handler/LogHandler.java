@@ -22,9 +22,9 @@ public class LogHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO logs (user_id, action, description, created_at) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO logs (username, action, description, created_at) VALUES (?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, log.getUserID());
+            stmt.setString(1, log.getUsername());
             stmt.setString(2, log.getAction());
             stmt.setString(3, log.getDescription());
             stmt.setString(4, log.getCreatedAt());
@@ -52,9 +52,9 @@ public class LogHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE logs SET user_id = ?, action = ?, description = ?, created_at = ? WHERE log_id = ?";
+            String query = "UPDATE logs SET username = ?, action = ?, description = ?, created_at = ? WHERE log_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, log.getUserID());
+            stmt.setString(1, log.getUsername());
             stmt.setString(2, log.getAction());
             stmt.setString(3, log.getDescription());
             stmt.setString(4, log.getCreatedAt());
@@ -119,7 +119,7 @@ public class LogHandler {
             if (rs.next()) {
                 log = new Log(
                         rs.getInt("log_id"),
-                        rs.getInt("user_id"),
+                        rs.getString("username"),
                         rs.getString("action"),
                         rs.getString("description"),
                         rs.getString("created_at")
@@ -152,7 +152,7 @@ public class LogHandler {
             while (rs.next()) {
                 Log log = new Log(
                         rs.getInt("log_id"),
-                        rs.getInt("user_id"),
+                        rs.getString("username"),
                         rs.getString("action"),
                         rs.getString("description"),
                         rs.getString("created_at")

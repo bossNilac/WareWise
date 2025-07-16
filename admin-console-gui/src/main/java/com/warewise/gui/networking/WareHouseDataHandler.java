@@ -18,7 +18,7 @@ public class WareHouseDataHandler {
     public static ArrayList<StockAlert> parsedAlertsList;
     public static ArrayList<Warehouse> parsedWarehousesList;
     // Logs commented out for now
-    // public static ArrayList<Log> parsedLogsList;
+     public static ArrayList<Log> parsedLogsList;
 
     /**
      * Generic JSON array → List<T> parser.
@@ -42,7 +42,7 @@ public class WareHouseDataHandler {
         parsedSuppliersList  = parse(ApiHandler.sendApiCall("GET", ApiHandler.SUPPLIERS,  "get_suppliers",  null), Supplier.class);
         parsedAlertsList     = parse(ApiHandler.sendApiCall("GET", ApiHandler.STOCK_ALERTS, "get_stock_alerts", null), StockAlert.class);
         parsedWarehousesList = parse(ApiHandler.sendApiCall("GET", ApiHandler.WAREHOUSES,  "get_warehouses",  null), Warehouse.class);
-        // parsedLogsList    = parse(ApiHandler.sendApiCall("GET", ApiHandler.LOGS,       "get_logs",       null), Log.class);
+        parsedLogsList    = parse(ApiHandler.sendApiCall("GET", ApiHandler.LOGS,       "get_logs",       null), Log.class);
     }
 
     /**
@@ -71,9 +71,9 @@ public class WareHouseDataHandler {
             case "Alerts":
                 parsedAlertsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.STOCK_ALERTS, "get_stock_alerts", null), StockAlert.class);
                 break;
-            // case "Logs":
-            //     parsedLogsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.LOGS, "get_logs", null), Log.class);
-            //     break;
+             case "Logs":
+                 parsedLogsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.LOGS, "get_logs", null), Log.class);
+                 break;
             case "Warehouse":
                 parsedWarehousesList = parse(ApiHandler.sendApiCall("GET", ApiHandler.WAREHOUSES, "get_warehouses", null), Warehouse.class);
                 break;

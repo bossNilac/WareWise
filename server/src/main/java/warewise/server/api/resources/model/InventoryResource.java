@@ -16,7 +16,6 @@ import warewise.server.common.model.Inventory;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class InventoryResource {
-
     @GET
     @Path("/get_inventory")
     public Response getInventory() {

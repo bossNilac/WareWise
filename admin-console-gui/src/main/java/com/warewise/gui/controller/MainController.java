@@ -93,13 +93,12 @@ public class MainController {
     private Button saveSettingsButton;
 
 
-    private List<Node> dashboardUiElements = new ArrayList<>();
-    private List<Node> dbUiElements = new ArrayList<>();
-    private List<Node> settingsUiElements = new ArrayList<>();
+    private final List<Node> dashboardUiElements = new ArrayList<>();
+    private final List<Node> dbUiElements = new ArrayList<>();
+    private final List<Node> settingsUiElements = new ArrayList<>();
 
     private boolean isDashboardVisible = true; // Track dashboard state
     private boolean areAllTableInit = false; // Track init of db table state
-    private boolean isInfoUpdated = false; // Track init of db table state
     private static boolean addPressed=false;
     private boolean isServerOn = false;
     private boolean isLogin = false;
@@ -153,6 +152,11 @@ public class MainController {
 
         if(loggedIn){
             refreshToTableAction(null);
+            boolean flag = checkIfAdmin();
+            while(!flag){
+                promptLogin();
+                flag = checkIfAdmin();
+            }
         }
 
     }
@@ -279,9 +283,6 @@ public class MainController {
             case"Warehouse":
                 warehouseTable.addEmptyRowForEditing();
                 break;
-//            case"Logs":
-//                logsTable.addEmptyRowForEditing();
-//                break;
             default:break;
         }
     }
@@ -476,17 +477,11 @@ public class MainController {
                 suppliersTable = new EnhancedTableView<>(suppliersTableView, WareHouseDataHandler.parsedSuppliersList);
                 alertsTable = new EnhancedTableView<>(alertsTableView, WareHouseDataHandler.parsedAlertsList);
                 warehouseTable = new EnhancedTableView<>(warehouseTableView, WareHouseDataHandler.parsedWarehousesList);
-//              logsTable = new EnhancedTableView<>(logsTableView, WareHouseDataHandler.parsedLogsList);
+                logsTable = new EnhancedTableView<>(logsTableView, WareHouseDataHandler.parsedLogsList);
 
             } else {
                 // refresh only the current tab's data
                 WareHouseDataHandler.initTables(getCurrentTabName());
-                if (!isInfoUpdated) {
-                    UtilityCommands.displayNotificationPanel(1, "Item was sent to DB.\nRefresh the page");
-                    isInfoUpdated = true;
-                } else {
-                    isInfoUpdated = false;
-                }
             }
 
             // update the visible table
@@ -523,10 +518,10 @@ public class MainController {
                     warehouseTable = new EnhancedTableView<>(warehouseTableView, WareHouseDataHandler.parsedWarehousesList);
                     warehouseTable.refresh();
                     break;
-//                case "Logs":
-//                    logsTable = new EnhancedTableView<>(logsTableView, WareHouseDataHandler.parsedLogsList);
-//                    logsTable.refresh();
-//                    break;
+                case "Logs":
+                    logsTable = new EnhancedTableView<>(logsTableView, WareHouseDataHandler.parsedLogsList);
+                    logsTable.refresh();
+                    break;
                 default:
                     break;
             }
@@ -567,6 +562,7 @@ public class MainController {
             AdminUtil.doLogin();
             setUsernameLabel(sessionUsername);
         }
+        refreshToTableAction(null);
         isLogin = true;
     }
 
@@ -575,6 +571,8 @@ public class MainController {
         AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
         AdminUtil.doLogin();
         setUsernameLabel(loginPrompt[0]);
+        setUsernameLabel(sessionUsername);
+
     }
 
     public void aboutAction(ActionEvent actionEvent) {

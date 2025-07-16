@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import warewise.server.api.JwtUtil;
+import warewise.server.common.logs.AppLogger;
 
 import java.io.IOException;
 
@@ -102,7 +103,11 @@ public class AuthCORSFilter implements Filter {
 
         // 6) Validate JWT
         if (token != null && isValid(token) && !isRevoked(token)) {
-            request.setAttribute("username", JwtUtil.extractUsername(token));
+            String username = JwtUtil.extractUsername(token);
+            request.setAttribute("username", username);
+            if(!path.contains("logs")) {
+                AppLogger.log(request.getMethod(), request.getRequestURI(), username);
+            }
             chain.doFilter(new SanitizedRequest(request), res);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

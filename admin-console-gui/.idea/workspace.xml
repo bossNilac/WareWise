@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="Admin GUI Rebooted" />
+    <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="Admin GUI Rebooted">
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/LogsResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/AuthCORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/AuthCORSFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/InventoryResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/InventoryResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/LogHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/LogHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/AppLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/AppLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/LogLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Log.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -189,7 +209,7 @@
       <workItem from="1752240854628" duration="237000" />
       <workItem from="1752412459612" duration="4036000" />
       <workItem from="1752601546376" duration="2005000" />
-      <workItem from="1752603590914" duration="10460000" />
+      <workItem from="1752603590914" duration="12786000" />
     </task>
     <task id="LOCAL-00001" summary="Admin GUI Rebooted">
       <option name="closed" value="true" />
