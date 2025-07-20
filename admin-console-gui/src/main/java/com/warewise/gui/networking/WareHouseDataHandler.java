@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class WareHouseDataHandler {
     public static ArrayList<User>    parsedUsersList;
-    public static ArrayList<Item>    parsedItemsList;
+    public static ArrayList<GeneralItem>    parsedItemsList;
     public static ArrayList<Category> parsedCategoriesList;
     public static ArrayList<Inventory> parsedInventoryList;
     public static ArrayList<Order>   parsedOrdersList;
@@ -35,7 +35,7 @@ public class WareHouseDataHandler {
     public static void initTables() {
         System.out.println("WareHouseDataHandler.initTables()");
         parsedUsersList      = parse(ApiHandler.sendApiCall("GET", ApiHandler.USERS,       "get_users",       null), User.class);
-        parsedItemsList      = parse(ApiHandler.sendApiCall("GET", ApiHandler.ITEMS,       "get_items",       null), Item.class);
+        parsedItemsList      = parse(ApiHandler.sendApiCall("GET", ApiHandler.ITEMS,       "get_items",       null), GeneralItem.class);
         parsedCategoriesList = parse(ApiHandler.sendApiCall("GET", ApiHandler.CATEGORIES,  "get_categories",  null), Category.class);
         parsedInventoryList  = parse(ApiHandler.sendApiCall("GET", ApiHandler.INVENTORIES, "get_inventory",   null), Inventory.class);
         parsedOrdersList     = parse(ApiHandler.sendApiCall("GET", ApiHandler.ORDERS,     "get_orders",     null), Order.class);
@@ -54,7 +54,7 @@ public class WareHouseDataHandler {
                 parsedUsersList = parse(ApiHandler.sendApiCall("GET", ApiHandler.USERS, "get_users", null), User.class);
                 break;
             case "Item":
-                parsedItemsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.ITEMS, "get_items", null), Item.class);
+                parsedItemsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.ITEMS, "get_items", null), GeneralItem.class);
                 break;
             case "Category":
                 parsedCategoriesList = parse(ApiHandler.sendApiCall("GET", ApiHandler.CATEGORIES, "get_categories", null), Category.class);

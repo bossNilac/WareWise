@@ -1,7 +1,7 @@
 package com.warewise.client.controller;
 
 import com.warewise.client.apps.Main;
-import com.warewise.client.network.ServerConnection;
+import com.warewise.client.util.AdminUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import static com.warewise.client.util.UtilityCommands.pingServer;
 
 public class LoginController {
     @FXML
@@ -33,21 +35,26 @@ public class LoginController {
         String password=passwordField.getText();
 
         boolean brokenLogin = username == null && password == null;
+        System.out.println(brokenLogin);
 
-        if (ServerConnection.getConnection() == null){
+        AdminUtil.saveLoginCred(username, password);
+
+        if (!pingServer()){
             displayError("Server offline!");
-        }else if (!brokenLogin && ServerConnection.login(username, password)) {
-            Platform.runLater(() -> {
-                try {
-                    Stage currentStage = (Stage) usernameField.getScene().getWindow();
-                    currentStage.close();
-                    new Main().start(new Stage());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }else {
-            displayError("Wrong username or password");
+        }else if (!brokenLogin) {
+            if(AdminUtil.doLogin()){
+                Platform.runLater(() -> {
+                    try {
+                        Stage currentStage = (Stage) usernameField.getScene().getWindow();
+                        currentStage.close();
+                        new Main().start(new Stage());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }else {
+                displayError("Wrong username or password");
+            }
         }
     }
 }

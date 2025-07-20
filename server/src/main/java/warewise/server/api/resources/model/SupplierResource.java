@@ -30,7 +30,6 @@ public class SupplierResource {
     @Path("/add_supplier")
     public Response addSupplier(AddRequest req) {
         Supplier newSupplier = new Supplier(
-                req.supplierId,
                 req.supplierName,
                 req.contactEmail,
                 req.contactPhone,
@@ -88,7 +87,6 @@ public class SupplierResource {
     }
 
     static class AddRequest {
-        public Integer supplierId;
         public String supplierName;
         public String contactEmail;
         public String contactPhone;

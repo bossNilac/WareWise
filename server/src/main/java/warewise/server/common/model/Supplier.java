@@ -9,23 +9,16 @@ public class Supplier {
     private String address;
     private String createdAt;
 
-    public Supplier(int ID, String name, String contactEmail, String contactPhoneNo, String address) {
-        this.ID = ID;
-        this.name = name;
-        this.contactEmail = contactEmail;
-        this.contactPhoneNo = contactPhoneNo;
-        this.address = address;
-    }
-
-    public Supplier( String name, String contactEmail, String contactPhoneNo, String address) {
-        this.name = name;
-        this.contactEmail = contactEmail;
-        this.contactPhoneNo = contactPhoneNo;
-        this.address = address;
-    }
-
     public Supplier(int ID, String supplierName, String contactEmail, String contactPhoneNo, String address, String createdAt) {
         this.ID = ID;
+        this.name = supplierName;
+        this.contactEmail = contactEmail;
+        this.contactPhoneNo = contactPhoneNo;
+        this.address = address;
+        this.createdAt = createdAt;
+    }
+
+    public Supplier(String supplierName, String contactEmail, String contactPhoneNo, String address, String createdAt) {
         this.name = supplierName;
         this.contactEmail = contactEmail;
         this.contactPhoneNo = contactPhoneNo;

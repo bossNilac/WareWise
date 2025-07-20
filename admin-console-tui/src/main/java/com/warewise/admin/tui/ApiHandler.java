@@ -14,7 +14,7 @@ public class ApiHandler {
     public static String USERS="users";
     public static String CATEGORIES="categories";
     public static String WAREHOUSES="warehouses";
-    public static String ITEMS="items";
+    public static String ITEMS="general_items";
     public static String INVENTORIES="inventory";
     public static String STOCK_ALERTS="stock_alerts";
     public static String ORDERS="orders";

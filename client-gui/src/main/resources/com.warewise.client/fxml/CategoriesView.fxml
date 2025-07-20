@@ -25,9 +25,9 @@
          <TableColumn fx:id="descriptionColumn" prefWidth="800" text="Description" />
       </columns></TableView>
     <HBox prefHeight="31.0" prefWidth="1007.0">
-        <Label prefHeight="25.0" prefWidth="86.0" styleClass="label" text="Category Name:" />
+        <Label prefHeight="25.0" prefWidth="86.0" styleClass="form-label" text="Category Name:" />
         <TextField fx:id="nameTextField" prefHeight="0.0" styleClass="text-field" />
-        <Label prefHeight="26.0" prefWidth="63.0" styleClass="label" text="Description:" />
+        <Label prefHeight="26.0" prefWidth="63.0" styleClass="form-label" text="Description:" />
         <TextField fx:id="descriptionTextField" prefHeight="0.0" prefWidth="149.0" styleClass="text-field" />
         <Button mnemonicParsing="false" onAction="#addNewCategoryAction" styleClass="button" text="Add New Category" />
       <Button mnemonicParsing="false" onAction="#deleteCategoryActionEvent" styleClass="button" text="Delete Category" />

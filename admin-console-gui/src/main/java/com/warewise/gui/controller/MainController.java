@@ -62,7 +62,7 @@ public class MainController {
     @FXML
     private TableView<Supplier> suppliersTableView;
     @FXML
-    private TableView<Item> itemTableView;
+    private TableView<GeneralItem> itemTableView;
     @FXML
     private TableView<Inventory> inventoryTableView;
     @FXML
@@ -321,11 +321,11 @@ public class MainController {
                 break;
             }
             case "Item": {
-                Item item = (Item) itemsTable.commitEditingRow();
-                model     = item;
+                GeneralItem generalItem = (GeneralItem) itemsTable.commitEditingRow();
+                model     = generalItem;
                 endpoint  = ApiHandler.ITEMS;
                 action    = addPressed ? "add_item" : "update_item";
-                body      = ParamBuilder.buildParamsItem(addPressed, item);
+                body      = ParamBuilder.buildParamsItem(addPressed, generalItem);
                 break;
             }
             case "Suppliers": {
@@ -386,7 +386,7 @@ public class MainController {
                     inventoryTable.updateSelectedRow((Inventory) model);
                     break;
                 case "Item":
-                    itemsTable.updateSelectedRow((Item) model);
+                    itemsTable.updateSelectedRow((GeneralItem) model);
                     break;
                 case "Suppliers":
                     suppliersTable.updateSelectedRow((Supplier) model);
@@ -427,9 +427,9 @@ public class MainController {
                 }
                 break;
             case "Item":
-                Item item = (Item) itemsTable.deleteSelectedRow();
-                if(item != null){
-                    ApiHandler.sendDeleteCall("DELETE_ITEM",item.getID());
+                GeneralItem generalItem = (GeneralItem) itemsTable.deleteSelectedRow();
+                if(generalItem != null){
+                    ApiHandler.sendDeleteCall("DELETE_ITEM", generalItem.getId());
                 }
                 break;
             case "Suppliers":

@@ -27,14 +27,16 @@ tasks.withType(JavaCompile) {
 
 javafx {
     version = '17.0.6'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml','javafx.swing']
 }
 
 dependencies {
     implementation 'org.controlsfx:controlsfx:11.1.2'
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
-    implementation(files("libs/common-library-0.0.6.4.jar"))
-
+    implementation("com.squareup.okhttp3:okhttp:5.1.0")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation 'org.controlsfx:controlsfx:11.1.2'
     // https://mvnrepository.com/artifact/org.jfxtras/jmetro
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

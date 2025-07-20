@@ -46,18 +46,18 @@ public class ParamBuilder {
         return gson.toJson(m);
     }
 
-    public static String buildParamsItem(boolean isAdd, Item it) {
+    public static String buildParamsItem(boolean isAdd, GeneralItem it) {
         Map<String, Object> m = new LinkedHashMap<>();
         if (!isAdd) {
-            m.put("itemId",      it.getID());
+            m.put("itemId",      it.getId());
         }
-        m.put("orderId",     it.getOrderID());
-        m.put("inventoryId", it.getInventoryID());
-        m.put("quantity",    it.getQuantity());
+        m.put("barcode",     it.getBarcode());
+        m.put("setQuantity",    it.getSetQuantity());
         m.put("price",       it.getPrice());
-        m.put("total",       it.getTotal());
-        m.put("categoryId",  it.getCategoryID());
+        m.put("name",       it.getName());
+        m.put("categoryId",  it.getCategoryId());
         m.put("supplierId",  it.getSupplierId());
+        m.put("expires",  it.getExpires());
         return gson.toJson(m);
     }
 

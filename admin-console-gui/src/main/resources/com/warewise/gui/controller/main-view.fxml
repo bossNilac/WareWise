@@ -82,7 +82,7 @@
       </VBox>
    </left>
    <right>
-      <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="510.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="dashboardPane" minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="581.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="connectedAsLabel" layoutX="33.0" layoutY="90.0" text="Connected as:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="301.5" AnchorPane.topAnchor="90.0">
                <font>
@@ -115,7 +115,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <TabPane fx:id="dbTablePane" layoutX="12.0" layoutY="51.0" prefHeight="283.0" prefWidth="486.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+            <TabPane fx:id="dbTablePane" layoutX="12.0" layoutY="51.0" prefHeight="283.0" prefWidth="554.0" tabClosingPolicy="UNAVAILABLE" visible="false">
                 <tabs>
                     <Tab text="Users">
                         <content>
@@ -162,7 +162,7 @@
                             </AnchorPane>
                         </content>
                     </Tab>
-                    <Tab text="Item">
+                    <Tab text="General Items">
                         <content>
                             <AnchorPane prefHeight="180.0" prefWidth="485.0">
                                 <children>

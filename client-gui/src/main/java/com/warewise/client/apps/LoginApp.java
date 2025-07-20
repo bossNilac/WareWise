@@ -20,7 +20,7 @@ public class LoginApp extends Application{
 
         String themeFile = App.darkMode ? App.resourceDir+"/stylesheets/stylesheet-dark.css" : App.resourceDir+"/stylesheets/stylesheet-light.css";
         scene.getStylesheets().add(getClass().getResource(themeFile).toExternalForm());
-        stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWiseFiles/images/logo.png"));
+        stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWise/images/logo.png"));
         // Prevent fullscreen and always on top behavior
         stage.setScene(scene);
         stage.show();

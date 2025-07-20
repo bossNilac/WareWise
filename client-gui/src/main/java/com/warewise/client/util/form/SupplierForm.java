@@ -1,8 +1,8 @@
-package com.warewise.client.util;
+package com.warewise.client.util.form;
 
 import com.warewise.client.App;
-import com.warewise.client.network.DataHandler;
-import com.warewise.common.model.Supplier;
+import com.warewise.client.networking.DataHandler;
+import com.warewise.client.util.model.Supplier;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.warewise.client.network.DataHandler.categoryList;
-import static com.warewise.client.network.DataHandler.supplierList;
+import static com.warewise.client.networking.DataHandler.parsedSuppliersList;
+
 
 public class SupplierForm {
 
@@ -63,22 +63,22 @@ public class SupplierForm {
 
         // Submit button logic
         submitBtn.setOnAction(e -> {
-            DataHandler.askForWarehouseData("Supplier");
-            int id = supplierList.get(supplierList.size()-1).getID()+1;
+            DataHandler.initTables("Supplier");
             String name = nameField.getText();
             String email = emailField.getText();
             String phone = phoneField.getText();
             String address = addressField.getText();
             String formattedDate = LocalDateTime.now().format(
-                        DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
 
-            if (name.isEmpty() || email.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Name and Email are required.", ButtonType.OK);
+            if (name.isEmpty() || email.isEmpty() ||  phone.isEmpty() || address.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "All fields are required.", ButtonType.OK);
                 alert.showAndWait();
                 return;
             }
 
-            createdSupplier = new Supplier(id,name, email, phone, address,formattedDate);
+            createdSupplier = new Supplier(name, email, phone, address);
+            createdSupplier.setCreatedAt(formattedDate);
             stage.close();
         });
 
@@ -87,7 +87,6 @@ public class SupplierForm {
             createdSupplier = null;
             stage.close();
         });
-
         stage.showAndWait();
         return createdSupplier;
     }

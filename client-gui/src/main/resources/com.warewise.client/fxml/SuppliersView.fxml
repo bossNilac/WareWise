@@ -28,7 +28,7 @@
             <TableColumn fx:id="createdAtColumn" prefWidth="240" text="From" />
         </columns></TableView>
     <HBox prefHeight="31.0" prefWidth="1007.0">
-        <Button mnemonicParsing="false" onAction="#addSupplierActionEvent" styleClass="button" text="Add Supplier..." />
+        <Button mnemonicParsing="false" onAction="#addNewSupplierAction" styleClass="button" text="Add Supplier..." />
         <Button mnemonicParsing="false" onAction="#deleteSupplierActionEvent" styleClass="button" text="Delete Supplier" />
     </HBox>
 </VBox>

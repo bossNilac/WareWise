@@ -5,25 +5,83 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="Admin GUI Rebooted">
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/LogsResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/GeneralItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/OrdersController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/ApiHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/ApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/DataHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/ParamBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AdminUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/EnhancedTableView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/UtilityCommands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/enums/LogAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/enums/OrderStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/enums/TableName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/enums/UserRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Inventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Log.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/PropertiesReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/StockAlert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Supplier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Warehouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ManagerMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/WorkersMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/GeneralItemResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/GeneralItemHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/GeneralItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ApiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ApiHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ParamBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/ParamBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/networking/WareHouseDataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/AdminUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/warewise/gui/util/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/warewise/gui/controller/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/ApiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/ApiHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/TuiClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../admin-console-tui/src/main/java/com/warewise/admin/tui/TuiClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/libs/common-library-0.0.6.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/LoginApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/LoginApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/CategoriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/CategoriesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/DashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/SupplierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/network/DataHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/network/ServerConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AlertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AlertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/SupplierForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/form/SupplierForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/config/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/Login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/Login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/OrdersView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/OrdersView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/SuppliersView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/SuppliersView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-dark.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/stylesheets/stylesheet-dark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../server/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/AuthCORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/AuthCORSFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/InventoryResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/InventoryResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/LogHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/LogHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/AppLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/AppLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/logs/LogLevel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/ItemResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/WarehouseItemResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/OrderResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/OrderResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/SupplierResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/SupplierResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/ItemHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/handler/WarehouseItemHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/ForgotPasswordToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/ForgotPasswordToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/WarehouseItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/common/model/Supplier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,42 +126,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.admin-console-gui [:App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [:com.warewise.gui.controller.ServerApplication.main()].executor": "Run",
-    "Gradle.admin-console-gui [dependencies].executor": "Run",
-    "Gradle.admin-console-gui.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "rest-reboot",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.adminconsolegui.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.controller.HelloApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [:com.warewise.gui.controller.ServerApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui [dependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.admin-console-gui.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rest-reboot&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/calin/IdeaProjects/WareWise/admin-console-gui/src/main/java/com/warewise/gui/util&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.warewise.gui.controller" />
@@ -209,7 +267,11 @@
       <workItem from="1752240854628" duration="237000" />
       <workItem from="1752412459612" duration="4036000" />
       <workItem from="1752601546376" duration="2005000" />
-      <workItem from="1752603590914" duration="12786000" />
+      <workItem from="1752603590914" duration="15568000" />
+      <workItem from="1752768653124" duration="859000" />
+      <workItem from="1753042523732" duration="1125000" />
+      <workItem from="1753044048626" duration="986000" />
+      <workItem from="1753045276377" duration="614000" />
     </task>
     <task id="LOCAL-00001" summary="Admin GUI Rebooted">
       <option name="closed" value="true" />

@@ -2,9 +2,16 @@ package com.warewise.client;
 
 import com.warewise.client.apps.LoginApp;
 import com.warewise.client.apps.Main;
-import com.warewise.client.network.DataHandler;
-import com.warewise.client.network.ServerConnection;
+import javafx.embed.swing.JFXPanel;
+import com.warewise.client.util.AdminUtil;
 import com.warewise.client.util.ConfigManager;
+import com.warewise.client.util.UtilityCommands;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import static com.warewise.client.util.AlertUtil.serverError;
+import static com.warewise.client.util.UtilityCommands.pingServer;
 
 public class App {
 
@@ -14,6 +21,7 @@ public class App {
     public static boolean darkMode;
 
     public static void main(String[] args) {
+        new JFXPanel();
         ConfigManager.loadProperties();
         username = ConfigManager.getProperty("username","null");
         password = ConfigManager.getProperty("password","null");
@@ -27,9 +35,15 @@ public class App {
                 getProperty("rememberMe","false"))){
         LoginApp.main(args);
         }else {
-            ServerConnection.getConnection();
-            ServerConnection.login(username,password);
-            Main.main(args);
+            if(pingServer()) {
+                if(AdminUtil.doLogin()) {
+                    Main.main(args);
+                }else  {
+                    LoginApp.main(args);
+                }
+            }else {
+                serverError();
+            }
         }
     }
 }

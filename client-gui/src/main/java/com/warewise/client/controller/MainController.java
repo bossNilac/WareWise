@@ -1,93 +1,80 @@
 package com.warewise.client.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import javafx.animation.Interpolator;
-import javafx.animation.TranslateTransition;
+import com.warewise.client.App;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainController {
+    @FXML private VBox sideMenu;
+    @FXML private StackPane contentPane;
 
-    @FXML
-    private VBox sideMenu;
-    @FXML
-    private StackPane contentPane;
-    @FXML
-    private Button btnDashboard;
-    @FXML
-    private Button btnSettings;
-    @FXML
-    private Button btnOrders;
-    @FXML
-    private Button btnCategories;
-    @FXML
-    private Button btnUpdateInventory;
-    @FXML
-    private Button btnItems;
-    @FXML
-    private Button btnAlerts;
-    @FXML
-    private Button btnSuppliers;
-    @FXML
-    private ImageView logoImage;
+    private boolean isManager;
 
-
-    List<Button> menuButtons;
-
-    @FXML
-    private void initialize() {
-        Image bannerImage = new Image(System.getProperty("user.home") + "/WareWiseFiles/images/logo.png");
-        logoImage.setImage(bannerImage);
-        slideInSidebar(sideMenu);
-
-        menuButtons = Arrays.asList(btnDashboard, btnSettings, btnOrders, btnCategories,
-                btnUpdateInventory, btnItems, btnAlerts, btnSuppliers);
-        // Load default view (Dashboard)
-        loadView(btnDashboard,"DashboardView.fxml");
-
-        btnDashboard.setOnAction(e -> loadView(btnDashboard,"DashboardView.fxml"));
-        btnOrders.setOnAction(e -> loadView(btnOrders,"OrdersView.fxml"));
-        btnCategories.setOnAction(e -> loadView(btnCategories,"CategoriesView.fxml"));
-        btnUpdateInventory.setOnAction(e -> loadView(btnUpdateInventory,"UpdateInventoryView.fxml"));
-        btnItems.setOnAction(e -> loadView(btnItems,"ItemsView.fxml"));
-        btnAlerts.setOnAction(e -> loadView(btnAlerts,"AlertsView.fxml"));
-        btnSuppliers.setOnAction(e -> loadView(btnSuppliers,"SuppliersView.fxml"));
-        btnSettings.setOnAction(e -> loadView(btnSettings,"SettingsView.fxml"));
-
+    /**
+     * Call once _after_ loading Main.fxml (in your Main.java) and before showing the stage.
+     */
+    public void setManagerFlag(boolean isManager) {
+        this.isManager = isManager;
+        loadSideMenu();
+        loadContent("DashboardView.fxml");
     }
 
-    private void slideInSidebar(Node sidebar) {
-        TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), sidebar);
-        slideIn.setFromX(-250);  // Start from off-screen
-        slideIn.setToX(0);       // Move to original position
-        slideIn.setInterpolator(Interpolator.EASE_IN);
-        slideIn.play();
-    }
+    /** Loads the correct sidebar menu using App.resourceDir as the classpath root. */
+    private void loadSideMenu() {
+        String menuFile = isManager ? "ManagerMenu.fxml" : "WorkersMenu.fxml";
+        String menuPath = App.resourceDir + "/fxml/" + menuFile;
+        URL menuUrl = getClass().getResource(menuPath);
+        if (menuUrl == null) {
+            System.err.println("Cannot find menu FXML at: " + menuPath);
+            sideMenu.getChildren().clear();
+            return;
+        }
 
-
-    private void loadView(Button activeButton,String fxmlFile) {
         try {
-            Node view = FXMLLoader.load(getClass().getResource("/com.warewise.client/fxml/"+fxmlFile));
+            FXMLLoader loader = new FXMLLoader(menuUrl);
+            loader.setController(this);               // reuse this MainController
+            VBox menuRoot = loader.load();            // load the <VBox> from the menu FXML
+            sideMenu.getChildren().setAll(            // copy its children into your injected sideMenu
+                    menuRoot.getChildren()
+            );
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            sideMenu.getChildren().clear();
+        }
+    }
+
+
+    /**
+     * Bound to every sidebar Button via onAction="#handleMenuAction",
+     * with userData set to the view FXML name (e.g. "OrdersView.fxml").
+     */
+    @FXML
+    private void handleMenuAction(ActionEvent event) {
+        Object ud = ((Node) event.getSource()).getUserData();
+        if (ud instanceof String) {
+            loadContent((String) ud);
+        }
+    }
+
+    /** Loads the given view (just the filename, e.g. "ItemsView.fxml") into the center pane. */
+    private void loadContent(String viewF) {
+        String viewPath = App.resourceDir + "/fxml/" + viewF;
+        URL viewUrl = getClass().getResource(viewPath);
+        if (viewUrl == null) {
+            System.err.println("Cannot find view FXML at: " + viewPath);
+            return;
+        }
+        try {
+            Node view = FXMLLoader.load(viewUrl);
             contentPane.getChildren().setAll(view);
-
-            for (Button btn : menuButtons) {
-                btn.getStyleClass().remove("selected");
-            }
-
-            // Add "selected" class to the active button
-            activeButton.getStyleClass().add("selected");
         } catch (IOException e) {
-            System.out.println(fxmlFile);
             e.printStackTrace();
         }
     }

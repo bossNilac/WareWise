@@ -29,7 +29,6 @@ public class InventoryResource {
     @Path("/add_inventory")
     public Response addInventory(AddRequest req) {
         Inventory newInv = new Inventory(
-                req.inventoryId,
                 req.name,
                 req.description,
                 req.stockQuantity,
@@ -87,7 +86,6 @@ public class InventoryResource {
     }
 
     static class AddRequest {
-        public Integer inventoryId;
         public String name;
         public Integer stockQuantity;
         public String description;

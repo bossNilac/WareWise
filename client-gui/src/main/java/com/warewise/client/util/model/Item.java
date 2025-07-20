@@ -1,4 +1,4 @@
-package com.warewise.gui.util.model;
+package com.warewise.client.util.model;
 
 public class Item {
     private int ID;

@@ -1,9 +1,10 @@
 package com.warewise.client.controller;
 
-import com.warewise.client.network.DataHandler;
+import com.warewise.client.networking.ApiHandler;
+import com.warewise.client.networking.DataHandler;
+import com.warewise.client.networking.ParamBuilder;
 import com.warewise.client.util.AlertUtil;
-import com.warewise.common.model.Category;
-import com.warewise.common.util.protocol.Protocol;
+import com.warewise.client.util.model.Category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,9 +17,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.util.Arrays;
-
-import static com.warewise.client.network.DataHandler.*;
+import static com.warewise.client.networking.ApiHandler.*;
+import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class CategoriesController {
 
@@ -39,6 +39,8 @@ public class CategoriesController {
 
     @FXML
     private void initialize() {
+
+        categoryTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditCommit(
@@ -68,7 +70,7 @@ public class CategoriesController {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         // Populate TableView
-        categoryData.setAll(DataHandler.categoryList);
+        categoryData.setAll(DataHandler.parsedCategoriesList);
         categoryTableView.setItems(categoryData);
     }
 
@@ -76,51 +78,47 @@ public class CategoriesController {
      * Refreshes the category table with new data.
      */
     public void refreshTable() {
-        categoryData.setAll(DataHandler.categoryList);
+        DataHandler.initTables("Category");
+        categoryData.setAll(DataHandler.parsedCategoriesList);
     }
 
     public void addNewCategoryAction(ActionEvent actionEvent){
         if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.CREATE,"Category")) {
-            DataHandler.askForWarehouseData("Category");
+            DataHandler.initTables("Category");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             Category category = new Category(
-                    categoryList.get(categoryList.size()-1).getID()+1,
                     nameTextField.getText(),
                     descriptionTextField.getText()
             );
-            categoryList.add(category);
             nameTextField.clear();
             descriptionTextField.clear();
+            String params = ParamBuilder.buildParamsCategory(true,category);
+            String unparsedResponse = ApiHandler.sendApiCall(POST,CATEGORIES,"add_category",params);
+            parseResponse(unparsedResponse);
             refreshTable();
-            String[] params = Arrays.copyOfRange(categoryToParam(category),1,3);
-            parseAndSendToServer(Protocol.ADD_CATEGORY,params);
         }
     }
 
     private void updateCategory(TableColumn.CellEditEvent<Category, String> t){
         if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY,"Category")){
-            parseAndSendToServer(Protocol.UPDATE_CATEGORY,categoryToParam(( t.getTableView().getItems().get(
-                    t.getTablePosition().getRow())
-            )));
+            String params = ParamBuilder.buildParamsCategory(true,t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()));
+            String unparsedResponse = ApiHandler.sendApiCall(PATCH,CATEGORIES,"update_category",params);
+            if(parseResponse(unparsedResponse)){
+                refreshTable();
+            }
         }
-    }
-
-    private String[] categoryToParam(Category category){
-        return new String[]{
-                String.valueOf(category.getID()),category.getName(),category.getDescription()
-        };
     }
 
     public void deleteCategoryAction(KeyEvent event){
         final Category selectedItem = categoryTableView.getSelectionModel().getSelectedItem();
         if(event.getCode().equals(KeyCode.DELETE) && selectedItem !=null){
             if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Category")) {
-                parseAndSendToServer(Protocol.DELETE_CATEGORY, categoryToParam(selectedItem));
-                categoryList.remove(selectedItem);
+                ApiHandler.sendDeleteCall("DELETE_CATEGORY",selectedItem.getID());
                 refreshTable();
             }
         }
@@ -130,8 +128,7 @@ public class CategoriesController {
         final Category selectedItem = categoryTableView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Category")) {
-                parseAndSendToServer(Protocol.DELETE_CATEGORY, categoryToParam(selectedItem));
-                categoryList.remove(selectedItem);
+                ApiHandler.sendDeleteCall("DELETE_CATEGORY",selectedItem.getID());
                 refreshTable();
             }
         }

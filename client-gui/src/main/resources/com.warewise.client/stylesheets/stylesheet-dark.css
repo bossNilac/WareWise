@@ -20,6 +20,11 @@
     -fx-text-fill: #E0E0E0;
 }
 
+.form-label {
+    -fx-text-fill: #FFFFFF;      /* change to any hex or named colour you like */
+}
+
+
 /* -------------------------------
    Layout Containers & Panels
 --------------------------------- */

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER"
+      spacing="15"
+      styleClass="sidebar" >
+
+    <!-- Centered Logo -->
+    <ImageView fx:id="logoImage" fitWidth="150" preserveRatio="true" />
+
+    <!-- Overview Dashboard -->
+    <Button fx:id="btnDashboard" styleClass="menu-item"
+            text="Overview Dashboard"
+            userData="DashboardView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="HOME" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Orders -->
+    <Button fx:id="btnOrders" styleClass="menu-item"
+            text="Orders"
+            userData="OrdersView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="SHOPPING_CART" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Inventory -->
+    <Button fx:id="btnInventory" styleClass="menu-item"
+            text="Inventory"
+            userData="UpdateInventoryView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="CUBE" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Categories -->
+    <Button fx:id="btnCategories" styleClass="menu-item"
+            text="Categories"
+            userData="CategoriesView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="LIST" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Items -->
+    <Button fx:id="btnItems" styleClass="menu-item"
+            text="Items"
+            userData="ItemsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="CUBES" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Suppliers -->
+    <Button fx:id="btnSuppliers" styleClass="menu-item"
+            text="Suppliers"
+            userData="SuppliersView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="TRUCK" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Alerts &amp; Tasks -->
+    <Button fx:id="btnAlertsTasks" styleClass="menu-item"
+            text="Alerts &amp; Tasks"
+            userData="AlertsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="BELL" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Reports &amp; Analytics -->
+    <Button fx:id="btnReports" styleClass="menu-item"
+            text="Reports &amp; Analytics"
+            userData="ReportsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="BAR_CHART" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Cycle Counts -->
+    <Button fx:id="btnCycleCounts" styleClass="menu-item"
+            text="Cycle Counts"
+            userData="CycleCountsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="REFRESH" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Zones &amp; Routing -->
+    <Button fx:id="btnZonesRouting" styleClass="menu-item"
+            text="Zones &amp; Routing"
+            userData="ZonesRoutingView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="MAP_MARKER" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Users &amp; Roles -->
+    <Button fx:id="btnUsersRoles" styleClass="menu-item"
+            text="Users &amp; Roles"
+            userData="UsersRolesView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="USERS" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Settings -->
+    <Button fx:id="btnSettings" styleClass="menu-item"
+            text="Settings"
+            userData="SettingsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="COG" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Spacer -->
+    <Pane VBox.vgrow="ALWAYS"/>
+</VBox>

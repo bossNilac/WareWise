@@ -1,9 +1,11 @@
 package com.warewise.client.util;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AlertUtil {
 
@@ -21,12 +23,21 @@ public class AlertUtil {
             case DELETE -> "Are you sure you want to delete this " + param + "?";
         };
 
+        AtomicBoolean isPresent = new AtomicBoolean(false);
+        AtomicBoolean flag = new AtomicBoolean(false);
+        Platform.runLater(() -> {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            Optional<ButtonType> result = alert.showAndWait();
+            isPresent.set(result.isPresent());
+            if(isPresent.get()) {
+                flag.set(result.get() == ButtonType.YES);
+            }
+        });
 
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.YES;
+        return isPresent.get() && flag.get();
+
     }
 
     /**
@@ -35,11 +46,33 @@ public class AlertUtil {
      * @param message The message to display.
      */
     public static void showOkAlert(String message) {
+        Platform.runLater(() -> {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+        });
+    }
+
+    public static void showWarningAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
+    }
+
+    public static void showErrorAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     public static void serverError(){

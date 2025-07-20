@@ -31,7 +31,6 @@ public class OrderResource {
     @Path("/add_order")
     public Response addOrder(AddRequest req) {
         Order newOrder = new Order(
-                req.orderId,
                 req.customerName,
                 req.customerEmail,
                 OrderStatus.fromLabel(req.status),
@@ -91,7 +90,6 @@ public class OrderResource {
     }
 
     static class AddRequest {
-        public Integer orderId;
         public String customerName;
         public String customerEmail;
         public String status;

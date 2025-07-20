@@ -38,10 +38,22 @@ public class TuiClass {
         }
     }
 
+    public boolean isServerDown(){
+        String loginResponse;
+        try {
+            loginResponse = ApiHandler.sendApiCall("GET", "status", "", null);
+            System.out.println( loginResponse );
+        }catch (Exception e){
+            return  true;
+        }
+        return loginResponse == null;
+    }
+
     public void serverInit() {
-        String loginResponse = ApiHandler.sendApiCall("GET","status","",null);
-        if(loginResponse == null){
+        System.out.println(isServerDown());
+        if(isServerDown()){
             UtilityCommands.displayNotificationPanel(3,"Login Failed,server down");
+            running = false;
         }else {
             doLogin();
             clearScreen();
@@ -162,11 +174,11 @@ public class TuiClass {
              case "2" :
                      if(isAdd){
                          body = buildParams(true,null ,null,
-                                 "orderId", "inventoryId", "quantity","price","total","categoryId","supplierId");
+                                 "name", "setQuantity", "barcode","categoryId","supplierId","price","expires");
                      }
                      else{
                          body = buildParams(false,id ,"itemId",
-                                 "orderId", "inventoryId", "quantity","price","total","categoryId","supplierId");
+                                 "name", "setQuantity", "barcode","categoryId","supplierId,price","expires");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.ITEMS, command_prefix+"item", body);
                      apiResponse = new ApiResponse(apiCall);

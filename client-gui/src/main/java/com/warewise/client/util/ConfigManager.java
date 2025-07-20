@@ -5,6 +5,11 @@ import java.util.Properties;
 
 public class ConfigManager {
     private static final String CONFIG_FILE = "src/main/resources/com.warewise.client/config/config.properties";
+
+    public static Properties getProperties() {
+        return properties;
+    }
+
     private static Properties properties = new Properties();
 
     static {
@@ -56,7 +61,7 @@ public class ConfigManager {
     }
 
     // Save settings to the config file
-    private static void saveProperties() {
+    public static void saveProperties() {
         try (OutputStream output = new FileOutputStream(CONFIG_FILE)) {
             properties.store(output, "Warehouse Management App Settings");
         } catch (IOException e) {

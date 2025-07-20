@@ -1,17 +1,18 @@
 package com.warewise.client.controller;
 
-import com.warewise.client.network.DataHandler;
+import com.warewise.client.networking.ApiHandler;
+import com.warewise.client.networking.DataHandler;
+import com.warewise.client.networking.ParamBuilder;
 import com.warewise.client.util.AlertUtil;
-import com.warewise.client.util.SupplierForm;
-import com.warewise.common.model.Supplier;
-import com.warewise.common.util.protocol.Protocol;
+import com.warewise.client.util.form.SupplierForm;
+import com.warewise.client.util.model.Category;
+import com.warewise.client.util.model.Supplier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -19,7 +20,8 @@ import javafx.scene.input.KeyEvent;
 
 import java.util.Arrays;
 
-import static com.warewise.client.network.DataHandler.*;
+import static com.warewise.client.networking.ApiHandler.*;
+import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class SupplierController {
 
@@ -43,6 +45,8 @@ public class SupplierController {
 
     @FXML
     private void initialize() {
+
+        supplierTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditCommit(
@@ -109,7 +113,7 @@ public class SupplierController {
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
 
         // Populate TableView
-        supplierObservableList.setAll(DataHandler.supplierList);
+        supplierObservableList.setAll(DataHandler.parsedSuppliersList);
         supplierTableView.setItems(supplierObservableList);
     }
 
@@ -117,47 +121,36 @@ public class SupplierController {
      * Refreshes the supplier table with new data.
      */
     public void refreshTable() {
-        supplierObservableList.setAll(supplierList);
+        DataHandler.initTables("Supplier");
+        supplierObservableList.setAll(DataHandler.parsedSuppliersList);
     }
 
-//    public void addNewSupplierAction(ActionEvent actionEvent){
-//        if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.CREATE,"Supplier")) {
-//            DataHandler.askForWarehouseData("Supplier");
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            supplierList.add(supplier);
-//            nameTextField.clear();
-//            descriptionTextField.clear();
-//            refreshTable();
-//            String[] params = Arrays.copyOfRange(supplierToParam(supplier),1,3);
-//            parseAndSendToServer(Protocol.ADD_SUPPLIER,params);
-//        }
-//    }
-
-    private void updateSupplier(TableColumn.CellEditEvent<Supplier, String> t){
-        if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY,"Supplier")){
-            String[] params = Arrays.copyOfRange(supplierToParam(( t.getTableView().getItems().get(
-                    t.getTablePosition().getRow()))),0,5);
-            parseAndSendToServer(Protocol.UPDATE_SUPPLIER,params);
+    public void addNewSupplierAction(ActionEvent actionEvent){
+        Supplier supplier = new SupplierForm().showAndWait();
+        if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.CREATE,"Supplier")) {
+            String params = ParamBuilder.buildParamsSupplier(true,supplier);
+            String unparsedResponse = ApiHandler.sendApiCall(POST,CATEGORIES,"add_category",params);
+            parseResponse(unparsedResponse);
+            refreshTable();
         }
     }
 
-    private String[] supplierToParam(Supplier supplier){
-        return new String[]{
-                String.valueOf(supplier.getID()),supplier.getName(),supplier.getContactEmail(), supplier.getContactPhoneNo(),supplier.getAddress(), supplier.getCreatedAt()
-        };
+    private void updateSupplier(TableColumn.CellEditEvent<Supplier, String> t) {
+        if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY, "Supplier")) {
+            String params = ParamBuilder.buildParamsSupplier(true, t.getTableView().getItems().get(
+                    t.getTablePosition().getRow()));
+            String unparsedResponse = ApiHandler.sendApiCall(PATCH, SUPPLIERS, "update_supplier", params);
+            if (parseResponse(unparsedResponse)) {
+                refreshTable();
+            }
+        }
     }
 
     public void deleteSupplierAction(KeyEvent event){
         final Supplier selectedItem = supplierTableView.getSelectionModel().getSelectedItem();
         if(event.getCode().equals(KeyCode.DELETE) && selectedItem !=null){
             if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Supplier")) {
-                parseAndSendToServer(Protocol.DELETE_SUPPLIER, supplierToParam(selectedItem));
-                supplierList.remove(selectedItem);
+                ApiHandler.sendDeleteCall("DELETE_SUPPLIER",selectedItem.getID());
                 refreshTable();
             }
         }
@@ -167,26 +160,9 @@ public class SupplierController {
         final Supplier selectedItem = supplierTableView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Supplier")) {
-                parseAndSendToServer(Protocol.DELETE_SUPPLIER, supplierToParam(selectedItem));
-                supplierList.remove(selectedItem);
+                ApiHandler.sendDeleteCall("DELETE_SUPPLIER",selectedItem.getID());
                 refreshTable();
             }
         }
-    }
-
-
-    public void addSupplierActionEvent(ActionEvent actionEvent) {
-        SupplierForm form = new SupplierForm();
-        Supplier newSupplier = form.showAndWait();
-
-        if (newSupplier != null) {
-            String[] params = Arrays.copyOfRange(supplierToParam(newSupplier),1,6);
-            if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.CREATE,"Supplier")) {
-                parseAndSendToServer(Protocol.ADD_SUPPLIER, params);
-                supplierList.add(newSupplier);
-                refreshTable();
-            }
-        }
-
     }
 }

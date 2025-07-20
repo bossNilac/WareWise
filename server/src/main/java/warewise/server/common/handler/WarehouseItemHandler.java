@@ -1,36 +1,36 @@
 package warewise.server.common.handler;
 
-import warewise.server.common.model.Item;
+import warewise.server.common.model.WarehouseItem;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemHandler {
+public class WarehouseItemHandler {
 
-    private static ItemHandler instance;
+    private static WarehouseItemHandler instance;
 
-    public static ItemHandler getInstance() {
+    public static WarehouseItemHandler getInstance() {
         if (instance == null) {
-            instance = new ItemHandler();
+            instance = new WarehouseItemHandler();
         }
         return instance;
     }
 
-    public void addItem(Item item) {
+    public void addItem(WarehouseItem warehouseItem) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO items (order_id, inventory_id, quantity, price, total, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO items (order_id, inventory_id, quantity, total,general_item_id,expire_date,sold) VALUES (?, ?, ?, ?,?,?,?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, item.getOrderID());
-            stmt.setInt(2, item.getInventoryID());
-            stmt.setInt(3, item.getQuantity());
-            stmt.setDouble(4, item.getPrice());
-            stmt.setDouble(5, item.getTotal());
-            stmt.setInt(6, item.getCategoryID());
-            stmt.setInt(7, item.getSupplierId());
+            stmt.setInt(1, warehouseItem.getOrderID());
+            stmt.setInt(2, warehouseItem.getInventoryID());
+            stmt.setInt(3, warehouseItem.getQuantity());
+            stmt.setDouble(4, warehouseItem.getTotal());
+            stmt.setDouble(5, warehouseItem.getGeneralItemId());
+            stmt.setString(6, warehouseItem.getExpireDate());
+            stmt.setBoolean(7, warehouseItem.isSold());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -50,21 +50,21 @@ public class ItemHandler {
         }
     }
 
-    public void updateItem(Item item) {
+    public void updateItem(WarehouseItem warehouseItem) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE items SET order_id = ?, inventory_id = ?, quantity = ?, price = ?, total = ?, category_id = ?, supplier_id = ? WHERE item_id = ?";
+            String query = "UPDATE items SET order_id = ?, inventory_id = ?, quantity = ? ,total = ?, general_item_id= ?,expire_date = ?, sold = ? WHERE item_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, item.getOrderID());
-            stmt.setInt(2, item.getInventoryID());
-            stmt.setInt(3, item.getQuantity());
-            stmt.setDouble(4, item.getPrice());
-            stmt.setDouble(5, item.getTotal());
-            stmt.setInt(6, item.getCategoryID());
-            stmt.setInt(7, item.getSupplierId());
-            stmt.setInt(8, item.getID());
+            stmt.setInt(1, warehouseItem.getOrderID());
+            stmt.setInt(2, warehouseItem.getInventoryID());
+            stmt.setInt(3, warehouseItem.getQuantity());
+            stmt.setDouble(4, warehouseItem.getTotal());
+            stmt.setDouble(5, warehouseItem.getGeneralItemId());
+            stmt.setString(6, warehouseItem.getExpireDate());
+            stmt.setBoolean(7, warehouseItem.isSold());
+            stmt.setInt(8, warehouseItem.getID());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -111,11 +111,11 @@ public class ItemHandler {
         }
     }
 
-    public Item getItem(int itemId) {
+    public WarehouseItem getItem(int itemId) {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Item item = null;
+        WarehouseItem warehouseItem = null;
         try {
             connection = DatabaseConnection.getConnection();
             String query = "SELECT * FROM items WHERE item_id = ?";
@@ -123,15 +123,15 @@ public class ItemHandler {
             stmt.setInt(1, itemId);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                item = new Item(
+                warehouseItem = new WarehouseItem(
                         rs.getInt("item_id"),
                         rs.getInt("order_id"),
                         rs.getInt("inventory_id"),
-                        rs.getDouble("price"),
                         rs.getInt("quantity"),
                         rs.getDouble("total"),
-                        rs.getInt("category_id"),
-                        rs.getInt("supplier_id")
+                        rs.getInt("general_item_id"),
+                        rs.getString("expire_date"),
+                        rs.getBoolean("sold")
                 );
             }
         } catch (SQLException e) {
@@ -145,31 +145,31 @@ public class ItemHandler {
                 e.printStackTrace();
             }
         }
-        return item;
+        return warehouseItem;
     }
 
-    public List<Item> getAllItems() {
+    public List<WarehouseItem> getAllItems() {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
-        List<Item> items = new ArrayList<>();
+        List<WarehouseItem> warehouseItems = new ArrayList<>();
         try {
             connection = DatabaseConnection.getConnection();
             String query = "SELECT * FROM items";
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Item item = new Item(
+                WarehouseItem warehouseItem = new WarehouseItem(
                         rs.getInt("item_id"),
                         rs.getInt("order_id"),
                         rs.getInt("inventory_id"),
-                        rs.getDouble("price"),
                         rs.getInt("quantity"),
                         rs.getDouble("total"),
-                        rs.getInt("category_id"),
-                        rs.getInt("supplier_id")
+                        rs.getInt("general_item_id"),
+                        rs.getString("expire_date"),
+                        rs.getBoolean("sold")
                 );
-                items.add(item);
+                warehouseItems.add(warehouseItem);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,6 +182,6 @@ public class ItemHandler {
                 e.printStackTrace();
             }
         }
-        return items;
+        return warehouseItems;
     }
 }

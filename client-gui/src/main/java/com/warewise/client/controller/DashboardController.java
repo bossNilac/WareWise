@@ -1,7 +1,8 @@
 package com.warewise.client.controller;
 
-import com.warewise.client.network.DataHandler;
-import com.warewise.common.model.Item;
+import com.warewise.client.networking.DataHandler;
+import com.warewise.client.util.model.Item;
+import com.warewise.client.util.model.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,13 +35,16 @@ public class DashboardController implements Initializable {
     // Notifications List
     @FXML private ListView<String> notificationsList;
 
+    User me = DataHandler.getCurrentUser();
+
+
     private String[] nameLabels;
     private Number[] numberValues;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String[] kpi = calculateInventoryKpi();
-        totalOrdersLabel.setText(String.valueOf(DataHandler.orderList.size()));
+        totalOrdersLabel.setText(String.valueOf(DataHandler.parsedOrdersList.size()));
         inventoryLabel.setText(kpi[0]);
         lowStockLabel.setText(kpi[2]);
         salesLabel.setText(kpi[1]);
@@ -52,9 +56,7 @@ public class DashboardController implements Initializable {
         updateChart();
 
         activityFeedList.setItems(FXCollections.observableArrayList(
-                "Order #123 processed",
-                "Inventory updated",
-                "Low stock alert on item #456"
+                DataHandler.getRecentActionsForUser(me.getUsername(), 5)
         ));
 
         createOrderBtn.setOnAction(e -> handleCreateOrder());
@@ -139,7 +141,7 @@ public class DashboardController implements Initializable {
         double totalValueCount = 0;
         int lowStockCount = 0;
 
-        int categoryCount = DataHandler.categoryList.size();
+        int categoryCount = DataHandler.parsedCategoriesList.size();
         numberValues = new Number[categoryCount];
         nameLabels = new String[categoryCount];
 
@@ -148,14 +150,14 @@ public class DashboardController implements Initializable {
             nameLabels[i] = null;
         }
 
-        for (Item item : DataHandler.itemList) {
+        for (Item item : DataHandler.parsedItemsList) {
             int categoryIndex = item.getCategoryID() - 1;
 
             if (categoryIndex >= 0 && categoryIndex < categoryCount) {
                 numberValues[categoryIndex] = numberValues[categoryIndex].intValue() + item.getQuantity();
 
                 if (nameLabels[categoryIndex] == null) {
-                    nameLabels[categoryIndex] = DataHandler.categoryList.get(categoryIndex).getName();
+                    nameLabels[categoryIndex] = DataHandler.parsedCategoriesList.get(categoryIndex).getName();
                 }
             }
 
