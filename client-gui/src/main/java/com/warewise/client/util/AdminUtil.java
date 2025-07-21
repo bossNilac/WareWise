@@ -70,6 +70,7 @@ public class AdminUtil {
 
     public static boolean parseResponse (String unparsedResponse){
         ApiResponse response = new ApiResponse(unparsedResponse);
+        System.out.println(unparsedResponse);
         if(unparsedResponse == null || !response.getSuccess()  ){
             UtilityCommands.displayNotificationPanel(3,"Unsuccessful operation");
         }else {

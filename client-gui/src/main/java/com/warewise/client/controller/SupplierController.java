@@ -26,8 +26,6 @@ import static com.warewise.client.util.AdminUtil.parseResponse;
 public class SupplierController {
 
     @FXML
-    private TableColumn<Supplier,Integer> idColumn;
-    @FXML
     private TableColumn<Supplier,String> nameColumn;
     @FXML
     private TableColumn<Supplier,String> emailColumn;
@@ -105,7 +103,6 @@ public class SupplierController {
 
 
         // Bind table columns to Supplier properties
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
         contactPhoneNoColumn.setCellValueFactory(new PropertyValueFactory<>("contactPhoneNo"));

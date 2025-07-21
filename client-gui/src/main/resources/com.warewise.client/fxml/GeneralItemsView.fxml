@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;" fx:controller="com.warewise.client.controller.GeneralItemController">
+    <Label alignment="CENTER" styleClass="header" text="Items" textAlignment="CENTER">
+        <padding>
+            <Insets left="570.0" />
+        </padding>
+    </Label>
+    <TableView fx:id="itemTableView" editable="true" onKeyPressed="#deleteItemAction" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="200" text="Name" />
+            <TableColumn fx:id="barcodeColumn" prefWidth="800" text="Barcode" />
+            <TableColumn fx:id="categoryNameColumn" prefWidth="800" text="Category Name" />
+            <TableColumn fx:id="priceColumn" prefWidth="800" text="Price" />
+            <TableColumn fx:id="setQuantityColumn" prefWidth="800" text="Set Quantity" />
+            <TableColumn fx:id="supplierColumn" prefWidth="800" text="Supplier" />
+            <TableColumn fx:id="expiresColumn" prefWidth="800" text="Expires" />
+        </columns></TableView>
+    <HBox prefHeight="31.0" prefWidth="1007.0">
+        <Button mnemonicParsing="false" onAction="#addNewItemAction" styleClass="button" text="Add New Item" />
+        <Button mnemonicParsing="false" onAction="#deleteItemActionEvent" styleClass="button" text="Delete Item" />
+    </HBox>
+    <Label wrapText="true" text="Manage Order Items or Product Variants:
+• Item List: Display item ID, order/product reference, quantity, individual price, and total.
+• CRUD Actions: Buttons/icons for adding, editing, or removing items.
+• Form Interface: Inline or modal forms for item details.
+• Automatic Calculations: Compute totals as quantities/prices are entered.
+• Inventory Link: Easily select or update associated inventory records."/>
+</VBox>

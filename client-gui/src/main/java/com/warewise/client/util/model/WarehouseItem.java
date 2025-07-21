@@ -1,38 +1,37 @@
 package com.warewise.client.util.model;
 
-public class Item {
+public class WarehouseItem {
     private int ID;
     private int orderID;
     private int inventoryID;
     private int quantity;
-    private double price;
     private double total;
-    private int categoryID;
-    private int supplierId;
+    private int generalItemId;
+    private String expireDate;
+    private boolean sold;
 
 
 
-
-    public Item(int ID, int orderID, int inventoryID,double price, int quantity, double total,  int categoryID,int supplierId) {
+    public WarehouseItem(int ID, int orderID, int inventoryID, int quantity, double total,int generalItemId,String expireDate,boolean sold) {
         this.ID = ID;
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
-        this.price = price;
         this.total = total;
-        this.categoryID = categoryID;
-        this.supplierId = supplierId;
+        this.generalItemId = generalItemId;
+        this.expireDate = expireDate;
+        this.sold = sold;
     }
 
 
-    public Item(int orderID, int inventoryID, int quantity, double price, int category,int supplierId) {
+    public WarehouseItem(int orderID, int inventoryID, int quantity ,double total,int generalItemId,String expireDate,boolean sold) {
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
-        this.price = price;
-        this.categoryID = category;
-        this.total = price * (double)quantity;
-        this.supplierId = supplierId;
+        this.total = total;
+        this.generalItemId = generalItemId;
+        this.expireDate = expireDate;
+        this.sold = sold;
     }
 
     public int getID() {
@@ -67,14 +66,6 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public double getTotal() {
         return total;
     }
@@ -83,19 +74,27 @@ public class Item {
         this.total = total;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public int getGeneralItemId() {
+        return generalItemId;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setGeneralItemId(int generalItemId) {
+        this.generalItemId = generalItemId;
     }
 
-    public int getSupplierId() {
-        return supplierId;
+    public boolean getSold() {
+        return sold;
     }
 
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
+    public void setSold(boolean sold) {
+        this.sold = sold;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
     }
 }

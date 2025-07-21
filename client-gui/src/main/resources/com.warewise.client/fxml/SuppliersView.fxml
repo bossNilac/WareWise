@@ -20,7 +20,6 @@
     </Label>
     <TableView fx:id="supplierTableView" editable="true" onKeyPressed="#deleteSupplierAction" styleClass="table-view">
         <columns>
-            <TableColumn fx:id="idColumn" editable="false" prefWidth="50" text="ID" />
             <TableColumn fx:id="nameColumn" prefWidth="200" text="Name" />
             <TableColumn fx:id="emailColumn" prefWidth="200" text="Email" />
             <TableColumn fx:id="contactPhoneNoColumn" prefWidth="200" text="Phone No" />

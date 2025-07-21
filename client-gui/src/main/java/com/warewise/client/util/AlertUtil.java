@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AlertUtil {
@@ -17,27 +18,42 @@ public class AlertUtil {
      * @return True if the user selects "Yes", false otherwise.
      */
     public static boolean showYesNoAlert(AlertType type, String param) {
+        // If we're already on the FX thread, just show & wait directly
+        if (Platform.isFxApplicationThread()) {
+            return showAlertAndWait(type, param);
+        }
+
+        // Otherwise, schedule on FX thread and block this thread until done
+        AtomicBoolean userChoice = new AtomicBoolean(false);
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            userChoice.set(showAlertAndWait(type, param));
+            latch.countDown();
+        });
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        return userChoice.get();
+    }
+
+    private static boolean showAlertAndWait(AlertType type, String param) {
         String message = switch (type) {
             case CREATE -> "Are you sure you want to create this " + param + "?";
             case MODIFY -> "Are you sure you want to modify this " + param + "?";
             case DELETE -> "Are you sure you want to delete this " + param + "?";
         };
 
-        AtomicBoolean isPresent = new AtomicBoolean(false);
-        AtomicBoolean flag = new AtomicBoolean(false);
-        Platform.runLater(() -> {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText(null);
-            Optional<ButtonType> result = alert.showAndWait();
-            isPresent.set(result.isPresent());
-            if(isPresent.get()) {
-                flag.set(result.get() == ButtonType.YES);
-            }
-        });
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
 
-        return isPresent.get() && flag.get();
-
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.YES;
     }
 
     /**

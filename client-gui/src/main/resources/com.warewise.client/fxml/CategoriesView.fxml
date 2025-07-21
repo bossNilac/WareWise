@@ -14,13 +14,9 @@
       <padding>
          <Insets left="570.0" />
       </padding>
-<!--        <graphic>-->
-<!--            <FontAwesomeIconView glyphName="LIST" styleClass="icon" />-->
-<!--        </graphic>-->
     </Label>
     <TableView fx:id="categoryTableView" editable="true" onKeyPressed="#deleteCategoryAction" styleClass="table-view">
       <columns>
-         <TableColumn fx:id="idColumn" editable="false" prefWidth="204.5" text="ID" />
          <TableColumn fx:id="nameColumn" prefWidth="200" text="Name" />
          <TableColumn fx:id="descriptionColumn" prefWidth="800" text="Description" />
       </columns></TableView>

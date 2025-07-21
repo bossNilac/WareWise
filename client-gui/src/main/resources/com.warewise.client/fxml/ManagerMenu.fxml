@@ -57,7 +57,7 @@
     <!-- Items -->
     <Button fx:id="btnItems" styleClass="menu-item"
             text="Items"
-            userData="ItemsView.fxml"
+            userData="GeneralItemsView.fxml"
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="CUBES" styleClass="icon"/>
@@ -114,20 +114,10 @@
         </graphic>
     </Button>
 
-    <!-- Users &amp; Roles -->
-    <Button fx:id="btnUsersRoles" styleClass="menu-item"
-            text="Users &amp; Roles"
-            userData="UsersRolesView.fxml"
-            onAction="#handleMenuAction">
-        <graphic>
-            <FontAwesomeIconView glyphName="USERS" styleClass="icon"/>
-        </graphic>
-    </Button>
-
     <!-- Settings -->
     <Button fx:id="btnSettings" styleClass="menu-item"
             text="Settings"
-            userData="SettingsView.fxml"
+            userData="                                                                                                                                                                                                                                                                                                                                                                        "
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="COG" styleClass="icon"/>

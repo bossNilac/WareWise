@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.warewise.client.util.model.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,18 +46,33 @@ public class ParamBuilder {
         return gson.toJson(m);
     }
 
-    public static String buildParamsItem(boolean isAdd, Item it) {
+    public static String buildParamsItem(boolean isAdd, GeneralItem it) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        if (!isAdd) {
+            m.put("itemId",      it.getId());
+        }
+        m.put("barcode",     it.getBarcode());
+        m.put("setQuantity",    it.getSetQuantity());
+        m.put("price",       it.getPrice());
+        m.put("name",       it.getName());
+        m.put("categoryId",  it.getCategoryId());
+        m.put("supplierId",  it.getSupplierId());
+        m.put("expires",  it.getExpires());
+        return gson.toJson(m);
+    }
+
+    public static String buildParamsWarehouseItem(boolean isAdd, WarehouseItem it) {
         Map<String, Object> m = new LinkedHashMap<>();
         if (!isAdd) {
             m.put("itemId",      it.getID());
         }
         m.put("orderId",     it.getOrderID());
-        m.put("inventoryId", it.getInventoryID());
-        m.put("quantity",    it.getQuantity());
-        m.put("price",       it.getPrice());
+        m.put("inventoryId",    it.getInventoryID());
+        m.put("quantity",       it.getQuantity());
         m.put("total",       it.getTotal());
-        m.put("categoryId",  it.getCategoryID());
-        m.put("supplierId",  it.getSupplierId());
+        m.put("general_item_id",  it.getGeneralItemId());
+        m.put("expireDate",  it.getExpireDate());
+        m.put("sold",  it.getSold());
         return gson.toJson(m);
     }
 
@@ -78,7 +91,6 @@ public class ParamBuilder {
     }
 
     public static String buildParamsSupplier(boolean isAdd, Supplier sup) {
-
         Map<String, Object> m = new LinkedHashMap<>();
         if (!isAdd) {
             m.put("supplierId", sup.getID());

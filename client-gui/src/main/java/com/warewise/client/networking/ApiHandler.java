@@ -23,6 +23,7 @@ public class ApiHandler {
     public static String CATEGORIES="categories";
     public static String WAREHOUSES="warehouses";
     public static String ITEMS="items";
+    public static String GENERAL_ITEMS="general_items";
     public static String INVENTORIES="inventory";
     public static String STOCK_ALERTS="stock_alerts";
     public static String ORDERS="orders";
@@ -78,57 +79,6 @@ public class ApiHandler {
         }
     }
 
-    public static void sendListCall(String value) {
-        String usersResponse;
-        ApiResponse apiResponse;
-
-        switch (value) {
-            case "LIST_USERS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.USERS, "get_users", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_ITEMS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.ITEMS, "get_items", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_CATEGORIES":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.CATEGORIES, "get_categories", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_INVENTORY":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.INVENTORIES, "get_inventory", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_ORDERS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.ORDERS, "get_orders", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_SUPPLIERS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.SUPPLIERS, "get_suppliers", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_STOCK_ALERTS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.STOCK_ALERTS, "get_stock_alerts", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "LIST_WAREHOUSES":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.WAREHOUSES, "get_warehouses", null);
-                apiResponse = new ApiResponse(usersResponse);
-                break;
-            case "":
-                    return;
-            default:
-                System.out.println("Invalid value.");
-                return;
-        }
-
-        if (apiResponse.getSuccess()) {
-            UtilityCommands.displayNotificationPanel(1, apiResponse.getData());
-        } else {
-            UtilityCommands.displayNotificationPanel(3, "Unsuccessful operation");
-        }
-    }
-
     public static void sendDeleteCall(String value, int id) {
         String usersResponse;
         ApiResponse apiResponse;
@@ -140,6 +90,10 @@ public class ApiHandler {
                 break;
             case "DELETE_ITEM":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ITEMS, value.toLowerCase(),
+                        buildDeleteParams(id,"itemId"));
+                break;
+            case "DELETE_GENERAL_ITEM":
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.GENERAL_ITEMS, "delete_item",
                         buildDeleteParams(id,"itemId"));
                 break;
             case "DELETE_CATEGORY":

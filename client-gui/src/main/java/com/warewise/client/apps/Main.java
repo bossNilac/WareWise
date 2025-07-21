@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Initialize DB and session
-        DataHandler.initTables();
+        DataHandler.initTables("Users");
 
         // Load main layout
         FXMLLoader loader = new FXMLLoader(

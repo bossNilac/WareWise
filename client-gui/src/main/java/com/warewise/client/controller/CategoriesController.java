@@ -27,8 +27,6 @@ public class CategoriesController {
     @FXML
     private TextField descriptionTextField;
     @FXML
-    private TableColumn<Category,Integer> idColumn;
-    @FXML
     private TableColumn<Category,String> nameColumn;
     @FXML
     private TableColumn<Category,String> descriptionColumn;
@@ -39,6 +37,8 @@ public class CategoriesController {
 
     @FXML
     private void initialize() {
+
+        DataHandler.initTables("Category");
 
         categoryTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -65,7 +65,6 @@ public class CategoriesController {
         );
 
         // Bind table columns to Category properties
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -105,7 +104,7 @@ public class CategoriesController {
 
     private void updateCategory(TableColumn.CellEditEvent<Category, String> t){
         if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY,"Category")){
-            String params = ParamBuilder.buildParamsCategory(true,t.getTableView().getItems().get(
+            String params = ParamBuilder.buildParamsCategory(false,t.getTableView().getItems().get(
                     t.getTablePosition().getRow()));
             String unparsedResponse = ApiHandler.sendApiCall(PATCH,CATEGORIES,"update_category",params);
             if(parseResponse(unparsedResponse)){
