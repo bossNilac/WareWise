@@ -3,7 +3,9 @@ package com.warewise.client.apps;
 import com.warewise.client.App;
 import com.warewise.client.controller.MainController;
 import com.warewise.client.networking.DataHandler;
+import com.warewise.client.util.AdminUtil;
 import com.warewise.client.util.enums.UserRole;
+import com.warewise.client.util.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,7 +30,8 @@ public class Main extends Application {
         Parent root = loader.load();
 
         // Determine role and inform controller
-        UserRole role = DataHandler.getCurrentUser().getRole();  // e.g. "WORKER" or "MANAGER"
+        User currentUser = DataHandler.getCurrentUser();
+        UserRole role = currentUser.getRole();  // e.g. "WORKER" or "MANAGER"
         if (role.equals(UserRole.ADMIN)) {
             Alert alert = new Alert(Alert.AlertType.WARNING,"Administrator role has its specific app do not use this one");
             alert.show();
@@ -36,6 +39,7 @@ public class Main extends Application {
             boolean isManager = role == UserRole.MANAGER;
             MainController controller = loader.getController();
             controller.setManagerFlag(isManager);
+            AdminUtil.userId = currentUser.getID();
 
             // Build scene
             scene = new Scene(root);

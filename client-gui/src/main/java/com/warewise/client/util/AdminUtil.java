@@ -2,14 +2,9 @@ package com.warewise.client.util;
 
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.warewise.client.networking.ApiHandler;
 import com.warewise.client.networking.ApiResponse;
-import com.warewise.client.networking.DataHandler;
-import com.warewise.client.util.enums.UserRole;
-import com.warewise.client.util.model.User;
 
-import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,6 +12,7 @@ public class AdminUtil {
 
     public static boolean loggedIn = false;
     public static  String sessionUsername = null;
+    public static  int userId = -1;
 
     public static void notLoggedInError(){
         UtilityCommands.displayNotificationPanel(3,"User not logged in");

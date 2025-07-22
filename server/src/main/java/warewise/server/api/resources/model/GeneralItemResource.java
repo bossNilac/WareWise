@@ -65,7 +65,7 @@ public class GeneralItemResource {
         if (req.barcode != null) item.setBarcode(req.barcode);
         if (req.categoryId != null) item.setCategoryId(req.categoryId);
         if (req.supplierId != null) item.setSupplierId(req.supplierId);
-        if (req.price != null) item.setSupplierId(req.price);
+        if (req.price != null) item.setPrice(req.price);
         if (req.expires != null) item.setExpires(req.expires);
 
         GeneralItemHandler.getInstance().updateGeneralItem(item);

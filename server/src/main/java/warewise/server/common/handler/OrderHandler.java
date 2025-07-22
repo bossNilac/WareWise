@@ -23,14 +23,14 @@ public class OrderHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO orders (customer_name, customer_email, status, created_at, updated_at, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO orders (general_item_id, status, created_at, updated_at, user_id,quantity) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, order.getCustomerName());
-            stmt.setString(2, order.getCustomerEmail());
-            stmt.setString(3, order.getStatus().toString());
-            stmt.setString(4, order.getCreatedAt());
-            stmt.setString(5, order.getUpdatedAt());
-            stmt.setInt(6, order.getUserId());
+            stmt.setInt(1, order.getGeneralItemId());
+            stmt.setString(2, order.getStatus().toString());
+            stmt.setString(3, order.getCreatedAt());
+            stmt.setString(4, order.getUpdatedAt());
+            stmt.setInt(5, order.getUserId());
+            stmt.setInt(6, order.getQuantity());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -55,14 +55,14 @@ public class OrderHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE orders SET customer_name = ?, customer_email = ?, status = ?, created_at = ?, updated_at = ?, user_id = ? WHERE order_id = ?";
+            String query = "UPDATE orders SET general_item_id = ?,  status = ?, created_at = ?, updated_at = ?, user_id = ? ,quantity = ? WHERE order_id = ?";
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, order.getCustomerName());
-            stmt.setString(2, order.getCustomerEmail());
-            stmt.setString(3, order.getStatus().toString());
-            stmt.setString(4, order.getCreatedAt());
-            stmt.setString(5, order.getUpdatedAt());
-            stmt.setInt(6, order.getUserId());
+            stmt.setInt(1, order.getGeneralItemId());
+            stmt.setString(2, order.getStatus().toString());
+            stmt.setString(3, order.getCreatedAt());
+            stmt.setString(4, order.getUpdatedAt());
+            stmt.setInt(5, order.getUserId());
+            stmt.setInt(6, order.getQuantity());
             stmt.setInt(7, order.getID());
             stmt.executeUpdate();
             connection.commit();
@@ -122,10 +122,10 @@ public class OrderHandler {
             stmt.setInt(1, orderId);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                order = new Order(
+                 order = new Order(
                         rs.getInt("order_id"),
-                        rs.getString("customer_name"),
-                        rs.getString("customer_email"),
+                        rs.getInt("general_item_id"),
+                        rs.getInt("quantity"),
                         OrderStatus.fromLabel(rs.getString("status")),
                         rs.getString("created_at"),
                         rs.getString("updated_at"),
@@ -159,8 +159,8 @@ public class OrderHandler {
             while (rs.next()) {
                 Order order = new Order(
                         rs.getInt("order_id"),
-                        rs.getString("customer_name"),
-                        rs.getString("customer_email"),
+                        rs.getInt("general_item_id"),
+                        rs.getInt("quantity"),
                         OrderStatus.fromLabel(rs.getString("status")),
                         rs.getString("created_at"),
                         rs.getString("updated_at"),

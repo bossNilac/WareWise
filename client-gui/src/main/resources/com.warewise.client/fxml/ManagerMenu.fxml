@@ -117,7 +117,7 @@
     <!-- Settings -->
     <Button fx:id="btnSettings" styleClass="menu-item"
             text="Settings"
-            userData="                                                                                                                                                                                                                                                                                                                                                                        "
+            userData="SettingsView.fxml"
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="COG" styleClass="icon"/>

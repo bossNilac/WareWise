@@ -31,8 +31,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.warewise.client.networking.ApiHandler.*;
-import static com.warewise.client.networking.DataHandler.parsedCategoriesList;
-import static com.warewise.client.networking.DataHandler.parsedSuppliersList;
 import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class GeneralItemController {
@@ -210,6 +208,7 @@ public class GeneralItemController {
         if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY, "Item")) {
             String params = ParamBuilder.buildParamsItem(false, t.getTableView().getItems().get(
                     t.getTablePosition().getRow()));
+            System.out.println(params);
             String unparsedResponse = ApiHandler.sendApiCall(PATCH, GENERAL_ITEMS, "update_item", params);
             if (parseResponse(unparsedResponse)) {
                 refreshTable();

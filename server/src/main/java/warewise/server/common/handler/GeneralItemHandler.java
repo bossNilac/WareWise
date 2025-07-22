@@ -23,16 +23,15 @@ public class GeneralItemHandler {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO items_general_data (id, name, set_quantity, barcode, category_id, supplier_id,price,expires) VALUES (?, ?, ? ,? , ?, ?, ?,?)";
+            String query = "INSERT INTO items_general_data (name, set_quantity, barcode, category_id, supplier_id,price,expires) VALUES (?, ? ,? , ?, ?, ?,?)";
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, item.getId());
-            stmt.setString(2, item.getName());
-            stmt.setInt(3, item.getSetQuantity());
-            stmt.setString(4, item.getBarcode());
-            stmt.setInt(5, item.getCategoryId());
-            stmt.setInt(6, item.getPrice());
-            stmt.setInt(7, item.getSupplierId());
-            stmt.setBoolean(8, item.isExpires());
+            stmt.setString(1, item.getName());
+            stmt.setInt(2, item.getSetQuantity());
+            stmt.setString(3, item.getBarcode());
+            stmt.setInt(4, item.getCategoryId());
+            stmt.setInt(5, item.getPrice());
+            stmt.setInt(6, item.getSupplierId());
+            stmt.setBoolean(7, item.isExpires());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

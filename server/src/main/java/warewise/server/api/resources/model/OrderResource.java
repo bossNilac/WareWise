@@ -31,8 +31,8 @@ public class OrderResource {
     @Path("/add_order")
     public Response addOrder(AddRequest req) {
         Order newOrder = new Order(
-                req.customerName,
-                req.customerEmail,
+                req.general_item_id,
+                req.quantity,
                 OrderStatus.fromLabel(req.status),
                 req.createdAt,
                 req.updatedAt,
@@ -57,12 +57,12 @@ public class OrderResource {
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        if (req.customerName != null) order.setCustomerName(req.customerName);
-        if (req.customerEmail != null) order.setCustomerEmail(req.customerEmail);
+        if (req.general_item_id != null) order.setGeneralItemId(req.general_item_id);
         if (req.status != null) order.setStatus(OrderStatus.fromLabel(req.status));
         if (req.createdAt != null) order.setCreatedAt(req.createdAt);
         if (req.updatedAt != null) order.setUpdatedAt(req.updatedAt);
         if (req.userId != null) order.setUserId(req.userId);
+        if (req.quantity != null) order.setQuantity(req.quantity);
 
         OrderHandler.getInstance().updateOrder(order);
 
@@ -90,8 +90,8 @@ public class OrderResource {
     }
 
     static class AddRequest {
-        public String customerName;
-        public String customerEmail;
+        public Integer general_item_id;
+        public Integer quantity;
         public String status;
         public String createdAt;
         public String updatedAt;
@@ -100,8 +100,8 @@ public class OrderResource {
 
     static class UpdateRequest {
         public Integer orderId;
-        public String customerName;
-        public String customerEmail;
+        public Integer general_item_id;
+        public Integer quantity;
         public String status;
         public String createdAt;
         public String updatedAt;

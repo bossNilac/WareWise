@@ -51,11 +51,11 @@ public class ParamBuilder {
         if (!isAdd) {
             m.put("itemId",      it.getId());
         }
-        m.put("barcode",     it.getBarcode());
-        m.put("setQuantity",    it.getSetQuantity());
-        m.put("price",       it.getPrice());
         m.put("name",       it.getName());
+        m.put("setQuantity",    it.getSetQuantity());
+        m.put("barcode",     it.getBarcode());
         m.put("categoryId",  it.getCategoryId());
+        m.put("price",       it.getPrice());
         m.put("supplierId",  it.getSupplierId());
         m.put("expires",  it.getExpires());
         return gson.toJson(m);
@@ -81,8 +81,8 @@ public class ParamBuilder {
         if (!isAdd) {
             m.put("orderId", ord.getID());
         }
-        m.put("customerName",  ord.getCustomerName());
-        m.put("customerEmail", ord.getCustomerEmail());
+        m.put("general_item_id",  ord.getGeneralItemId());
+        m.put("quantity",  ord.getQuantity());
         m.put("status",        ord.getStatus().name());
         m.put("createdAt",     ord.getCreatedAt());
         m.put("updatedAt",     ord.getUpdatedAt());

@@ -44,6 +44,8 @@ public class SupplierController {
     @FXML
     private void initialize() {
 
+        refreshTable();
+
         supplierTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -118,7 +120,7 @@ public class SupplierController {
      * Refreshes the supplier table with new data.
      */
     public void refreshTable() {
-        DataHandler.initTables("Supplier");
+        DataHandler.initTables("Suppliers");
         supplierObservableList.setAll(DataHandler.parsedSuppliersList);
     }
 
@@ -126,7 +128,7 @@ public class SupplierController {
         Supplier supplier = new SupplierForm().showAndWait();
         if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.CREATE,"Supplier")) {
             String params = ParamBuilder.buildParamsSupplier(true,supplier);
-            String unparsedResponse = ApiHandler.sendApiCall(POST,CATEGORIES,"add_category",params);
+            String unparsedResponse = ApiHandler.sendApiCall(POST,SUPPLIERS,"add_supplier",params);
             parseResponse(unparsedResponse);
             refreshTable();
         }

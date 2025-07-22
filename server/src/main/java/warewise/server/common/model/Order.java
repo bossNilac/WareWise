@@ -5,12 +5,12 @@ import warewise.server.common.util.enums.OrderStatus;
 
 public class Order {
     private int ID;
-    private String customerName;
-    private String customerEmail;
+    private Integer general_item_id;
     private OrderStatus status;
     private String createdAt;
     private String updatedAt;
     private int userId;
+    private int quantity;
 
 
 
@@ -22,20 +22,12 @@ public class Order {
         this.ID = ID;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Integer getGeneralItemId() {
+        return general_item_id;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public void setGeneralItemId(Integer customerName) {
+        this.general_item_id = customerName;
     }
 
     public OrderStatus getStatus() {
@@ -62,25 +54,25 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-    public Order(int ID, String customerName, String customerEmail, OrderStatus status,
+    public Order(int ID, int general_item_id,int quantity, OrderStatus status,
                  String createdAt, String updatedAt,int  userId) {
         this.ID = ID;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.general_item_id = general_item_id;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userId = userId;
+        this.quantity = quantity;
     }
 
-    public Order(String customerName, String customerEmail, OrderStatus status,
+    public Order(int general_item_id,int quantity, OrderStatus status,
                  String createdAt, String updatedAt,int userId) {
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.general_item_id = general_item_id;
         this.status = status;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.userId = userId;
+        this.quantity = quantity;
     }
 
     public int getUserId() {
@@ -89,5 +81,13 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
