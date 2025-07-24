@@ -9,15 +9,19 @@ import com.warewise.client.util.model.WarehouseItem;     // maps items (the orde
 import com.warewise.client.util.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import org.controlsfx.control.PopOver;
 
+import javax.management.Notification;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -26,6 +30,9 @@ import java.util.stream.Collectors;
 public class DashboardController implements Initializable {
 
     private static final int LOW_STOCK_THRESHOLD = 10;
+
+
+    @FXML private Button notificationButton;
 
     // KPI Labels
     @FXML private Label totalOrdersLabel;
@@ -43,11 +50,23 @@ public class DashboardController implements Initializable {
     @FXML private Button           updateInventoryBtn;
     @FXML private ListView<String> notificationsList;
 
+    ObservableList<String> notifications= FXCollections.observableArrayList();
+
+    List<Category>    categories    ;
+    List<GeneralItem> generalItems  ;
+    List<Inventory>   stockRecords  ;
+    List<WarehouseItem>   orderItems;
+    List<Order>       orders        ;
+    List<User> users                ;
+    Map<Integer,User> idToUser;
+    Map<Integer,GeneralItem> giMap;
+
     // these back the chart
     private String[] nameLabels;
     private Number[] numberValues;
 
     private MainController mainController;
+    private boolean firstTime = true;
 
     public void setMainController(MainController mc) {
         this.mainController = mc;
@@ -65,16 +84,16 @@ public class DashboardController implements Initializable {
         DataHandler.initTables("Logs");
         DataHandler.initTables("Users");
 
-        List<Category>    categories    = DataHandler.parsedCategoriesList;
-        List<GeneralItem> generalItems  = DataHandler.parsedItemsList;
-        List<Inventory>   stockRecords  = DataHandler.parsedInventoryList;
-        List<WarehouseItem>   orderItems    = DataHandler.parsedWarehouseItemsList;
-        List<Order>       orders        = DataHandler.parsedOrdersList;
-        List<User> users = DataHandler.parsedUsersList;
+        categories= DataHandler.parsedCategoriesList;
+        generalItems= DataHandler.parsedItemsList;
+        stockRecords= DataHandler.parsedInventoryList;
+        orderItems= DataHandler.parsedWarehouseItemsList;
+        orders= DataHandler.parsedOrdersList;
+        users= DataHandler.parsedUsersList;
 
-        Map<Integer,User> idToUser = users.stream()
+        idToUser = users.stream()
                 .collect(Collectors.toMap(User::getID, u->u));
-        Map<Integer,GeneralItem> giMap = generalItems.stream()
+        giMap = generalItems.stream()
                 .collect(Collectors.toMap(GeneralItem::getId, gi->gi));
 
         // 2) Compute KPIs
@@ -128,49 +147,8 @@ public class DashboardController implements Initializable {
         updateInventoryBtn.setOnAction(e -> handleUpdateInventory());
 
 
+        createNotificationList();
 
-        ObservableList<String> notifications = FXCollections.observableArrayList();
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dtFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-// — New orders and updates in the last 24h —
-        for(Order o : orders) {
-            // parse using whatever format you store createdAt/updatedAt in
-            LocalDateTime created = LocalDateTime.parse(o.getCreatedAt(), dtFmt);
-            if (created.isAfter(now.minusHours(24))) {
-                User u = idToUser.get(o.getUserId());
-                String name = u != null ? u.getUsername() : "Unknown";
-                notifications.add(
-                        "New order received by " + name +
-                                " at " + created.format(DateTimeFormatter.ofPattern("HH:mm"))
-                );
-            }
-
-            LocalDateTime updated = LocalDateTime.parse(o.getUpdatedAt(), dtFmt);
-            // only count an “update” if it’s different from the creation time
-            if (updated.isAfter(now.minusHours(24)) && !updated.equals(created)) {
-                User u = idToUser.get(o.getUserId());
-                String name = u != null ? u.getUsername() : "Unknown";
-                notifications.add(
-                        "Order updated by " + name +
-                                " at " + updated.format(DateTimeFormatter.ofPattern("HH:mm"))
-                );
-            }
-        }
-
-        int LOW_STOCK_THRESHOLD = 10;
-        for (WarehouseItem oi : orderItems) {
-            if (oi.getQuantity() <= LOW_STOCK_THRESHOLD) {
-                GeneralItem gi = giMap.get(oi.getGeneralItemId());
-                String itemName = gi != null ? gi.getName() : "Unknown item";
-                notifications.add(
-                        "Low stock alert: “" + itemName +
-                                "” has only " + oi.getQuantity() + " left"
-                );
-            }
-        }
-// 3) Finally wire it up
-        notificationsList.setItems(notifications);
 
     }
 
@@ -220,4 +198,87 @@ public class DashboardController implements Initializable {
     private void handleUpdateInventory() {
         System.out.println("Update Inventory clicked");
     }
+
+    private void createNotificationList(){
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        // — New orders and updates in the last 24h —
+        for(Order o : orders) {
+            // parse using whatever format you store createdAt/updatedAt in
+            LocalDateTime created = LocalDateTime.parse(o.getCreatedAt(), dtFmt);
+            if (created.isAfter(now.minusHours(24))) {
+                User u = idToUser.get(o.getUserId());
+                String name = u != null ? u.getUsername() : "Unknown";
+                notifications.add(
+                        "New order received by " + name +
+                                " at " + created.format(DateTimeFormatter.ofPattern("HH:mm"))
+                );
+            }
+
+            LocalDateTime updated = LocalDateTime.parse(o.getUpdatedAt(), dtFmt);
+            // only count an “update” if it’s different from the creation time
+            if (updated.isAfter(now.minusHours(24)) && !updated.equals(created)) {
+                User u = idToUser.get(o.getUserId());
+                String name = u != null ? u.getUsername() : "Unknown";
+                notifications.add(
+                        "Order updated by " + name +
+                                " at " + updated.format(DateTimeFormatter.ofPattern("HH:mm"))
+                );
+            }
+        }
+
+        int LOW_STOCK_THRESHOLD = 10;
+        for (WarehouseItem oi : orderItems) {
+            if (oi.getQuantity() <= LOW_STOCK_THRESHOLD) {
+                GeneralItem gi = giMap.get(oi.getGeneralItemId());
+                String itemName = gi != null ? gi.getName() : "Unknown item";
+                notifications.add(
+                        "Low stock alert: “" + itemName +
+                                "” has only " + oi.getQuantity() + " left"
+                );
+            }
+        }
+
+        ObservableList<String> tempList = FXCollections.observableArrayList(notifications);
+        notifications.clear();
+        notificationsList.setItems(tempList);
+    }
+
+    public void openNotifications(ActionEvent actionEvent) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+
+        if(firstTime){
+            firstTime = false;
+            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-1));
+            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-2));
+            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-3));
+        }else{
+            if(!compareNotifications()){
+                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-1));
+                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-2));
+                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-3));
+            }else {
+                list.add("No new notifications");
+            }
+        }
+        ListView<String> notificationsList = new ListView<>(list);
+        notificationsList.setPrefSize(400, 150);
+
+        PopOver pop = new PopOver(notificationsList);
+        pop.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+        pop.setDetachable(false);
+        pop.show(notificationButton);
+    }
+
+    private boolean compareNotifications() {
+
+        List<String> previousNotificationsList = notifications;
+        createNotificationList();
+
+        return previousNotificationsList.equals(notifications);
+
+    }
+
 }

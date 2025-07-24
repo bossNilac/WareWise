@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
-    <Label text="Items" styleClass="header"/>
-    <Label wrapText="true" text="Manage Order Items or Product Variants:
-• Item List: Display item ID, order/product reference, quantity, individual price, and total.
-• CRUD Actions: Buttons/icons for adding, editing, or removing items.
-• Form Interface: Inline or modal forms for item details.
-• Automatic Calculations: Compute totals as quantities/prices are entered.
-• Inventory Link: Easily select or update associated inventory records."/>
+<VBox spacing="10" style="-fx-padding: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+    <Label styleClass="header" text="Items" />
+    <Label text="Manage Order Items or Product Variants: • Item List: Display item ID, order/product reference, quantity, individual price, and total. • CRUD Actions: Buttons/icons for adding, editing, or removing items. • Form Interface: Inline or modal forms for item details. • Automatic Calculations: Compute totals as quantities/prices are entered. • Inventory Link: Easily select or update associated inventory records." wrapText="true" />
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <MenuButton mnemonicParsing="false" text="Warehouse">
+           <items>
+             <MenuItem mnemonicParsing="false" text="Action 1" />
+             <MenuItem mnemonicParsing="false" text="Action 2" />
+           </items>
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin>
+         </MenuButton>
+         <MenuButton mnemonicParsing="false" text="Inventory">
+            <items>
+               <MenuItem mnemonicParsing="false" text="Action 1" />
+               <MenuItem mnemonicParsing="false" text="Action 2" />
+            </items>
+         </MenuButton>
+      </children>
+   </HBox>
+   <TableView prefHeight="200.0" prefWidth="200.0">
+     <columns>
+       <TableColumn prefWidth="75.0" text="C1" />
+       <TableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TableView>
 </VBox>

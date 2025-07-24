@@ -35,8 +35,7 @@ import static com.warewise.client.networking.ApiHandler.GENERAL_ITEMS;
 import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class AlertsController implements Initializable {
-    @FXML
-    private ListView<String> notificationsList;
+
     @FXML
     private TableView<StockAlert> alertsTableView;
 
@@ -54,6 +53,18 @@ public class AlertsController implements Initializable {
     @FXML
     private ComboBox<String> resolvedFilterCombo;
 
+    @FXML private TableView<LowStockNotification> notificationsTable;
+    @FXML private TableColumn<LowStockNotification, String> colItemName;
+    @FXML private TableColumn<LowStockNotification, String> colOrderDate;
+    @FXML private TableColumn<LowStockNotification, String> colUserName;
+    @FXML private TableColumn<LowStockNotification, String> colCategory;
+    @FXML private TableColumn<LowStockNotification, String> colInventory;
+    @FXML private TableColumn<LowStockNotification, String> colWarehouse;
+
+
+    private final ObservableList<LowStockNotification> notificationsData = FXCollections.observableArrayList();
+
+
 
     ObservableList<String> productNameList;
 
@@ -67,6 +78,7 @@ public class AlertsController implements Initializable {
     public void initialize(URL loc, ResourceBundle res) {
 
         alertsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        notificationsTable .setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // 1) Load all relevant tables
         DataHandler.initTables("Category");
@@ -199,7 +211,6 @@ public class AlertsController implements Initializable {
 
         for (WarehouseItem oi : orderItems) {
             if (oi.getQuantity() <= LOW_STOCK_THRESHOLD) {
-
                 GeneralItem gi = giMap.get(oi.getGeneralItemId());
                 Order order = orderMap.get(oi.getOrderID());
                 User user = idToUser.get(order.getUserId());
@@ -207,27 +218,26 @@ public class AlertsController implements Initializable {
                 Inventory inventory = inventoriesMap.get(oi.getInventoryID());
                 Warehouse warehouse = warehousesMap.get(inventory.getWarehouseId());
 
-                String itemName = gi != null ? gi.getName() : "Unknown item";
-                String orderDate = order != null ? order.getUpdatedAt() : "No order date";
-                String userName = user != null ? user.getUsername() : "No user on order";
-                String categoryName = category != null ? category.getName() : "No category on Item";
-                String inventoryName = inventory != null ? inventory.getName() : "No inventory for Item";
-                String warehousesName = warehouse != null ? warehouse.getName() : "No warehouse for Item";
-
-                String text = "Low stock alert: “" + itemName +
-                        "“ has only " + oi.getQuantity() + " left"
-                        + " , received on " + orderDate
-                        + " , done by " + userName
-                        + " , of category " + categoryName
-                        + " , of inventory " + inventoryName
-                        + " , of warehouse " + warehousesName;
-                notifications.add(
-                        text
-                );
+                notificationsData.add(new LowStockNotification(
+                        gi != null ? gi.getName() : "Unknown item",
+                        order != null ? order.getUpdatedAt() : "No order date",
+                        user != null ? user.getUsername() : "No user on order",
+                        category != null ? category.getName() : "No category on Item",
+                        inventory != null ? inventory.getName() : "No inventory for Item",
+                        warehouse != null ? warehouse.getName() : "No warehouse for Item"
+                ));
             }
         }
-// 3) Finally wire it up
-        notificationsList.setItems(notifications);
+
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        colOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        colUserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+        colInventory.setCellValueFactory(new PropertyValueFactory<>("inventoryName"));
+        colWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouseName"));
+
+        notificationsTable.setItems(notificationsData);
+
 
     }
 
@@ -270,22 +280,20 @@ public class AlertsController implements Initializable {
 
 
     public void createAlert(ActionEvent actionEvent) {
-        String selectedString = notificationsList.getSelectionModel().getSelectedItem();
+        LowStockNotification sel = notificationsTable.getSelectionModel().getSelectedItem();
+        if (sel == null) return;
+        // lookup GeneralItem by name
+        GeneralItem item = giNameMap.get(sel.getItemName());
+        if (item == null) return;
 
-        Pattern p = Pattern.compile("Low stock alert: “(.+?)“ has only");
-        Matcher m = p.matcher(selectedString);
-
-        if (m.find()) {
-            String parsedItemName = m.group(1);
-            System.out.println("Extracted itemName = " + parsedItemName);
-
-            GeneralItem item = giNameMap.get(parsedItemName);
-
-            StockAlert stockAlert = new StockAlert(item.getId(), LocalDateTime.now().format(
-                    DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")), false);
-
-            String param = ParamBuilder.buildParamsStockAlert(true, stockAlert);
-            ApiHandler.sendApiCall(POST, STOCK_ALERTS, "add_stock_alert", param);
-        }
+        StockAlert stockAlert = new StockAlert(
+                item.getId(),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
+                false
+        );
+        String param = ParamBuilder.buildParamsStockAlert(true, stockAlert);
+        ApiHandler.sendApiCall(ApiHandler.POST, ApiHandler.STOCK_ALERTS,
+                "add_stock_alert", param);
     }
+
 }

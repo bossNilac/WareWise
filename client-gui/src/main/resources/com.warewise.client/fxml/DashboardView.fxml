@@ -1,79 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
+<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 
-<?import java.lang.String?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml/1"
-            fitToWidth="true" fitToHeight="true" fx:controller="com.warewise.client.controller.DashboardController">
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.Region?>
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.warewise.client.controller.DashboardController">
     <content>
-        <VBox
-              spacing="20" styleClass="dashboard-view">
+        <VBox spacing="20" styleClass="dashboard-view">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10">
+                <children>
+                    <!-- Title Header -->
+                    <Label styleClass="section-title"
+                           text="Dashboard Overview &amp; Metrics" />
 
-            <!-- Title Header -->
-            <Label text="Dashboard Overview &amp; Metrics" styleClass="section-title"/>
+                    <!-- Spacer that grows -->
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <!-- Bell button always at right edge -->
+                    <Button fx:id="notificationButton" style="-fx-background-color: transparent;"
+                            mnemonicParsing="false" onAction="#openNotifications">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="BELL" styleClass="icon"/>
+                        </graphic>
+                    </Button>
+                </children>
+            </HBox>
 
             <!-- KPIs Section -->
-            <HBox spacing="20" alignment="CENTER">
-                <VBox spacing="5" alignment="CENTER">
-                    <Label text="Total Orders" styleClass="kpi-title"/>
-                    <Label fx:id="totalOrdersLabel" text="0" styleClass="kpi-value"/>
+            <HBox alignment="CENTER" spacing="20">
+                <VBox alignment="CENTER" spacing="5">
+                    <Label styleClass="kpi-title" text="Total Orders" />
+                    <Label fx:id="totalOrdersLabel" styleClass="kpi-value" text="0" />
                 </VBox>
-                <VBox spacing="5" alignment="CENTER">
-                    <Label text="Inventory Levels" styleClass="kpi-title"/>
-                    <Label fx:id="inventoryLabel" text="0" styleClass="kpi-value"/>
+                <VBox alignment="CENTER" spacing="5">
+                    <Label styleClass="kpi-title" text="Inventory Levels" />
+                    <Label fx:id="inventoryLabel" styleClass="kpi-value" text="0" />
                 </VBox>
-                <VBox spacing="5" alignment="CENTER">
-                    <Label text="Low-Stock Items" styleClass="kpi-title"/>
-                    <Label fx:id="lowStockLabel" text="0" styleClass="kpi-value"/>
+                <VBox alignment="CENTER" spacing="5">
+                    <Label styleClass="kpi-title" text="Low-Stock Items" />
+                    <Label fx:id="lowStockLabel" styleClass="kpi-value" text="0" />
                 </VBox>
-                <VBox spacing="5" alignment="CENTER">
-                    <Label text="Overall Value" styleClass="kpi-title"/>
-                    <Label fx:id="salesLabel" text="0$" styleClass="kpi-value"/>
+                <VBox alignment="CENTER" spacing="5">
+                    <Label styleClass="kpi-title" text="Overall Value" />
+                    <Label fx:id="salesLabel" styleClass="kpi-value" text="0$" />
                 </VBox>
             </HBox>
 
             <!-- Visual Charts Section -->
             <VBox spacing="10">
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="Select Chart:" styleClass="kpi-value"/>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label styleClass="kpi-value" text="Select Chart:" />
                     <ComboBox fx:id="chartTypeComboBox" styleClass="combo-box">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="Bar Chart" />
-                                <String fx:value="Pie Chart"/>
+                                <String fx:value="Pie Chart" />
                             </FXCollections>
                         </items>
                     </ComboBox>
                 </HBox>
                 <!-- Chart Container -->
                 <StackPane fx:id="chartContainer" minHeight="300" prefHeight="300" styleClass="chart-container">
-                    <Label text="Chart will be displayed here" styleClass="chart-placeholder"/>
+                    <Label styleClass="chart-placeholder" text="Chart will be displayed here" />
                 </StackPane>
             </VBox>
 
             <!-- Recent Activity Feed Section -->
             <HBox spacing="10">
-                <VBox spacing="10" prefWidth="500">
-                    <Label text="Recent Activity Feed" styleClass="section-title"/>
-                    <ListView styleClass="list-view" fx:id="activityFeedList" prefHeight="150"/>
+                <VBox prefWidth="500" spacing="10">
+                    <Label styleClass="section-title" text="Recent Activity Feed" />
+                    <ListView fx:id="activityFeedList" prefHeight="150" styleClass="list-view" />
                 </VBox>
-                <VBox spacing="20" alignment="CENTER">
-                    <Label text="Quick Actions" styleClass="section-title"/>
-                    <HBox spacing="20" alignment="CENTER">
-                        <Button text="Create Order" fx:id="createOrderBtn" styleClass="quick-action-btn"/>
-                        <Button text="Update Inventory" fx:id="updateInventoryBtn" styleClass="quick-action-btn"/>
+                <VBox alignment="CENTER" spacing="20">
+                    <Label styleClass="section-title" text="Quick Actions" />
+                    <HBox alignment="CENTER" spacing="20">
+                        <Button fx:id="createOrderBtn" styleClass="quick-action-btn" text="Create Order" />
+                        <Button fx:id="updateInventoryBtn" styleClass="quick-action-btn" text="Update Inventory" />
                     </HBox>
                 </VBox>
             </HBox>
@@ -81,8 +96,8 @@
 
             <!-- Notifications Section -->
             <VBox spacing="10">
-                <Label text="Notifications" styleClass="section-title"/>
-                <ListView fx:id="notificationsList" prefHeight="100"/>
+                <Label styleClass="section-title" text="Notifications" />
+                <ListView fx:id="notificationsList" prefHeight="100" />
             </VBox>
         </VBox>
     </content>

@@ -17,6 +17,32 @@ public class InventoryHandler {
         return instance;
     }
 
+    public void refreshInventories() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT public.refresh_inventory_stock();\n";
+            stmt = connection.prepareStatement(query);
+            stmt.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void addInventory(Inventory inventory) {
         Connection connection = null;
         PreparedStatement stmt = null;

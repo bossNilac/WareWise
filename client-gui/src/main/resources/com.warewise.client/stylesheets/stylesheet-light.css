@@ -11,6 +11,8 @@
     -fx-text-fill: #333333; /* Dark text */
 }
 
+
+
 /* Dashboard ListViews – dark theme */
 .list-view {
     -fx-background-color: #F8F9FA;      /* dark panel */

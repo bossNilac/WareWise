@@ -29,7 +29,7 @@ public class DatabaseConnection {
 //        config.setUsername("postgres");
 //        config.setPassword("Nilac291229122912");
 
-        config.setJdbcUrl("jdbc:postgresql://192.168.1.200:5432/warewisedb");
+        config.setJdbcUrl("jdbc:postgresql://192.168.1.201:5432/warewisedb");
         config.setUsername("admin");
         config.setPassword("2912");
 

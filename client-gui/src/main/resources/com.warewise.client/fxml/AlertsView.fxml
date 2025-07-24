@@ -22,7 +22,20 @@
          <Button layoutX="10.0" layoutY="10.0"  onAction="#createAlert" text="Create an Alert" />
       </children>
    </HBox>
-    <ListView fx:id="notificationsList" layoutY="120.0" prefHeight="200" prefWidth="634.0" />
+
+
+    <TableView fx:id="notificationsTable" prefHeight="200" prefWidth="634">
+        <columns>
+            <TableColumn fx:id="colItemName" text="Item Name" prefWidth="120" />
+            <TableColumn fx:id="colOrderDate" text="Order Date" prefWidth="120" />
+            <TableColumn fx:id="colUserName" text="User" prefWidth="100" />
+            <TableColumn fx:id="colCategory" text="Category" prefWidth="100" />
+            <TableColumn fx:id="colInventory" text="Inventory" prefWidth="100" />
+            <TableColumn fx:id="colWarehouse" text="Warehouse" prefWidth="100" />
+        </columns>
+    </TableView>
+
+
     <HBox spacing="8">
         <TextField fx:id="productFilterField" promptText="Product name…" />
         <TextField fx:id="dateFilterField" promptText="YYYY-MM-DD"   />

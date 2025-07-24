@@ -23,19 +23,37 @@
 .form-label {
     -fx-text-fill: #FFFFFF;      /* change to any hex or named colour you like */
 }
+/* PopOver bubble */
+.pop-over .popover-content {
+    -fx-background-color: #3c3f41;
+    -fx-border-color:    #555;
+    -fx-border-radius:    4;
+    -fx-background-radius:4;
+    -fx-padding:          8;
+}
+
+/* PopOver bubble */
+.pop-over .popover-content {
+    -fx-background-color: #F9F9F9;
+    -fx-border-color:    #CCCCCC;
+    -fx-border-radius:    4;
+    -fx-background-radius:4;
+    -fx-padding:          8;
+}
+
 
 /* Dashboard ListViews – dark theme */
 .list-view {
-    -fx-background-color: #2b2b2b;      /* dark panel */
-    -fx-border-color:  transparent;     /* hide default border */
-    -fx-padding: 4;                     /* some breathing room */
+    -fx-background-color: #2b2b2b; /* dark panel */
+    -fx-border-color: transparent; /* hide default border */
+    -fx-padding: 4; /* some breathing room */
 }
 
 .list-view .list-cell {
     -fx-background-color: transparent;
-    -fx-text-fill:           #e0e0e0;    /* light text */
-    -fx-font-size:           13px;
-    -fx-padding:             6 10;       /* top/bottom, left/right */
+    -fx-text-fill: #e0e0e0; /* light text */
+    -fx-font-size: 13px;
+    -fx-padding: 6 10; /* top/bottom, left/right */
 }
 
 /* Hover state */
@@ -45,8 +63,8 @@
 
 /* Selected item */
 .list-view .list-cell:selected {
-    -fx-background-color: #005fae;       /* bright accent */
-    -fx-text-fill:        white;
+    -fx-background-color: #005fae; /* bright accent */
+    -fx-text-fill: white;
 }
 
 /* Scrollbar styling */
