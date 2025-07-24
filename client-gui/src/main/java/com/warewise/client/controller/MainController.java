@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -23,8 +24,10 @@ public class MainController {
     public void setManagerFlag(boolean isManager) {
         this.isManager = isManager;
         loadSideMenu();
-        loadContent("DashboardView.fxml");
+        DashboardController dash = loadView("DashboardView.fxml");
+        if (dash != null) dash.setMainController(this);
     }
+
 
     /** Loads the correct sidebar menu using App.resourceDir as the classpath root. */
     private void loadSideMenu() {
@@ -50,6 +53,30 @@ public class MainController {
         }
     }
 
+    /** Loads the given FXML into the contentPane and returns its controller. */
+    private <T> T loadView(String fxmlName) {
+        String path = App.resourceDir + "/fxml/" + fxmlName;
+        URL url = getClass().getResource(path);
+        if (url == null) {
+            System.err.println("Cannot find FXML: " + path);
+            return null;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent view = loader.load();
+            contentPane.getChildren().setAll(view);
+            return loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /** Allow child controllers to load new content into the main pane */
+    public void loadContentPane(String fxmlName) {
+        loadView(fxmlName);
+    }
+
 
     /**
      * Bound to every sidebar Button via onAction="#handleMenuAction",
@@ -57,9 +84,17 @@ public class MainController {
      */
     @FXML
     private void handleMenuAction(ActionEvent event) {
-        Object ud = ((Node) event.getSource()).getUserData();
-        if (ud instanceof String) {
-            loadContent((String) ud);
+        String view = (String)((Node)event.getSource()).getUserData();
+
+        if ("DashboardView.fxml".equals(view)) {
+            // whenever you click the Dashboard button, re-load it and re-inject
+            DashboardController dash = loadView(view);
+            if (dash != null) {
+                dash.setMainController(this);
+            }
+        } else {
+            // for any other view (OrdersView.fxml, etc.) just load it
+            loadView(view);
         }
     }
 

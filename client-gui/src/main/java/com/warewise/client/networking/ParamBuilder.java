@@ -106,7 +106,7 @@ public class ParamBuilder {
     public static String buildParamsStockAlert(boolean isAdd, StockAlert a) {
         Map<String, Object> m = new LinkedHashMap<>();
         if (!isAdd) {
-            m.put("alertId", a.getID());
+            m.put("stockAlertId", a.getID());
         }
         m.put("productId", a.getProductID());
         m.put("createdAt", a.getCreatedAt());

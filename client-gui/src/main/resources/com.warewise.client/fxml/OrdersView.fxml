@@ -9,12 +9,27 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <VBox spacing="10" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.client.controller.OrdersController">
     <Label alignment="CENTER" styleClass="header" text="Orders" textAlignment="CENTER">
         <padding>
             <Insets left="570.0" />
         </padding>
     </Label>
+    <HBox spacing="8" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml" fx:id="filterBar">
+        <!-- Creation‐date filter -->
+        <TextField fx:id="dateFilterField" promptText="YYYY-MM-DD" />
+        <Button text="Filter by Date" fx:id="dateFilterBtn" />
+
+        <!-- User filter -->
+        <TextField fx:id="userFilterField" promptText="Username" />
+        <Button text="Filter by User" fx:id="userFilterBtn" />
+
+        <!-- Status dropdown -->
+        <ComboBox fx:id="statusFilterCombo" promptText="All Statuses" />
+        <Button text="Reset Filter" onAction="#resetFilters" />
+    </HBox>
     <TableView fx:id="ordersTableView" editable="true" onKeyPressed="#deleteOrderAction" styleClass="table-view">
         <columns>
             <TableColumn fx:id="statusColumn" prefWidth="200" text="Status" />
@@ -23,7 +38,8 @@
             <TableColumn fx:id="userColumn" prefWidth="800" text="Done By" />
             <TableColumn fx:id="itemColumn" prefWidth="800" text="Item" />
             <TableColumn fx:id="quantityColumn" prefWidth="800" text="Amount" />
-        </columns></TableView>
+        </columns>
+    </TableView>
     <HBox prefHeight="31.0" prefWidth="1007.0">
         <Button mnemonicParsing="false" onAction="#addNewOrderAction" styleClass="button" text="Add New Order" />
         <Button mnemonicParsing="false" onAction="#deleteOrderActionEvent" styleClass="button" text="Delete Order" />

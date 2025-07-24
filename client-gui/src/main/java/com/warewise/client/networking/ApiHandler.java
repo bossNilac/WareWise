@@ -114,7 +114,7 @@ public class ApiHandler {
                 break;
             case "DELETE_STOCK_ALERT":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.STOCK_ALERTS, value.toLowerCase(),
-                        buildDeleteParams(id,"supplierId"));
+                        buildDeleteParams(id,"stockAlertId"));
                 break;
             case "DELETE_WAREHOUSE":
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.WAREHOUSES, value.toLowerCase(),

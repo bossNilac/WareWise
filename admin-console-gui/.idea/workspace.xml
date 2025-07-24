@@ -5,34 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12267a80-31b4-4a95-8072-38d62287a11b" name="Changes" comment="Admin GUI Rebooted">
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/GeneralItemController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/GeneralItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/AdjustDamageView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CycleCountsView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/GeneralItemsView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/PickAndShipView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ProfileView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ReceiveShipmentsView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ReportsView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ZonesRoutingView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/apps/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/CategoriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/CategoriesController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/ApiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/ApiHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/OrdersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/controller/OrdersController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/DataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/networking/DataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AdminUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AdminUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AlertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/AlertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/java/com/warewise/client/util/model/WarehouseItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/CategoriesView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/ManagerMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/OrdersView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client-gui/src/main/resources/com.warewise.client/fxml/OrdersView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/WarehouseItemResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/warewise/server/api/resources/model/WarehouseItemResource.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,6 +206,7 @@
       <workItem from="1753045276377" duration="614000" />
       <workItem from="1753119696089" duration="61000" />
       <workItem from="1753126198910" duration="16000" />
+      <workItem from="1753310051679" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="Admin GUI Rebooted">
       <option name="closed" value="true" />

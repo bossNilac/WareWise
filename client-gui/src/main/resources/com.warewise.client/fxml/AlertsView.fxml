@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 10;">
-    <Label text="Alerts" styleClass="header"/>
-    <Label wrapText="true" text="Stock Alerts and Notifications:
-• Alert List: Show alert ID, product name/ID, current stock level, and threshold.
-• Status Indicators: Use visual cues (colors/icons) for active/resolved alerts.
-• Resolve Action: Option to mark alerts as resolved.
-• History Log: Record of past alerts and resolution actions.
-• Filter/Sort: Filter alerts by severity, date, or product."/>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<VBox prefHeight="326.0" prefWidth="644.0" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.warewise.client.controller.AlertsController">
+    <Label layoutY="20.0" styleClass="header" text="Alerts" />
+   <HBox prefHeight="18.0" prefWidth="624.0">
+      <children>
+         <Label prefHeight="17.0" prefWidth="572.0" styleClass="label" text="Low stock levels">
+            <font>
+               <Font size="19.0" />
+            </font></Label>
+         <Button layoutX="10.0" layoutY="10.0"  onAction="#createAlert" text="Create an Alert" />
+      </children>
+   </HBox>
+    <ListView fx:id="notificationsList" layoutY="120.0" prefHeight="200" prefWidth="634.0" />
+    <HBox spacing="8">
+        <TextField fx:id="productFilterField" promptText="Product name…" />
+        <TextField fx:id="dateFilterField" promptText="YYYY-MM-DD"   />
+        <ComboBox fx:id="resolvedFilterCombo" promptText="Resolved?"    />
+    </HBox>
+
+    <TableView fx:id="alertsTableView" editable="true" onKeyPressed="#deleteAlertAction" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="productColumn" prefWidth="200" text="Product" />
+            <TableColumn fx:id="createdAtColumn" prefWidth="800" text="Created At" />
+            <TableColumn fx:id="resolvedColumn" prefWidth="800" text="Resolved" />
+        </columns>
+    </TableView>
+    <Button onAction="#deleteAlertActionEvent" text="Delete Alert" />
 </VBox>

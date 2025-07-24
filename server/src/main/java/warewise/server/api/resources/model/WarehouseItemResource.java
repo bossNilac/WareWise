@@ -12,7 +12,7 @@ import warewise.server.common.model.WarehouseItem;
  * REST resource providing endpoints to manage items.
  * Includes endpoints to retrieve, add, update, and delete items.
  */
-@Path("/warehouse_items")
+@Path("/items")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class WarehouseItemResource {

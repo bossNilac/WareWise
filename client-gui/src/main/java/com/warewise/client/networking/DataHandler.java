@@ -2,6 +2,8 @@ package com.warewise.client.networking;
 
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class DataHandler {
      */
     public static <T> ArrayList<T> parse(String jsonArray, Class<T> clazz) {
         System.out.println(jsonArray);
+        System.out.println(clazz.getName());
         Type type = TypeToken.getParameterized(ArrayList.class, clazz).getType();
         return new Gson().fromJson(new ApiResponse(jsonArray).getData(), type);
     }
@@ -90,10 +93,22 @@ public class DataHandler {
         }return null;
     }
 
-    public static List<String> getRecentActionsForUser(String username, int i) {
+    public static List<String> getRecentActionsForOtherUsers(String username, int i) {
         ArrayList<String> logs = new ArrayList<>();
         for(Log log :parsedLogsList){
-            if(log.getUsername().equals(username) && i!=0){
+            if(log.getAction().equals("GET")){
+                continue;
+            }
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.n");
+
+            // 2) Formatter for your target pattern
+            DateTimeFormatter printer = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+            // 3) Parse then format
+            LocalDateTime dt = LocalDateTime.parse(log.getCreatedAt(), parser);
+            String pretty = dt.format(printer);
+            log.setCreatedAt(pretty);
+            if(!log.getUsername().equals(username) && i!=0){
                 --i;
                 logs.add(parseLine(log.toString()));
             }

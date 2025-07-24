@@ -11,6 +11,55 @@
     -fx-text-fill: #333333; /* Dark text */
 }
 
+/* Dashboard ListViews – dark theme */
+.list-view {
+    -fx-background-color: #F8F9FA;      /* dark panel */
+    -fx-border-color:  transparent;     /* hide default border */
+    -fx-padding: 4;                     /* some breathing room */
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill:           #333333;    /* light text */
+    -fx-font-size:           13px;
+    -fx-padding:             6 10;       /* top/bottom, left/right */
+}
+
+/* Hover state */
+.list-view .list-cell:hover {
+    -fx-background-color: #F8F9FA;
+}
+
+/* Selected item */
+.list-view .list-cell:selected {
+    -fx-background-color: #005fae;       /* bright accent */
+    -fx-text-fill:        white;
+}
+
+/* Scrollbar styling */
+.scroll-bar:vertical {
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 10px;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #555;
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #888;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+
 /* -------------------------------
    Layout Containers & Panels
 --------------------------------- */

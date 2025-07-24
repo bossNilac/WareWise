@@ -12,8 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -25,27 +24,49 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.warewise.client.networking.ApiHandler.*;
 import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class OrdersController {
-    public TableView<Order> ordersTableView;
-    public TableColumn<Order, OrderStatus> statusColumn;
-    public TableColumn<Order,String> createdAtColumn;
-    public TableColumn<Order,String> updatedAtColumn;
-    public TableColumn<Order,String> userColumn;
-    public TableColumn<Order,String> itemColumn;
-    public TableColumn<Order,Integer> quantityColumn;
+    @FXML
+    private TableView<Order> ordersTableView;
+    @FXML
+    private TableColumn<Order, OrderStatus> statusColumn;
+    @FXML
+    private TableColumn<Order,String> createdAtColumn;
+    @FXML
+    private TableColumn<Order,String> updatedAtColumn;
+    @FXML
+    private TableColumn<Order,String> userColumn;
+    @FXML
+    private TableColumn<Order,String> itemColumn;
+    @FXML
+    private TableColumn<Order,Integer> quantityColumn;
 
     private final ObservableList<Order> generalOrderData = FXCollections.observableArrayList();
 
     private Map<Integer, GeneralItem> idToGeneralItem;
     private Map<String,  GeneralItem>  nameToGeneralItem;
     private ObservableList<String>  generalItemNames;
+
+    @FXML
+    private TextField dateFilterField;
+    @FXML
+    private Button dateFilterBtn;
+    @FXML
+    private TextField      userFilterField;
+    @FXML
+    private Button         userFilterBtn;
+    @FXML
+    private ComboBox<OrderStatus> statusFilterCombo;
+
+
 
 
     @FXML
@@ -54,6 +75,52 @@ public class OrdersController {
         DataHandler.initTables("Orders");
         DataHandler.initTables("Users");
         DataHandler.initTables("GeneralItem");
+
+        List<User> users = DataHandler.parsedUsersList;
+        Map<Integer,User> idToUser = users.stream()
+                .collect(Collectors.toMap(User::getID, u->u));
+
+
+
+        ObservableList<OrderStatus> statuses = FXCollections.observableArrayList(OrderStatus.values());
+        statusFilterCombo.setItems(statuses);
+
+        // a single method to reapply all filters
+        Runnable applyFilters = () -> {
+            String dateText = dateFilterField.getText().trim();
+            String userText = userFilterField.getText().trim().toLowerCase();
+            OrderStatus statusSel = statusFilterCombo.getValue();
+
+            List<Order> filtered = DataHandler.parsedOrdersList.stream()
+                    .filter(o -> {
+                        // 1) date filter
+                        boolean okDate = dateText.isEmpty()
+                                || o.getCreatedAt().startsWith(dateText);
+
+                        // 2) user filter
+                        boolean okUser = userText.isEmpty() || Optional.ofNullable(idToUser.get(o.getUserId()))
+                                .map(u -> u.getUsername().toLowerCase().contains(userText))
+                                .orElse(false);
+
+                        // 3) status filter
+                        boolean okStatus = (statusSel == null)
+                                || o.getStatus() == statusSel;
+
+                        return okDate && okUser && okStatus;
+                    })
+                    .collect(Collectors.toList());
+
+            ordersTableView.setItems(FXCollections.observableArrayList(filtered));
+        };
+
+        // wire all three controls to use the same applyFilters()
+        dateFilterBtn .setOnAction(e -> applyFilters.run());
+        userFilterBtn .setOnAction(e -> applyFilters.run());
+        statusFilterCombo.valueProperty()
+                .addListener((obs, old, nw) -> applyFilters.run());
+
+        // initial load
+        applyFilters.run();
 
         ordersTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -64,8 +131,7 @@ public class OrdersController {
                 .collect(Collectors.toMap(GeneralItem::getName, c -> c));
         generalItemNames     = FXCollections.observableArrayList(nameToGeneralItem.keySet());
 
-        ObservableList<OrderStatus> statuses =
-                FXCollections.observableArrayList(OrderStatus.values());
+
 
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusColumn.setCellFactory(ComboBoxTableCell.forTableColumn(
@@ -99,9 +165,7 @@ public class OrdersController {
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
 
-        List<User> users = DataHandler.parsedUsersList;
-        Map<Integer,User> idToUser = users.stream()
-                .collect(Collectors.toMap(User::getID, u->u));
+
 
         // 1) Only set the cellValueFactory to show username:
         userColumn.setCellValueFactory(cellData -> {
@@ -190,5 +254,11 @@ public class OrdersController {
         DataHandler.initTables("Orders");
         generalOrderData.setAll(DataHandler.parsedOrdersList);
     }
-    
+
+    public void resetFilters(ActionEvent actionEvent) {
+          dateFilterField.setText("");
+          userFilterField.setText("");
+          statusFilterCombo.setValue(null);
+          refreshTable();
+    }
 }

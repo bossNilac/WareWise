@@ -69,13 +69,20 @@ public class Log {
     }
 
     private static final Pattern LOG_PATTERN = Pattern.compile(
-            "^(\\S+)\\s+" +                           // username (no spaces)
-                    "(GET|POST|PATCH|DELETE)\\s+" +           // HTTP method
-                    "(\\S+)\\s+" +                            // full path (no spaces)
-                    "(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+)$"  // timestamp
+            "^" +
+                    "(\\S+)\\s+" +                                           // username
+                    "(GET|POST|PATCH|DELETE)\\s+" +                         // HTTP method
+                    "(\\S+)\\s+" +                                          // path
+                    "(" +
+                    "(?:\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+)" +  // ISO with fraction
+                    "|" +
+                    "(?:\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}:\\d{2})" +       // dd-MM-yyyy HH:mm:ss
+                    ")" +
+                    "$"
     );
 
-        // Irregular plural forms
+
+    // Irregular plural forms
         private static final Map<String,String> PLURALS = Map.of(
                 "inventory",    "inventories",
                 "category",     "categories",
