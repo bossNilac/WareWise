@@ -1,9 +1,9 @@
 package warewise.server;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.*;
+import org.glassfish.jersey.server.ResourceConfig;
 
-@ApplicationPath("/api")
-public class WareWiseApi extends Application {
-
+public class WareWiseApi extends ResourceConfig {
+    public WareWiseApi() {
+        packages("warewise.server.api.resources"); // where @Path classes are
+    }
 }

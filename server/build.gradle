@@ -1,10 +1,11 @@
 plugins {
     id 'java'
-    id 'war'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group 'WareWise'
-version '1.0-SNAPSHOT'
+group = 'WareWise'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -14,38 +15,52 @@ ext {
     junitVersion = '5.11.0-M2'
 }
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+application {
+    mainClass = 'warewise.server.Main'
+}
+
 dependencies {
+    // Not strictly needed for Grizzly (since you won’t deploy to a servlet container),
+    // but harmless if some code references servlet APIs.
     compileOnly('jakarta.servlet:jakarta.servlet-api:6.1.0')
-    implementation('org.glassfish.jersey.containers:jersey-container-servlet:4.0.0-M1')
-    implementation('org.glassfish.jersey.media:jersey-media-json-jackson:4.0.0-M1')
-    implementation('org.glassfish.jersey.inject:jersey-cdi2-se:4.0.0-M1')
-    implementation('org.jboss.weld.se:weld-se-core:6.0.0.Beta1')
-    implementation("com.zaxxer:HikariCP:2.3.2")
-    implementation("de.mkammerer:argon2-jvm:2.12")
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation("com.google.code.gson:gson:2.13.1")
-    // https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
-    implementation("com.sun.mail:jakarta.mail:2.0.1")
-    // https://mvnrepository.com/artifact/jakarta.ejb/jakarta.ejb-api
-    implementation("jakarta.ejb:jakarta.ejb-api:4.0.1")
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
-    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
-    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-    implementation 'org.postgresql:postgresql:42.7.3'
-    implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.17.1'
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.8'
+
+    // Jersey (JAX-RS)
+    implementation('org.glassfish.jersey.core:jersey-server:4.0.0-M1')
+
+    // Embedded HTTP server for Jersey (Grizzly)
+    implementation('org.glassfish.jersey.containers:jersey-container-grizzly2-http:4.0.0-M1')
+
+    // JSON
     implementation('org.glassfish.jersey.media:jersey-media-json-jackson:4.0.0-M1') {
         exclude group: 'jakarta.xml.bind'
     }
+
+    // CDI / Weld (if you use it)
+    implementation('org.glassfish.jersey.inject:jersey-cdi2-se:4.0.0-M1')
+    implementation('org.jboss.weld.se:weld-se-core:6.0.0.Beta1')
+
+    // Your other deps
+    implementation("com.zaxxer:HikariCP:2.3.2")
+    implementation("de.mkammerer:argon2-jvm:2.12")
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.sun.mail:jakarta.mail:2.0.1")
+    implementation("jakarta.ejb:jakarta.ejb-api:4.0.1")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    implementation('org.postgresql:postgresql:42.7.3')
+    implementation('jakarta.xml.bind:jakarta.xml.bind-api:4.0.2')
+    implementation('org.glassfish.jaxb:jaxb-runtime:4.0.5')
+    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.17.1'
+
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
@@ -54,4 +69,16 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+// Make the fat jar the main build artifact and add manifest Main-Class
+tasks.named('shadowJar') {
+    archiveClassifier.set('all')
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
 }
