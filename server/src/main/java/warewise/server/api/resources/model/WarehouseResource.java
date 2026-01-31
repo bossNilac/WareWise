@@ -88,7 +88,4 @@ public class WarehouseResource {
         public String address;
     }
 
-    static class DeleteRequest {
-        public Integer warehouseId;
-    }
 }
