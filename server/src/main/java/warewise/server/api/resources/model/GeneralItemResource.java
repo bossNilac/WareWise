@@ -74,20 +74,16 @@ public class GeneralItemResource {
     }
 
     @DELETE
-    @Path("/delete_item")
-    public Response deleteItem(DeleteRequest req) {
-        if (req.itemId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "Item ID is required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
+    @Path("/delete_item/{itemId}")
+    public Response deleteItem(@PathParam("itemId") int itemId) {
 
-        GeneralItem item = GeneralItemHandler.getInstance().getGeneralItem(req.itemId);
+        GeneralItem item = GeneralItemHandler.getInstance().getGeneralItem(itemId);
         if (item == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Item not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        GeneralItemHandler.getInstance().deleteGeneralItem(req.itemId);
+        GeneralItemHandler.getInstance().deleteGeneralItem(itemId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Item deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
@@ -114,7 +110,4 @@ public class GeneralItemResource {
         public Boolean expires;
     }
 
-    static class DeleteRequest {
-        public Integer itemId;
-    }
 }

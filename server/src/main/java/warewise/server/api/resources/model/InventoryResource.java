@@ -67,23 +67,19 @@ public class InventoryResource {
     }
 
     @DELETE
-    @Path("/delete_inventory")
-    public Response deleteInventory(DeleteRequest req) {
-        if (req.inventoryId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "inventoryId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
-
-        Inventory inventory = InventoryHandler.getInstance().getInventory(req.inventoryId);
+    @Path("/delete_inventory/{inventoryId}")
+    public Response deleteInventory(@PathParam("inventoryId") int inventoryId) {
+        Inventory inventory = InventoryHandler.getInstance().getInventory(inventoryId);
         if (inventory == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Inventory not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        InventoryHandler.getInstance().deleteInventory(req.inventoryId);
+        InventoryHandler.getInstance().deleteInventory(inventoryId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Inventory deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
+
 
     static class AddRequest {
         public String name;
@@ -102,7 +98,4 @@ public class InventoryResource {
         public Integer warehouseId;
     }
 
-    static class DeleteRequest {
-        public Integer inventoryId;
-    }
 }

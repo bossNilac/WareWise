@@ -60,7 +60,7 @@ public class OrderResource {
         if (req.general_item_id != null) order.setGeneralItemId(req.general_item_id);
         if (req.status != null) order.setStatus(OrderStatus.fromLabel(req.status));
         if (req.createdAt != null) order.setCreatedAt(req.createdAt);
-        if (req.updatedAt != null) order.setUpdatedAt(req.updatedAt);
+        order.setUpdatedAt(java.time.Instant.now().toString());
         if (req.userId != null) order.setUserId(req.userId);
         if (req.quantity != null) order.setQuantity(req.quantity);
 
@@ -71,20 +71,15 @@ public class OrderResource {
     }
 
     @DELETE
-    @Path("/delete_order")
-    public Response deleteOrder(DeleteRequest req) {
-        if (req.orderId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "orderId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
-
-        Order order = OrderHandler.getInstance().getOrder(req.orderId);
+    @Path("/delete_order/{orderId}")
+    public Response deleteOrder(@PathParam("orderId") int orderId) {
+        Order order = OrderHandler.getInstance().getOrder(orderId);
         if (order == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Order not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        OrderHandler.getInstance().deleteOrder(req.orderId);
+        OrderHandler.getInstance().deleteOrder(orderId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Order deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
@@ -104,11 +99,6 @@ public class OrderResource {
         public Integer quantity;
         public String status;
         public String createdAt;
-        public String updatedAt;
         public Integer userId;
-    }
-
-    static class DeleteRequest {
-        public Integer orderId;
     }
 }

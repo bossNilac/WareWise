@@ -95,17 +95,13 @@ public class CategoryResource {
     /**
      * Deletes a category by ID.
      *
-     * @param deleteCategoryRequest the {@link DeleteCategoryRequest} containing the category ID.
      * @return a {@link Response} indicating deletion result.
      */
     @DELETE
-    @Path("/delete_category")
-    public Response link_department(DeleteCategoryRequest deleteCategoryRequest){
-        if(deleteCategoryRequest.categoryId ==null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "categoryId is needed", null);
-            return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
-        }
-        Category category = CategoryHandler.getInstance().getCategory(deleteCategoryRequest.categoryId) ;
+    @Path("/delete_category/{categoryId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCategory(@PathParam("categoryId") int categoryId) {
+        Category category = CategoryHandler.getInstance().getCategory(categoryId) ;
         if (category == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Category not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
@@ -117,9 +113,7 @@ public class CategoryResource {
     }
 
 
-    static class DeleteCategoryRequest{
-        public Integer categoryId;
-    }
+
 
     /**
      * DTO for updating an existing category.

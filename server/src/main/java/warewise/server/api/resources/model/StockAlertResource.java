@@ -64,23 +64,20 @@ public class StockAlertResource {
     }
 
     @DELETE
-    @Path("/delete_stock_alert")
-    public Response deleteStockAlert(DeleteRequest req) {
-        if (req.stockAlertId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "stockAlertId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
+    @Path("/delete_stock_alert/{stockAlertId}")
+    public Response deleteStockAlert(@PathParam("stockAlertId") int stockAlertId) {
 
-        StockAlert alert = StockAlertHandler.getInstance().getStockAlert(req.stockAlertId);
+        StockAlert alert = StockAlertHandler.getInstance().getStockAlert(stockAlertId);
         if (alert == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Stock alert not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        StockAlertHandler.getInstance().deleteStockAlert(req.stockAlertId);
+        StockAlertHandler.getInstance().deleteStockAlert(stockAlertId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Stock alert deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
+
 
     static class AddRequest {
         public Integer productId;
@@ -95,7 +92,4 @@ public class StockAlertResource {
         public Boolean resolved;
     }
 
-    static class DeleteRequest {
-        public Integer stockAlertId;
-    }
 }

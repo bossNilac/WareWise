@@ -6,6 +6,8 @@ import warewise.server.common.util.enums.UserRole;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserHandler {
 
@@ -23,7 +25,7 @@ public class UserHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO users (username, password, email, created_at, warehouse_id, role) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (username, password_hash, email, created_at, warehouse_id, role) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(query);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPasswordHash());
@@ -55,7 +57,7 @@ public class UserHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE users SET username = ?, password = ?, email = ?, created_at = ?, warehouse_id = ?, role = ? WHERE user_id = ?";
+            String query = "UPDATE users SET username = ?, password_hash = ?, email = ?, created_at = ?, warehouse_id = ?, role = ? WHERE user_id = ?";
             stmt = connection.prepareStatement(query);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPasswordHash());
@@ -122,12 +124,13 @@ public class UserHandler {
             stmt.setInt(1, userId);
             rs = stmt.executeQuery();
             if (rs.next()) {
+                Logger.getLogger("Jersey").log(Level.INFO,"here");
                 user = new User(
                         rs.getInt("user_id"),
                         rs.getString("created_at"),
                         rs.getString("email"),
                         UserRole.fromLabel(rs.getString("role")),
-                        rs.getString("password"),
+                        rs.getString("password_hash"),
                         rs.getString("username"),
                         rs.getInt("warehouse_id")
                 );
@@ -162,7 +165,7 @@ public class UserHandler {
                         rs.getString("created_at"),
                         rs.getString("email"),
                         UserRole.fromLabel(rs.getString("role")),
-                        rs.getString("password"),
+                        rs.getString("password_hash"),
                         rs.getString("username"),
                         rs.getInt("warehouse_id")
                 );

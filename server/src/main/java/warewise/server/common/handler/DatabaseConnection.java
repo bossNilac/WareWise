@@ -25,13 +25,13 @@ public class DatabaseConnection {
     static {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.postgresql.Driver");
-//        config.setJdbcUrl("jdbc:postgresql://localhost:5432/WareWise");
-//        config.setUsername("postgres");
-//        config.setPassword("Nilac291229122912");
-
-        config.setJdbcUrl("jdbc:postgresql://192.168.1.201:5432/warewisedb");
-        config.setUsername("admin");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5433/WareWise");
+        config.setUsername("calin");
         config.setPassword("2912");
+
+//        config.setJdbcUrl("jdbc:postgresql://192.168.1.201:5432/warewisedb");
+//        config.setUsername("admin");
+//        config.setPassword("2912");
 
         // pool settings
         config.setMaximumPoolSize(100);

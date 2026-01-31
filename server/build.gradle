@@ -49,7 +49,7 @@ dependencies {
     implementation('org.jboss.weld.se:weld-se-core:6.0.0.Beta1')
 
     // Your other deps
-    implementation("com.zaxxer:HikariCP:2.3.2")
+    implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("de.mkammerer:argon2-jvm:2.12")
     implementation("com.google.code.gson:gson:2.13.1")
     implementation("com.sun.mail:jakarta.mail:2.0.1")

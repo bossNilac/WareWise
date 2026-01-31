@@ -68,20 +68,16 @@ public class SupplierResource {
     }
 
     @DELETE
-    @Path("/delete_supplier")
-    public Response deleteSupplier(DeleteRequest req) {
-        if (req.supplierId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "supplierId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
+    @Path("/delete_supplier/{supplierId}")
+    public Response deleteSupplier(@PathParam("supplierId") int supplierId) {
 
-        Supplier supplier = SupplierHandler.getInstance().getSupplier(req.supplierId);
+        Supplier supplier = SupplierHandler.getInstance().getSupplier(supplierId);
         if (supplier == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Supplier not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        SupplierHandler.getInstance().deleteSupplier(req.supplierId);
+        SupplierHandler.getInstance().deleteSupplier(supplierId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Supplier deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
@@ -101,9 +97,5 @@ public class SupplierResource {
         public String contactPhone;
         public String address;
         public String createdAt;
-    }
-
-    static class DeleteRequest {
-        public Integer supplierId;
     }
 }

@@ -72,23 +72,20 @@ public class WarehouseItemResource {
     }
 
     @DELETE
-    @Path("/delete_item")
-    public Response deleteItem(DeleteRequest req) {
-        if (req.itemId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "itemId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
+    @Path("/delete_item/{itemId}")
+    public Response deleteItem(@PathParam("itemId") int itemId) {
 
-        WarehouseItem warehouseItem = WarehouseItemHandler.getInstance().getItem(req.itemId);
+        WarehouseItem warehouseItem = WarehouseItemHandler.getInstance().getItem(itemId);
         if (warehouseItem == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Item not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        WarehouseItemHandler.getInstance().deleteItem(req.itemId);
+        WarehouseItemHandler.getInstance().deleteItem(itemId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Item deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
+
 
     static class AddRequest {
         public Integer orderId;
@@ -111,9 +108,5 @@ public class WarehouseItemResource {
         public String expireDate;
         public Boolean sold;
 
-    }
-
-    static class DeleteRequest {
-        public Integer itemId;
     }
 }

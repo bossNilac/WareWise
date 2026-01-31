@@ -62,23 +62,20 @@ public class WarehouseResource {
     }
 
     @DELETE
-    @Path("/delete_warehouse")
-    public Response deleteWarehouse(DeleteRequest req) {
-        if (req.warehouseId == null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "warehouseId required", null);
-            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
-        }
+    @Path("/delete_warehouse/{warehouseId}")
+    public Response deleteWarehouse(@PathParam("warehouseId") int warehouseId) {
 
-        Warehouse warehouse = WarehouseHandler.getInstance().getWarehouse(req.warehouseId);
+        Warehouse warehouse = WarehouseHandler.getInstance().getWarehouse(warehouseId);
         if (warehouse == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Warehouse not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
         }
 
-        WarehouseHandler.getInstance().deleteWarehouse(req.warehouseId);
+        WarehouseHandler.getInstance().deleteWarehouse(warehouseId);
         ApiResponse<Void> resp = new ApiResponse<>(true, "Warehouse deleted", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
+
 
     static class AddRequest {
         public String name;

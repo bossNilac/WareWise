@@ -14,6 +14,8 @@ import warewise.server.common.util.enums.UserRole;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * REST resource providing endpoints to manage users.
@@ -59,15 +61,14 @@ public class UserResource {
      */@GET
     @Path("/{userid}/get_user_role")
     public Response get_users_by_role(@PathParam("userid") int userid) {
-        List<User> dat = UserHandler.getInstance().getAllUsers();
-        for(User u : dat){
-            if(u.getID()== userid){
-                u.setPasswordHash(null);
-                return Response.status(Response.Status.OK).entity(u).build();
-            }
+        User user = UserHandler.getInstance().getUser(userid);
+        if(user == null) {
+            ApiResponse<String> resp = new ApiResponse<>(false, "User not found", null);
+            return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
+        }else{
+            ApiResponse<UserRole> resp = new ApiResponse<>(true, "", user.getRole());
+            return Response.status(Response.Status.OK).entity(resp).build();
         }
-        ApiResponse<String> resp = new ApiResponse<>(false, "User not found", null);
-        return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
     }
 
     /**
@@ -150,30 +151,25 @@ public class UserResource {
     /**
      * Deletes a user by ID.
      *
-     * @param deleteUserRequest the {@link DeleteUserRequest} containing the user ID.
+     * @param userId containing the user ID.
      * @return a {@link Response} indicating deletion result.
-     */@DELETE
-    @Path("/delete_user")
-    public Response delete_user(DeleteUserRequest deleteUserRequest){
-        if(deleteUserRequest.userId ==null) {
-            ApiResponse<Void> resp = new ApiResponse<>(false, "userId is needed", null);
-            return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
-        }
-        User user = UserHandler.getInstance().getUser(deleteUserRequest.userId) ;
+     */
+
+    @DELETE
+    @Path("/delete_user/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteUser(@PathParam("userId") int userId) {
+        User user = UserHandler.getInstance().getUser(userId);
         if (user == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "User not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
-        } else {
-            UserHandler.getInstance().deleteUser(user.getID());
-            ApiResponse<Void> resp = new ApiResponse<>(true, "Deleted user!", null);
-            return Response.status(Response.Status.OK).entity(resp).build();
         }
+
+        UserHandler.getInstance().deleteUser(user.getID());
+        ApiResponse<Void> resp = new ApiResponse<>(true, "Deleted user!", null);
+        return Response.ok(resp).build();
     }
 
-
-    static class DeleteUserRequest{
-        public Integer userId;
-    }
 
     /**
      * DTO for updating an existing user.
