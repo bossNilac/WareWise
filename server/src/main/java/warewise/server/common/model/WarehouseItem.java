@@ -5,30 +5,27 @@ public class WarehouseItem {
     private int orderID;
     private int inventoryID;
     private int quantity;
-    private double total;
     private int generalItemId;
     private String expireDate;
     private boolean sold;
 
 
 
-    public WarehouseItem(int ID, int orderID, int inventoryID, int quantity, double total,int generalItemId,String expireDate,boolean sold) {
+    public WarehouseItem(int ID, int orderID, int inventoryID, int quantity,int generalItemId,String expireDate,boolean sold) {
         this.ID = ID;
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
-        this.total = total;
         this.generalItemId = generalItemId;
         this.expireDate = expireDate;
         this.sold = sold;
     }
 
 
-    public WarehouseItem(int orderID, int inventoryID, int quantity ,double total,int generalItemId,String expireDate,boolean sold) {
+    public WarehouseItem(int orderID, int inventoryID, int quantity,int generalItemId,String expireDate,boolean sold) {
         this.orderID = orderID;
         this.inventoryID = inventoryID;
         this.quantity = quantity;
-        this.total = total;
         this.generalItemId = generalItemId;
         this.expireDate = expireDate;
         this.sold = sold;
@@ -64,14 +61,6 @@ public class WarehouseItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
     }
 
     public int getGeneralItemId() {

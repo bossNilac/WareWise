@@ -22,15 +22,14 @@ public class WarehouseItemHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO items (order_id, inventory_id, quantity, total,general_item_id,expire_date,sold) VALUES (?, ?, ?, ?,?,?,?)";
+            String query = "INSERT INTO items (order_id, inventory_id, quantity,general_item_id,expire_date,sold) VALUES (?, ?, ?,?,?,?)";
             stmt = connection.prepareStatement(query);
             stmt.setInt(1, warehouseItem.getOrderID());
             stmt.setInt(2, warehouseItem.getInventoryID());
             stmt.setInt(3, warehouseItem.getQuantity());
-            stmt.setDouble(4, warehouseItem.getTotal());
-            stmt.setDouble(5, warehouseItem.getGeneralItemId());
-            stmt.setString(6, warehouseItem.getExpireDate());
-            stmt.setBoolean(7, warehouseItem.isSold());
+            stmt.setDouble(4, warehouseItem.getGeneralItemId());
+            stmt.setString(5, warehouseItem.getExpireDate());
+            stmt.setBoolean(6, warehouseItem.isSold());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -55,16 +54,15 @@ public class WarehouseItemHandler {
         PreparedStatement stmt = null;
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "UPDATE items SET order_id = ?, inventory_id = ?, quantity = ? ,total = ?, general_item_id= ?,expire_date = ?, sold = ? WHERE item_id = ?";
+            String query = "UPDATE items SET order_id = ?, inventory_id = ?, quantity = ?, general_item_id= ?,expire_date = ?, sold = ? WHERE item_id = ?";
             stmt = connection.prepareStatement(query);
             stmt.setInt(1, warehouseItem.getOrderID());
             stmt.setInt(2, warehouseItem.getInventoryID());
             stmt.setInt(3, warehouseItem.getQuantity());
-            stmt.setDouble(4, warehouseItem.getTotal());
-            stmt.setDouble(5, warehouseItem.getGeneralItemId());
-            stmt.setString(6, warehouseItem.getExpireDate());
-            stmt.setBoolean(7, warehouseItem.isSold());
-            stmt.setInt(8, warehouseItem.getID());
+            stmt.setDouble(4, warehouseItem.getGeneralItemId());
+            stmt.setString(5, warehouseItem.getExpireDate());
+            stmt.setBoolean(6, warehouseItem.isSold());
+            stmt.setInt(7, warehouseItem.getID());
             stmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -128,7 +126,6 @@ public class WarehouseItemHandler {
                         rs.getInt("order_id"),
                         rs.getInt("inventory_id"),
                         rs.getInt("quantity"),
-                        rs.getDouble("total"),
                         rs.getInt("general_item_id"),
                         rs.getString("expire_date"),
                         rs.getBoolean("sold")
@@ -153,7 +150,7 @@ public class WarehouseItemHandler {
         Statement stmt = null;
         ResultSet rs = null;
         List<WarehouseItem> warehouseItems = new ArrayList<>();
-        try {
+        try {//nextval('inventory_inventory_id_seq'::regclass)
             connection = DatabaseConnection.getConnection();
             String query = "SELECT * FROM items";
             stmt = connection.createStatement();
@@ -164,7 +161,6 @@ public class WarehouseItemHandler {
                         rs.getInt("order_id"),
                         rs.getInt("inventory_id"),
                         rs.getInt("quantity"),
-                        rs.getDouble("total"),
                         rs.getInt("general_item_id"),
                         rs.getString("expire_date"),
                         rs.getBoolean("sold")

@@ -33,7 +33,6 @@ public class WarehouseItemResource {
                 req.orderId,
                 req.inventoryId,
                 req.quantity,
-                req.total,
                 req.general_item_id,
                 req.expireDate,
                 req.sold
@@ -60,8 +59,7 @@ public class WarehouseItemResource {
         if (req.orderId != null) warehouseItem.setOrderID(req.orderId);
         if (req.inventoryId != null) warehouseItem.setInventoryID(req.inventoryId);
         if (req.quantity != null) warehouseItem.setQuantity(req.quantity);
-        if (req.total != null) warehouseItem.setTotal(req.total);
-        if (req.general_item_id != null) warehouseItem.setTotal(req.general_item_id);
+        if (req.general_item_id != null) warehouseItem.setGeneralItemId(req.general_item_id);
         if (req.expireDate != null) warehouseItem.setExpireDate(req.expireDate);
         if (req.sold != null) warehouseItem.setSold(req.sold);
 
@@ -91,7 +89,6 @@ public class WarehouseItemResource {
         public Integer orderId;
         public Integer inventoryId;
         public Integer quantity;
-        public Double total;
         public Integer general_item_id;
         public String expireDate;
         public Boolean sold;
@@ -103,7 +100,6 @@ public class WarehouseItemResource {
         public Integer orderId;
         public Integer inventoryId;
         public Integer quantity;
-        public Double total;
         public Integer general_item_id;
         public String expireDate;
         public Boolean sold;

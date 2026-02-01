@@ -52,6 +52,7 @@ public class UtilityCommands {
         System.out.println("| 6. Supplier Management      |");
         System.out.println("| 7. Stock Alert Management   |");
         System.out.println("| 8. Warehouse Management     |");
+        System.out.println("| 10.Warehouse Item Mngmnt    |");
         System.out.println("| 9. Exit                     |");
         System.out.println(bottomBorder + ANSI_RESET);
     }
