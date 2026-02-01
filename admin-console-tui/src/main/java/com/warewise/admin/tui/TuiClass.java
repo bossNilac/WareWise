@@ -3,6 +3,8 @@ package com.warewise.admin.tui;
 import com.google.gson.GsonBuilder;
 import com.warewise.admin.tui.commands.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -17,7 +19,8 @@ public class TuiClass {
     private boolean DbActionFlag = false;
     private boolean running = true;
 
-    public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWise/user_credentials.json";
+    public static final String FOLDER = System.getProperty("user.home") + "/WareWise";
+    public static final String CREDENTIALS_FILE =FOLDER + "/user_credentials.json";
 
 
     public void doLogin(){
@@ -67,7 +70,16 @@ public class TuiClass {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+
+        File folder = new File(TuiClass.FOLDER);
+        File f = new File(TuiClass.CREDENTIALS_FILE);
+        try {
+            folder.mkdir();
+            f.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         new TuiClass().runMainMenu();
     }
 
@@ -258,10 +270,30 @@ public class TuiClass {
                          body = buildParams(false,id ,"warehouseId",
                                  "name;", "address");
                      }
-                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.STOCK_ALERTS, command_prefix+"warehouse", body);
+                     apiCall = ApiHandler.sendApiCall(method, ApiHandler.WAREHOUSES, command_prefix+"warehouse", body);
                      apiResponse = new ApiResponse(apiCall);
                      System.out.println(apiResponse.getMessage());
                      break;
+             case "10" :
+                 if (isAdd) {
+                     body = buildParams(
+                             true,
+                             null, null, "orderId", "inventoryId",
+                             "quantity", "general_item_id", "expireDate", "sold"
+                     );
+                 } else {
+                     body = buildParams(
+                             false,
+                             id, "itemId",
+                             "orderId", "inventoryId", "quantity",
+                              "general_item_id", "expireDate", "sold"
+                     );
+                 }
+
+                 apiCall = ApiHandler.sendApiCall(method, ApiHandler.W_ITEMS, command_prefix+"item", body);
+                 apiResponse = new ApiResponse(apiCall);
+                 System.out.println(apiResponse.getMessage());
+                 break;
 
                 case "9" :
                     displayAppHeader();
@@ -290,6 +322,7 @@ public class TuiClass {
             case "6" -> "LIST_SUPPLIERS";
             case "7" -> "LIST_STOCK_ALERTS";
             case "8" -> "LIST_WAREHOUSES";
+            case "10" -> "LIST_WAREHOUSE_ITEMS";
             case "9" -> "";
             default -> {
                 System.out.println("Invalid category.");
@@ -313,6 +346,7 @@ public class TuiClass {
             case "6" -> "DELETE_SUPPLIER"  ;
             case "7" -> "DELETE_STOCK_ALERT" ;
             case "8" -> "DELETE_WAREHOUSE" ;
+            case "10" -> "DELETE_WAREHOUSE_ITEM" ;
             case "9" -> "";
             default -> {
                 System.out.println("Invalid category.");

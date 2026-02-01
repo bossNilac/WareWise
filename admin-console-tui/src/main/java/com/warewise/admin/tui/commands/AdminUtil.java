@@ -4,6 +4,8 @@ import com.warewise.admin.tui.TuiClass;
 
 import java.io.*;
 
+import static com.warewise.admin.tui.commands.UtilityCommands.askForCred;
+
 public class AdminUtil {
 
     public static boolean loggedIn = false;
@@ -14,6 +16,7 @@ public class AdminUtil {
     }
 
     public static void saveLoginCred(String username, String password) {
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TuiClass.CREDENTIALS_FILE))) {
             writer.write("{\n");
             writer.write("  \"username\": \"" + username + "\",\n");
@@ -47,12 +50,14 @@ public class AdminUtil {
         } catch (IOException e) {
             UtilityCommands.displayNotificationPanel(3,"File not found ");
             UtilityCommands.displayNotificationPanel(3,"Credentials were not read successfully ");
-            return null;
+            askForCred();
+            return getLoginCred();
         }
 
         if (username == null || password == null) {
             UtilityCommands.displayNotificationPanel(3,"Credentials were not read successfully ");
-            return null;
+            askForCred();
+            return getLoginCred();
         }
         sessionUsername = username;
         return sb.toString(); // Return extracted credentials
