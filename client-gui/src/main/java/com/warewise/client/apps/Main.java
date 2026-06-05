@@ -52,9 +52,10 @@ public class Main extends Application {
 
             // Stage setup
             stage.setTitle("WareWise App");
-            stage.getIcons().add(
-                    new Image(System.getProperty("user.home") + "/WareWise/images/logo.png")
-            );
+            Image appIcon = App.loadAppIcon();
+            if (appIcon != null) {
+                stage.getIcons().add(appIcon);
+            }
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.show();

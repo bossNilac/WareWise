@@ -20,6 +20,10 @@ ext {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
+application {
+    mainClass = 'com.warewise.client.App'
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -52,6 +56,30 @@ sourceSets {
 
 test {
     useJUnitPlatform()}
+
+tasks.named('processResources') {
+    from("${projectDir}/../images") {
+        into 'images'
+    }
+}
+
+tasks.register('fatJar', Jar) {
+    group = 'build'
+    description = 'Builds a runnable jar with the client GUI runtime dependencies bundled.'
+    archiveClassifier = 'all'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+
+    from sourceSets.main.output
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")

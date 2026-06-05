@@ -3,6 +3,9 @@ package com.warewise.client.util.model;
 
 import com.warewise.client.util.enums.UserRole;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private int ID;
     private String username;
@@ -10,7 +13,7 @@ public class User {
     private UserRole role;
     private String email;
     private String createdAt;
-    private int warehouseId;
+    private List<Integer> warehouseIds = new ArrayList<>();
 
     public User(String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
         this.createdAt = createdAt;
@@ -18,7 +21,7 @@ public class User {
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
-        this.warehouseId = warehouseId;
+        setWarehouseId(warehouseId);
     }
 
     public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
@@ -28,7 +31,7 @@ public class User {
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
-        this.warehouseId = warehouseId;
+        setWarehouseId(warehouseId);
     }
 
     public int getID() {
@@ -80,10 +83,29 @@ public class User {
     }
 
     public int getWarehouseId() {
-        return warehouseId;
+        return warehouseIds.isEmpty() ? 0 : warehouseIds.get(0);
     }
 
     public void setWarehouseId(int warehouseId) {
-        this.warehouseId = warehouseId;
+        this.warehouseIds = new ArrayList<>();
+        if (warehouseId > 0) {
+            this.warehouseIds.add(warehouseId);
+        }
+    }
+
+    public List<Integer> getWarehouseIds() {
+        return warehouseIds;
+    }
+
+    public void setWarehouseIds(List<Integer> warehouseIds) {
+        this.warehouseIds = new ArrayList<>();
+        if (warehouseIds == null) {
+            return;
+        }
+        for (Integer warehouseId : warehouseIds) {
+            if (warehouseId != null && warehouseId > 0 && !this.warehouseIds.contains(warehouseId)) {
+                this.warehouseIds.add(warehouseId);
+            }
+        }
     }
 }

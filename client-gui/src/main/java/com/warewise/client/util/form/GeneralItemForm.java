@@ -25,7 +25,7 @@ public class GeneralItemForm {
     public GeneralItem showAndWait() {
         // 1) Load lookup data
         DataHandler.initTables("Category");
-        DataHandler.initTables("Supplier");
+        DataHandler.initTables("Suppliers");
         List<Category>   categories = DataHandler.parsedCategoriesList;
         List<Supplier>   suppliers  = DataHandler.parsedSuppliersList;
 

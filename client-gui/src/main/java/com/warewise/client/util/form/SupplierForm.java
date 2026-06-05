@@ -63,7 +63,7 @@ public class SupplierForm {
 
         // Submit button logic
         submitBtn.setOnAction(e -> {
-            DataHandler.initTables("Supplier");
+            DataHandler.initTables("Suppliers");
             String name = nameField.getText();
             String email = emailField.getText();
             String phone = phoneField.getText();

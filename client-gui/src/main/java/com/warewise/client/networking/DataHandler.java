@@ -3,7 +3,9 @@ package com.warewise.client.networking;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.warewise.client.util.AdminUtil;
 import com.warewise.client.util.model.*;
-
-import static com.warewise.client.util.model.Log.parseLine;
 
 public class DataHandler {
     public static final int LOW_STOCK_THRESHOLD = 10;
@@ -93,24 +93,62 @@ public class DataHandler {
         }return null;
     }
 
+    public static LocalDateTime parseServerDateTime(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+
+        String trimmed = value.trim();
+        try {
+            return LocalDateTime.parse(trimmed);
+        } catch (DateTimeParseException ignored) {
+        }
+
+        try {
+            return OffsetDateTime.parse(trimmed).toLocalDateTime();
+        } catch (DateTimeParseException ignored) {
+        }
+
+        if (trimmed.length() > 10 && trimmed.charAt(10) == ' ') {
+            try {
+                return LocalDateTime.parse(trimmed.substring(0, 10) + "T" + trimmed.substring(11));
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+
+        for (DateTimeFormatter formatter : List.of(
+                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        )) {
+            try {
+                return LocalDateTime.parse(trimmed, formatter);
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+
+        return null;
+    }
+
     public static List<String> getRecentActionsForOtherUsers(String username, int i) {
         ArrayList<String> logs = new ArrayList<>();
         for(Log log :parsedLogsList){
-            if(log.getAction().equals("GET")){
+            String action = log.getAction();
+            if(action == null || action.equals("GET")){
                 continue;
             }
-            DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.n");
-
-            // 2) Formatter for your target pattern
             DateTimeFormatter printer = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-            // 3) Parse then format
-            LocalDateTime dt = LocalDateTime.parse(log.getCreatedAt(), parser);
+            LocalDateTime dt = parseServerDateTime(log.getCreatedAt());
+            if (dt == null) {
+                continue;
+            }
             String pretty = dt.format(printer);
-            log.setCreatedAt(pretty);
-            if(!log.getUsername().equals(username) && i!=0){
+            if(!username.equals(log.getUsername()) && i!=0){
                 --i;
-                logs.add(parseLine(log.toString()));
+                String logUsername = (log.getUsername() == null || log.getUsername().isBlank())
+                        ? "System"
+                        : log.getUsername();
+                logs.add(String.format("%s %s at %s", logUsername, log.getDescription(), pretty));
             }
         }
         return logs;

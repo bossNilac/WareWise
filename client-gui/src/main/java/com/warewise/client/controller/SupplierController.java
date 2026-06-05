@@ -136,7 +136,7 @@ public class SupplierController {
 
     private void updateSupplier(TableColumn.CellEditEvent<Supplier, String> t) {
         if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.MODIFY, "Supplier")) {
-            String params = ParamBuilder.buildParamsSupplier(true, t.getTableView().getItems().get(
+            String params = ParamBuilder.buildParamsSupplier(false, t.getTableView().getItems().get(
                     t.getTablePosition().getRow()));
             String unparsedResponse = ApiHandler.sendApiCall(PATCH, SUPPLIERS, "update_supplier", params);
             if (parseResponse(unparsedResponse)) {

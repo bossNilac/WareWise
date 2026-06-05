@@ -43,12 +43,12 @@ public class AdminUtil {
         System.out.println(AdminUtil.getLoginCred());
         String loginResponse = ApiHandler.sendApiCall("POST","auth","login",AdminUtil.getLoginCred());
         ApiResponse response = new ApiResponse(loginResponse);
-        ApiHandler.TOKEN =  response.getData()
-                .substring(1, response.getData().length() - 1);
         if(!response.getSuccess()){
             UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
             return false;
         }else {
+            ApiHandler.TOKEN = response.getData();
+            loggedIn = true;
             return true;
         }
     }

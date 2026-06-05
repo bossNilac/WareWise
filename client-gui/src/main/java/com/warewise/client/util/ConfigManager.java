@@ -1,10 +1,16 @@
 package com.warewise.client.util;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class ConfigManager {
-    private static final String CONFIG_FILE = "src/main/resources/com.warewise.client/config/config.properties";
+    private static final Path CONFIG_FILE = Path.of(
+            System.getProperty("user.home"),
+            "WareWise",
+            "client-config.properties"
+    );
 
     public static Properties getProperties() {
         return properties;
@@ -18,7 +24,7 @@ public class ConfigManager {
 
     // Load settings from the config file
     public static void loadProperties() {
-        File file = new File(CONFIG_FILE);
+        File file = CONFIG_FILE.toFile();
 
         // If file doesn't exist or is corrupted, create a new one
         if (!file.exists() || file.length() == 0) {
@@ -29,7 +35,7 @@ public class ConfigManager {
         }
 
         // Try loading properties
-        try (InputStream input = new FileInputStream(CONFIG_FILE)) {
+        try (InputStream input = new FileInputStream(file)) {
             properties.load(input);
         } catch (IOException e) {
             System.out.println("Error reading config.properties: " + e.getMessage());
@@ -62,7 +68,14 @@ public class ConfigManager {
 
     // Save settings to the config file
     public static void saveProperties() {
-        try (OutputStream output = new FileOutputStream(CONFIG_FILE)) {
+        try {
+            Files.createDirectories(CONFIG_FILE.getParent());
+        } catch (IOException e) {
+            System.out.println("Could not create config directory: " + e.getMessage());
+            return;
+        }
+
+        try (OutputStream output = new FileOutputStream(CONFIG_FILE.toFile())) {
             properties.store(output, "Warehouse Management App Settings");
         } catch (IOException e) {
             System.out.println("Could not save config.properties: " + e.getMessage());

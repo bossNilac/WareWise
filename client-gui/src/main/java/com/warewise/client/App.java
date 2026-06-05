@@ -9,6 +9,11 @@ import com.warewise.client.util.UtilityCommands;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static com.warewise.client.util.AlertUtil.serverError;
 import static com.warewise.client.util.UtilityCommands.pingServer;
@@ -19,6 +24,19 @@ public class App {
     public static String username;
     public static String password;
     public static boolean darkMode;
+
+    public static Image loadAppIcon() {
+        URL bundledIcon = App.class.getResource("/images/logo.png");
+        if (bundledIcon != null) {
+            return new Image(bundledIcon.toExternalForm());
+        }
+
+        Path iconPath = Path.of(System.getProperty("user.home"), "WareWise", "images", "logo.png");
+        if (Files.exists(iconPath)) {
+            return new Image(iconPath.toUri().toString());
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         new JFXPanel();

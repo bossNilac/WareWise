@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ApiHandler {
 
-    static String URL= "http://localhost:8080/Gradle___WareWise___server_1_0_SNAPSHOT_war__exploded_";
+    static String URL= "http://localhost:8080";
 
     public static String TOKEN = null;
 
@@ -35,7 +35,7 @@ public class ApiHandler {
         if (TOKEN == null) {
             OkHttpClient client = new OkHttpClient().newBuilder().build();
             Request.Builder requestBuilder = new Request.Builder()
-                    .url(URL + "/api/" + subpath + "/" + command);
+                    .url(buildUrl(subpath, command));
             if (method.equalsIgnoreCase("POST")) {
                 MediaType mediaType = MediaType.parse("application/json");
                 RequestBody body = RequestBody.create(mediaType, string_body != null ? string_body : "");
@@ -53,13 +53,15 @@ public class ApiHandler {
         } else {
             OkHttpClient client = new OkHttpClient().newBuilder().build();
             Request.Builder requestBuilder = new Request.Builder()
-                    .url(URL + "/api/" + subpath + "/" + command)
+                    .url(buildUrl(subpath, command))
                     .header("Authorization", "Bearer " +TOKEN);
 
-            if (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PATCH") || method.equalsIgnoreCase("DELETE")) {
+            if (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PATCH")) {
                 MediaType mediaType = MediaType.parse("application/json");
                 RequestBody body = RequestBody.create(mediaType, string_body != null ? string_body : "");
                 requestBuilder.method(method, body);
+            } else if (method.equalsIgnoreCase("DELETE")) {
+                requestBuilder.delete();
             } else if (method.equalsIgnoreCase("GET")) {
                 requestBuilder.get();
             } else {
@@ -79,46 +81,45 @@ public class ApiHandler {
         }
     }
 
+    private static String buildUrl(String subpath, String command) {
+        StringBuilder builder = new StringBuilder(URL).append("/api/").append(subpath);
+        if (command != null && !command.isBlank()) {
+            builder.append("/").append(command);
+        }
+        return builder.toString();
+    }
+
     public static void sendDeleteCall(String value, int id) {
         String usersResponse;
         ApiResponse apiResponse;
 
         switch (value) {
             case "DELETE_USER":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.USERS, value.toLowerCase(),
-                        buildDeleteParams(id,"userId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.USERS, "delete_user/" + id, null);
                 break;
             case "DELETE_ITEM":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ITEMS, value.toLowerCase(),
-                        buildDeleteParams(id,"itemId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ITEMS, "delete_item/" + id, null);
                 break;
             case "DELETE_GENERAL_ITEM":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.GENERAL_ITEMS, "delete_item",
-                        buildDeleteParams(id,"itemId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.GENERAL_ITEMS, "delete_item/" + id, null);
                 break;
             case "DELETE_CATEGORY":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.CATEGORIES, value.toLowerCase(),
-                        buildDeleteParams(id,"categoryId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.CATEGORIES, "delete_category/" + id, null);
                 break;
             case "DELETE_INVENTORY":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.INVENTORIES, value.toLowerCase(),
-                        buildDeleteParams(id,"inventoryId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.INVENTORIES, "delete_inventory/" + id, null);
                 break;
             case "DELETE_ORDER":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ORDERS, value.toLowerCase(),
-                       buildDeleteParams(id,"orderId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.ORDERS, "delete_order/" + id, null);
                 break;
             case "DELETE_SUPPLIER":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.SUPPLIERS, value.toLowerCase(),
-                        buildDeleteParams(id,"supplierId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.SUPPLIERS, "delete_supplier/" + id, null);
                 break;
             case "DELETE_STOCK_ALERT":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.STOCK_ALERTS, value.toLowerCase(),
-                        buildDeleteParams(id,"stockAlertId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.STOCK_ALERTS, "delete_stock_alert/" + id, null);
                 break;
             case "DELETE_WAREHOUSE":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.WAREHOUSES, value.toLowerCase(),
-                        buildDeleteParams(id,"warehouseId"));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.WAREHOUSES, "delete_warehouse/" + id, null);
                 break;
             case "":
                 return;

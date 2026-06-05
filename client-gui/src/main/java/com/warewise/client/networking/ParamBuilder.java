@@ -19,7 +19,7 @@ public class ParamBuilder {
         m.put("password",    user.getPasswordHash());
         m.put("email",       user.getEmail());
         m.put("role",        user.getRole().name());
-        m.put("warehouseId", user.getWarehouseId());
+        m.put("warehouseIds", user.getWarehouseIds());
         return gson.toJson(m);
     }
 
