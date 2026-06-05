@@ -1,7 +1,9 @@
 package warewise.server.common.model;
 
-
 import warewise.server.common.util.enums.UserRole;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private int ID;
@@ -10,25 +12,33 @@ public class User {
     private UserRole role;
     private String email;
     private String createdAt;
-    private int warehouseId;
+    private List<Integer> warehouseIds = new ArrayList<>();
 
-    public User(String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
+    public User(String createdAt, String email, UserRole role, String passwordHash, String username, int warehouseId) {
+        this(createdAt, email, role, passwordHash, username, List.of(warehouseId));
+    }
+
+    public User(String createdAt, String email, UserRole role, String passwordHash, String username, List<Integer> warehouseIds) {
         this.createdAt = createdAt;
         this.email = email;
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
-        this.warehouseId = warehouseId;
+        setWarehouseIds(warehouseIds);
     }
 
-    public User(int ID,String createdAt, String email, UserRole role, String passwordHash, String username,int warehouseId) {
+    public User(int ID, String createdAt, String email, UserRole role, String passwordHash, String username, int warehouseId) {
+        this(ID, createdAt, email, role, passwordHash, username, List.of(warehouseId));
+    }
+
+    public User(int ID, String createdAt, String email, UserRole role, String passwordHash, String username, List<Integer> warehouseIds) {
         this.ID = ID;
         this.createdAt = createdAt;
         this.email = email;
         this.role = role;
         this.passwordHash = passwordHash;
         this.username = username;
-        this.warehouseId = warehouseId;
+        setWarehouseIds(warehouseIds);
     }
 
     public int getID() {
@@ -80,10 +90,29 @@ public class User {
     }
 
     public int getWarehouseId() {
-        return warehouseId;
+        return warehouseIds.isEmpty() ? 0 : warehouseIds.get(0);
     }
 
     public void setWarehouseId(int warehouseId) {
-        this.warehouseId = warehouseId;
+        this.warehouseIds = new ArrayList<>();
+        if (warehouseId > 0) {
+            this.warehouseIds.add(warehouseId);
+        }
+    }
+
+    public List<Integer> getWarehouseIds() {
+        return warehouseIds;
+    }
+
+    public void setWarehouseIds(List<Integer> warehouseIds) {
+        this.warehouseIds = new ArrayList<>();
+        if (warehouseIds == null) {
+            return;
+        }
+        for (Integer warehouseId : warehouseIds) {
+            if (warehouseId != null && warehouseId > 0 && !this.warehouseIds.contains(warehouseId)) {
+                this.warehouseIds.add(warehouseId);
+            }
+        }
     }
 }

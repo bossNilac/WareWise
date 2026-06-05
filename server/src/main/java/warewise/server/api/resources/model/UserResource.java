@@ -13,6 +13,7 @@ import warewise.server.common.util.enums.UserRole;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,10 +94,16 @@ public class UserResource {
         String password = Encrypt.hashPassword(req.password);
         User newUser = new User(LocalDateTime.now(Clock.systemDefaultZone())
                 .toString(), req.email,
-                UserRole.fromLabel(req.role),password, req.username,req.warehouseId);
-        NotificationService.notifyNewAccount(newUser, req.password);
+                UserRole.fromLabel(req.role), password, req.username, normalizeWarehouseIds(req.warehouseIds, req.warehouseId));
         UserHandler.getInstance().addUser(newUser);
-        ApiResponse<Void> resp = new ApiResponse<>(false, "User added", null);
+        if (Boolean.parseBoolean(System.getenv().getOrDefault("WAREWISE_SEND_EMAILS", "false"))) {
+            try {
+                NotificationService.notifyNewAccount(newUser, req.password);
+            } catch (RuntimeException e) {
+                Logger.getLogger("Jersey").log(Level.WARNING, "Failed to send new account email", e);
+            }
+        }
+        ApiResponse<Void> resp = new ApiResponse<>(true, "User added", null);
         return Response.status(Response.Status.OK).entity(resp).build();
 
     }
@@ -137,13 +144,34 @@ public class UserResource {
             user.setPasswordHash(passHash);
         }
 
-        if (updateUserRequest.warehouseId != null) {
-            user.setWarehouseId(updateUserRequest.warehouseId);
+        if (updateUserRequest.warehouseIds != null || updateUserRequest.warehouseId != null) {
+            user.setWarehouseIds(normalizeWarehouseIds(updateUserRequest.warehouseIds, updateUserRequest.warehouseId));
         }
 
         UserHandler.getInstance().updateUser(user);
 
         ApiResponse<Void> resp = new ApiResponse<>(true, "User updated!", null);
+        return Response.status(Response.Status.OK).entity(resp).build();
+    }
+
+    @PATCH
+    @Path("/assign_warehouses")
+    public Response assignWarehouses(AssignWarehousesRequest req) {
+        if (req.userId == null) {
+            ApiResponse<Void> resp = new ApiResponse<>(false, "userId required", null);
+            return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
+        }
+
+        User user = UserHandler.getInstance().getUser(req.userId);
+        if (user == null) {
+            ApiResponse<Void> resp = new ApiResponse<>(false, "User does not exist", null);
+            return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
+        }
+
+        List<Integer> warehouseIds = normalizeWarehouseIds(req.warehouseIds, req.warehouseId);
+        UserHandler.getInstance().setUserWarehouses(req.userId, warehouseIds);
+
+        ApiResponse<Void> resp = new ApiResponse<>(true, "User warehouses assigned", null);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
 
@@ -181,6 +209,7 @@ public class UserResource {
         public String email;
         public String role;
         public Integer warehouseId;
+        public List<Integer> warehouseIds;
     }
 
     static class AddRequest {
@@ -189,5 +218,26 @@ public class UserResource {
         public String role;
         public String password;
         public Integer warehouseId;
+        public List<Integer> warehouseIds;
+    }
+
+    static class AssignWarehousesRequest {
+        public Integer userId;
+        public Integer warehouseId;
+        public List<Integer> warehouseIds;
+    }
+
+    private static List<Integer> normalizeWarehouseIds(List<Integer> warehouseIds, Integer warehouseId) {
+        List<Integer> normalized = new ArrayList<>();
+        if (warehouseIds != null) {
+            for (Integer id : warehouseIds) {
+                if (id != null && id > 0 && !normalized.contains(id)) {
+                    normalized.add(id);
+                }
+            }
+        } else if (warehouseId != null && warehouseId > 0) {
+            normalized.add(warehouseId);
+        }
+        return normalized;
     }
 }

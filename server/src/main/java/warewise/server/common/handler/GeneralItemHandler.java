@@ -29,8 +29,8 @@ public class GeneralItemHandler {
             stmt.setInt(2, item.getSetQuantity());
             stmt.setString(3, item.getBarcode());
             stmt.setInt(4, item.getCategoryId());
-            stmt.setInt(5, item.getPrice());
-            stmt.setInt(6, item.getSupplierId());
+            stmt.setInt(5, item.getSupplierId());
+            stmt.setInt(6, item.getPrice());
             stmt.setBoolean(7, item.isExpires());
             stmt.executeUpdate();
             connection.commit();
