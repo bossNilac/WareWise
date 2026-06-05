@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12"
+      styleClass="dashboard-view"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.warewise.client.controller.ReplenishmentController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label styleClass="section-title" text="Replenishment" />
+    <TableView fx:id="replenishmentTable" prefHeight="520" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="itemColumn" prefWidth="220" text="Item" />
+            <TableColumn fx:id="warehouseColumn" prefWidth="220" text="Warehouse" />
+            <TableColumn fx:id="quantityColumn" prefWidth="120" text="On Hand" />
+            <TableColumn fx:id="reorderColumn" prefWidth="160" text="Suggested Reorder" />
+            <TableColumn fx:id="priorityColumn" prefWidth="120" text="Priority" />
+        </columns>
+    </TableView>
+</VBox>

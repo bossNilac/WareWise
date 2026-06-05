@@ -2,154 +2,141 @@ package com.warewise.client.controller;
 
 import com.warewise.client.networking.DataHandler;
 import com.warewise.client.util.model.Category;
-import com.warewise.client.util.model.GeneralItem;   // maps items_general_data
-import com.warewise.client.util.model.Inventory;     // maps inventory
-import com.warewise.client.util.model.Order;         // maps orders
-import com.warewise.client.util.model.WarehouseItem;     // maps items (the order‐line table)
+import com.warewise.client.util.model.GeneralItem;
+import com.warewise.client.util.model.Inventory;
+import com.warewise.client.util.model.Order;
 import com.warewise.client.util.model.User;
+import com.warewise.client.util.model.WarehouseItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.*;
-import javafx.scene.control.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.PopOver;
 
-import javax.management.Notification;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class DashboardController implements Initializable {
-
     private static final int LOW_STOCK_THRESHOLD = 10;
 
-
     @FXML private Button notificationButton;
-
-    // KPI Labels
     @FXML private Label totalOrdersLabel;
     @FXML private Label inventoryLabel;
     @FXML private Label lowStockLabel;
     @FXML private Label salesLabel;
-
-    // Chart Section
     @FXML private ComboBox<String> chartTypeComboBox;
-    @FXML private StackPane       chartContainer;
-
-    // Recent Activity & Actions
+    @FXML private StackPane chartContainer;
     @FXML private ListView<String> activityFeedList;
-    @FXML private Button           createOrderBtn;
-    @FXML private Button           updateInventoryBtn;
+    @FXML private Button createOrderBtn;
+    @FXML private Button updateInventoryBtn;
     @FXML private ListView<String> notificationsList;
 
-    ObservableList<String> notifications= FXCollections.observableArrayList();
-
-    List<Category>    categories    ;
-    List<GeneralItem> generalItems  ;
-    List<Inventory>   stockRecords  ;
-    List<WarehouseItem>   orderItems;
-    List<Order>       orders        ;
-    List<User> users                ;
-    Map<Integer,User> idToUser;
-    Map<Integer,GeneralItem> giMap;
-
-    // these back the chart
-    private String[] nameLabels;
-    private Number[] numberValues;
-
+    private final ObservableList<String> notifications = FXCollections.observableArrayList();
+    private List<Category> categories = List.of();
+    private List<GeneralItem> generalItems = List.of();
+    private List<Inventory> stockRecords = List.of();
+    private List<WarehouseItem> orderItems = List.of();
+    private List<Order> orders = List.of();
+    private List<User> users = List.of();
+    private Map<Integer, User> idToUser = Map.of();
+    private Map<Integer, GeneralItem> giMap = Map.of();
+    private String[] nameLabels = new String[0];
+    private Number[] numberValues = new Number[0];
     private MainController mainController;
-    private boolean firstTime = true;
 
     public void setMainController(MainController mc) {
         this.mainController = mc;
     }
 
-
     @Override
     public void initialize(URL loc, ResourceBundle res) {
-        // 1) Load all relevant tables
         DataHandler.initTables("Category");
-        DataHandler.initTables("GeneralItem");   // your items_general_data
+        DataHandler.initTables("GeneralItem");
         DataHandler.initTables("Inventory");
-        DataHandler.initTables("WarehouseItem");         // your order‐lines table
+        DataHandler.initTables("WarehouseItem");
         DataHandler.initTables("Orders");
         DataHandler.initTables("Logs");
         DataHandler.initTables("Users");
 
-        categories= DataHandler.parsedCategoriesList;
-        generalItems= DataHandler.parsedItemsList;
-        stockRecords= DataHandler.parsedInventoryList;
-        orderItems= DataHandler.parsedWarehouseItemsList;
-        orders= DataHandler.parsedOrdersList;
-        users= DataHandler.parsedUsersList;
+        categories = safeList(DataHandler.parsedCategoriesList);
+        generalItems = safeList(DataHandler.parsedItemsList);
+        stockRecords = safeList(DataHandler.parsedInventoryList);
+        orderItems = safeList(DataHandler.parsedWarehouseItemsList);
+        orders = safeList(DataHandler.parsedOrdersList);
+        users = safeList(DataHandler.parsedUsersList);
 
-        idToUser = users.stream()
-                .collect(Collectors.toMap(User::getID, u->u));
-        giMap = generalItems.stream()
-                .collect(Collectors.toMap(GeneralItem::getId, gi->gi));
+        idToUser = users.stream().collect(Collectors.toMap(User::getID, user -> user, (first, second) -> first));
+        giMap = generalItems.stream().collect(Collectors.toMap(GeneralItem::getId, item -> item, (first, second) -> first));
 
-        // 2) Compute KPIs
-        int totalOrders    = orders.size();
-        double totalSales  = orderItems.stream()
-                .filter(WarehouseItem::getSold)      // sold == true
+        configureTextList(activityFeedList);
+        configureTextList(notificationsList);
+        populateKpis();
+        buildCategoryChartData();
+
+        chartTypeComboBox.setItems(FXCollections.observableArrayList("Bar Chart", "Pie Chart"));
+        chartTypeComboBox.setValue("Bar Chart");
+        chartTypeComboBox.setOnAction(e -> updateChart());
+        updateChart();
+
+        User me = DataHandler.getCurrentUser();
+        String currentUsername = me == null ? "" : me.getUsername();
+        activityFeedList.setItems(FXCollections.observableArrayList(
+                DataHandler.getRecentActionsForOtherUsers(currentUsername, 6)
+        ));
+
+        createOrderBtn.setOnAction(e -> handleCreateOrder());
+        updateInventoryBtn.setOnAction(e -> handleUpdateInventory());
+        createNotificationList();
+    }
+
+    private void populateKpis() {
+        int totalOrders = orders.size();
+        double totalSales = orderItems.stream()
+                .filter(WarehouseItem::getSold)
                 .mapToDouble(WarehouseItem::getTotal)
                 .sum();
         int totalInventory = stockRecords.stream()
                 .mapToInt(Inventory::getQuantity)
                 .sum();
-        long lowStockCount = orderItems.stream()
-                .filter(oi -> oi.getQuantity() <= LOW_STOCK_THRESHOLD)
+        long lowStockCount = stockRecords.stream()
+                .filter(record -> record.getQuantity() <= LOW_STOCK_THRESHOLD)
                 .count();
 
-
         totalOrdersLabel.setText(String.valueOf(totalOrders));
-        salesLabel      .setText(String.format("$%.2f", totalSales));
-        inventoryLabel  .setText(String.valueOf(totalInventory));
-        lowStockLabel   .setText(String.valueOf(lowStockCount));
+        salesLabel.setText(String.format("$%.2f", totalSales));
+        inventoryLabel.setText(String.valueOf(totalInventory));
+        lowStockLabel.setText(String.valueOf(lowStockCount));
+    }
 
-        // 3) Build chart data: sum up set_quantity from generalItems by category
+    private void buildCategoryChartData() {
         int nCats = categories.size();
-        nameLabels   = new String[nCats];
+        nameLabels = new String[nCats];
         numberValues = new Number[nCats];
         for (int i = 0; i < nCats; i++) {
             Category cat = categories.get(i);
-            nameLabels[i]   = cat.getName();
+            nameLabels[i] = cat.getName();
             numberValues[i] = generalItems.stream()
-                    .filter(it -> it.getCategoryId() == cat.getID())
+                    .filter(item -> item.getCategoryId() == cat.getID())
                     .mapToInt(GeneralItem::getSetQuantity)
                     .sum();
         }
-
-        // 4) Chart toggle
-        chartTypeComboBox.setItems(
-                FXCollections.observableArrayList("Bar Chart","Pie Chart")
-        );
-        chartTypeComboBox.setValue("Bar Chart");
-        chartTypeComboBox.setOnAction(e -> updateChart());
-        updateChart();
-
-        // 5) Recent activity & quick actions
-        User me = DataHandler.getCurrentUser();
-        activityFeedList.setItems(
-                FXCollections.observableArrayList(
-                        DataHandler.getRecentActionsForOtherUsers(me.getUsername(), 6)
-                )
-        );
-        createOrderBtn   .setOnAction(e -> handleCreateOrder());
-        updateInventoryBtn.setOnAction(e -> handleUpdateInventory());
-
-
-        createNotificationList();
-
-
     }
 
     private void updateChart() {
@@ -162,18 +149,19 @@ public class DashboardController implements Initializable {
 
     private void initBarChart(String[] labels, Number[] vals, String seriesName) {
         CategoryAxis x = new CategoryAxis();
-        NumberAxis   y = new NumberAxis();
-        x.setLabel("Category");  y.setLabel("Count");
-        BarChart<String,Number> bc = new BarChart<>(x,y);
+        NumberAxis y = new NumberAxis();
+        x.setLabel("Category");
+        y.setLabel("Count");
+        BarChart<String, Number> bc = new BarChart<>(x, y);
         bc.setTitle("Inventory by Category");
-        XYChart.Series<String,Number> s = new XYChart.Series<>();
-        s.setName(seriesName);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName(seriesName);
         for (int i = 0; i < labels.length; i++) {
             if (labels[i] != null && vals[i] != null) {
-                s.getData().add(new XYChart.Data<>(labels[i], vals[i]));
+                series.getData().add(new XYChart.Data<>(labels[i], vals[i]));
             }
         }
-        bc.getData().setAll(s);
+        bc.getData().setAll(series);
         chartContainer.getChildren().setAll(bc);
     }
 
@@ -194,91 +182,94 @@ public class DashboardController implements Initializable {
         }
     }
 
-
     private void handleUpdateInventory() {
-        System.out.println("Update Inventory clicked");
+        if (mainController != null) {
+            mainController.loadContentPane("UpdateInventoryView.fxml");
+        }
     }
 
-    private void createNotificationList(){
-
+    private void createNotificationList() {
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dtFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-        // — New orders and updates in the last 24h —
-        for(Order o : orders) {
-            // parse using whatever format you store createdAt/updatedAt in
-            LocalDateTime created = LocalDateTime.parse(o.getCreatedAt(), dtFmt);
-            if (created.isAfter(now.minusHours(24))) {
-                User u = idToUser.get(o.getUserId());
-                String name = u != null ? u.getUsername() : "Unknown";
-                notifications.add(
-                        "New order received by " + name +
-                                " at " + created.format(DateTimeFormatter.ofPattern("HH:mm"))
-                );
-            }
-
-            LocalDateTime updated = LocalDateTime.parse(o.getUpdatedAt(), dtFmt);
-            // only count an “update” if it’s different from the creation time
-            if (updated.isAfter(now.minusHours(24)) && !updated.equals(created)) {
-                User u = idToUser.get(o.getUserId());
-                String name = u != null ? u.getUsername() : "Unknown";
-                notifications.add(
-                        "Order updated by " + name +
-                                " at " + updated.format(DateTimeFormatter.ofPattern("HH:mm"))
-                );
-            }
-        }
-
-        int LOW_STOCK_THRESHOLD = 10;
-        for (WarehouseItem oi : orderItems) {
-            if (oi.getQuantity() <= LOW_STOCK_THRESHOLD) {
-                GeneralItem gi = giMap.get(oi.getGeneralItemId());
-                String itemName = gi != null ? gi.getName() : "Unknown item";
-                notifications.add(
-                        "Low stock alert: “" + itemName +
-                                "” has only " + oi.getQuantity() + " left"
-                );
-            }
-        }
-
-        ObservableList<String> tempList = FXCollections.observableArrayList(notifications);
         notifications.clear();
-        notificationsList.setItems(tempList);
+
+        for (Order order : orders) {
+            LocalDateTime created = DataHandler.parseServerDateTime(order.getCreatedAt());
+            if (created != null && created.isAfter(now.minusHours(24))) {
+                User user = idToUser.get(order.getUserId());
+                String name = user != null ? user.getUsername() : "Unknown";
+                notifications.add("New order received by " + name + " at " + created.format(DateTimeFormatter.ofPattern("HH:mm")));
+            }
+
+            LocalDateTime updated = DataHandler.parseServerDateTime(order.getUpdatedAt());
+            if (updated != null && updated.isAfter(now.minusHours(24)) && !updated.equals(created)) {
+                User user = idToUser.get(order.getUserId());
+                String name = user != null ? user.getUsername() : "Unknown";
+                notifications.add("Order updated by " + name + " at " + updated.format(DateTimeFormatter.ofPattern("HH:mm")));
+            }
+        }
+
+        for (Inventory record : stockRecords) {
+            if (record.getQuantity() <= LOW_STOCK_THRESHOLD) {
+                notifications.add("Low stock alert: " + record.getName() + " has only " + record.getQuantity() + " left");
+            }
+        }
+
+        if (notifications.isEmpty()) {
+            notifications.add("No active notifications");
+        }
+        notificationsList.setItems(notifications);
     }
 
+    @FXML
     public void openNotifications(ActionEvent actionEvent) {
         ObservableList<String> list = FXCollections.observableArrayList();
+        ObservableList<String> source = notificationsList.getItems();
 
-        if(firstTime){
-            firstTime = false;
-            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-1));
-            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-2));
-            list.add(notificationsList.getItems().get(notificationsList.getItems().size()-3));
-        }else{
-            if(!compareNotifications()){
-                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-1));
-                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-2));
-                list.add(notificationsList.getItems().get(notificationsList.getItems().size()-3));
-            }else {
-                list.add("No new notifications");
+        if (source == null || source.isEmpty()) {
+            list.add("No active notifications");
+        } else {
+            int start = Math.max(0, source.size() - 5);
+            for (int index = start; index < source.size(); index++) {
+                list.add(source.get(index));
             }
         }
-        ListView<String> notificationsList = new ListView<>(list);
-        notificationsList.setPrefSize(400, 150);
 
-        PopOver pop = new PopOver(notificationsList);
+        ListView<String> popoverNotifications = new ListView<>(list);
+        configureTextList(popoverNotifications);
+        popoverNotifications.setPrefSize(420, 180);
+
+        PopOver pop = new PopOver(popoverNotifications);
         pop.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
         pop.setDetachable(false);
         pop.show(notificationButton);
     }
 
-    private boolean compareNotifications() {
+    private void configureTextList(ListView<String> listView) {
+        listView.setCellFactory(view -> new ListCell<>() {
+            private final Label label = new Label();
 
-        List<String> previousNotificationsList = notifications;
-        createNotificationList();
+            {
+                label.setWrapText(true);
+                label.setMaxWidth(380);
+                label.getStyleClass().add("dashboard-list-text");
+            }
 
-        return previousNotificationsList.equals(notifications);
-
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+                label.setText(item);
+                setText(null);
+                setGraphic(label);
+            }
+        });
     }
 
+    private static <T> List<T> safeList(List<T> list) {
+        return list == null ? List.of() : list;
+    }
 }

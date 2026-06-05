@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14"
+      styleClass="dashboard-view"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.warewise.client.controller.WarehouseHealthController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label styleClass="section-title" text="Warehouse Health" />
+    <StackPane minHeight="280" prefHeight="300" styleClass="chart-container">
+        <BarChart fx:id="warehouseChart" title="Stock Units by Warehouse">
+            <xAxis>
+                <CategoryAxis label="Warehouse" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Stock Units" />
+            </yAxis>
+        </BarChart>
+    </StackPane>
+
+    <TableView fx:id="healthTable" prefHeight="260" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="warehouseColumn" prefWidth="220" text="Warehouse" />
+            <TableColumn fx:id="stockUnitsColumn" prefWidth="140" text="Stock Units" />
+            <TableColumn fx:id="lowStockColumn" prefWidth="160" text="Low Stock Records" />
+            <TableColumn fx:id="valueColumn" prefWidth="160" text="Est. Value" />
+            <TableColumn fx:id="managersColumn" prefWidth="260" text="Assigned Managers" />
+        </columns>
+    </TableView>
+</VBox>

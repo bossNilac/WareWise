@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" style="-fx-padding: 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
-    <Label styleClass="header" text="Items" />
-    <Label text="Manage Order Items or Product Variants: • Item List: Display item ID, order/product reference, quantity, individual price, and total. • CRUD Actions: Buttons/icons for adding, editing, or removing items. • Form Interface: Inline or modal forms for item details. • Automatic Calculations: Compute totals as quantities/prices are entered. • Inventory Link: Easily select or update associated inventory records." wrapText="true" />
-    <HBox prefHeight="100.0" prefWidth="200.0">
-        <children>
-            <MenuButton mnemonicParsing="false" text="Warehouse">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                </items>
-                <HBox.margin>
-                    <Insets right="10.0" />
-                </HBox.margin>
-            </MenuButton>
-            <MenuButton mnemonicParsing="false" text="Inventory">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                </items>
-            </MenuButton>
-        </children>
+<VBox spacing="12"
+      styleClass="dashboard-view"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.warewise.client.controller.InventoryController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label styleClass="section-title" text="Inventory by Warehouse" />
+        <ComboBox fx:id="warehouseFilter" prefWidth="260" styleClass="combo-box" />
     </HBox>
-    <TableView prefHeight="200.0" prefWidth="200.0">
+
+    <TableView fx:id="inventoryTable" prefHeight="520" styleClass="table-view">
         <columns>
-            <TableColumn prefWidth="75.0" text="C1" />
-            <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="itemColumn" prefWidth="180" text="Item" />
+            <TableColumn fx:id="warehouseColumn" prefWidth="180" text="Warehouse" />
+            <TableColumn fx:id="quantityColumn" prefWidth="100" text="Quantity" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="300" text="Description" />
+            <TableColumn fx:id="lastUpdatedColumn" prefWidth="180" text="Last Updated" />
         </columns>
     </TableView>
 </VBox>

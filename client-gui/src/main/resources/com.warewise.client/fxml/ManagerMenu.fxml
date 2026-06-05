@@ -16,7 +16,7 @@
 
     <!-- Overview Dashboard -->
     <Button fx:id="btnDashboard" styleClass="menu-item"
-            text="Overview Dashboard"
+            text="Dashboard"
             userData="DashboardView.fxml"
             onAction="#handleMenuAction">
         <graphic>
@@ -94,23 +94,23 @@
         </graphic>
     </Button>
 
-    <!-- Cycle Counts -->
-    <Button fx:id="btnCycleCounts" styleClass="menu-item"
-            text="Cycle Counts"
-            userData="CycleCountsView.fxml"
+    <!-- Replenishment -->
+    <Button fx:id="btnReplenishment" styleClass="menu-item"
+            text="Replenishment"
+            userData="ReplenishmentView.fxml"
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="REFRESH" styleClass="icon"/>
         </graphic>
     </Button>
 
-    <!-- Zones &amp; Routing -->
-    <Button fx:id="btnZonesRouting" styleClass="menu-item"
-            text="Zones &amp; Routing"
-            userData="ZonesRoutingView.fxml"
+    <!-- Warehouse Health -->
+    <Button fx:id="btnWarehouseHealth" styleClass="menu-item"
+            text="Warehouse Health"
+            userData="WarehouseHealthView.fxml"
             onAction="#handleMenuAction">
         <graphic>
-            <FontAwesomeIconView glyphName="MAP_MARKER" styleClass="icon"/>
+            <FontAwesomeIconView glyphName="HEART" styleClass="icon"/>
         </graphic>
     </Button>
 
