@@ -27,14 +27,17 @@ public class LoginController {
 
     private void displayError(String param){
         errorLabel.setText(param);
-        errorLabel.getStyleClass().add("notification");
+        if (!errorLabel.getStyleClass().contains("login-error")) {
+            errorLabel.getStyleClass().add("login-error");
+        }
     }
 
     public void doLoginAction(ActionEvent actionEvent) {
         String username=usernameField.getText();
         String password=passwordField.getText();
 
-        boolean brokenLogin = username == null && password == null;
+        boolean brokenLogin = username == null || username.isBlank()
+                || password == null || password.isBlank();
         System.out.println(brokenLogin);
 
         AdminUtil.saveLoginCred(username, password);

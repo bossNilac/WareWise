@@ -11,6 +11,10 @@
     -fx-text-fill: #333333; /* Dark text */
 }
 
+.label {
+    -fx-text-fill: #222222;
+}
+
 
 
 /* Dashboard ListViews – dark theme */
@@ -70,6 +74,8 @@
     -fx-padding: 16;
     -fx-font-size: 20;
     -fx-alignment: center;
+    -fx-text-fill: #1F2937;
+    -fx-font-weight: bold;
 }
 
 .card {
@@ -93,6 +99,7 @@
 
 .content-pane {
     -fx-background-color: #FFFFFF; /* Light background */
+    -fx-background-radius: 12px;
     -fx-border-radius: 10px;
     -fx-padding: 20px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
@@ -118,6 +125,8 @@
     -fx-font-size: 16px;
     -fx-text-fill: #222222;
     -fx-padding: 12px 16px;
+    -fx-pref-width: 180px;
+    -fx-min-height: 42px;
     -fx-background-radius: 5px;
     -fx-border: none;
     -fx-alignment: center-left;
@@ -179,6 +188,35 @@
 .dashboard-view {
     -fx-background-color: #F8F9FA;
     -fx-padding: 20px;
+}
+
+.kpi-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 8px;
+    -fx-padding: 14px;
+    -fx-min-width: 160px;
+}
+
+.dashboard-panel {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 8px;
+    -fx-padding: 12px;
+}
+
+.dashboard-list {
+    -fx-background-color: transparent;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.dashboard-list-text {
+    -fx-text-fill: #222222;
+    -fx-font-size: 13px;
 }
 
 .chart-container {
@@ -418,6 +456,10 @@
     -fx-text-fill: #333333;
 }
 
+.settings-pane .label {
+    -fx-text-fill: #333333;
+}
+
 /* Toggle Button */
 #themeToggle {
     -fx-background-color: linear-gradient(to right, #007AFF, #005BBB);
@@ -471,6 +513,80 @@ CheckBox:selected {
 HBox {
     -fx-spacing: 10px;
     -fx-padding: 5px 0;
+}
+
+.login-root {
+    -fx-background-color: #EEF2F6;
+    -fx-padding: 28px;
+}
+
+.login-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 22px;
+    -fx-border-color: #DDE3EA;
+    -fx-border-radius: 22px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.16), 22, 0, 0, 8);
+}
+
+.login-logo {
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.12), 10, 0, 0, 3);
+}
+
+.login-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.login-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5B6472;
+}
+
+.login-field-group {
+    -fx-pref-width: 292px;
+    -fx-max-width: 292px;
+}
+
+.login-field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+}
+
+.login-input {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 12px;
+    -fx-border-color: #D8DEE8;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 10px 12px;
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #8A94A6;
+}
+
+.login-input:focused {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #007AFF;
+}
+
+.login-button {
+    -fx-background-color: #007AFF;
+    -fx-background-radius: 14px;
+    -fx-padding: 11px 18px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.login-button:hover {
+    -fx-background-color: #0062CC;
+}
+
+.login-error {
+    -fx-font-size: 12px;
+    -fx-text-fill: #B42318;
+    -fx-alignment: center;
 }
 
 
