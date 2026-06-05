@@ -218,6 +218,7 @@ public class DashboardController implements Initializable {
             notifications.add("No active notifications");
         }
         notificationsList.setItems(notifications);
+        notificationsList.refresh();
     }
 
     @FXML
@@ -245,12 +246,14 @@ public class DashboardController implements Initializable {
     }
 
     private void configureTextList(ListView<String> listView) {
+        listView.setMinHeight(150);
+        listView.setPlaceholder(new Label("No active notifications"));
         listView.setCellFactory(view -> new ListCell<>() {
             private final Label label = new Label();
 
             {
                 label.setWrapText(true);
-                label.setMaxWidth(380);
+                label.maxWidthProperty().bind(view.widthProperty().subtract(32));
                 label.getStyleClass().add("dashboard-list-text");
             }
 

@@ -97,7 +97,7 @@
             <!-- Notifications Section -->
             <VBox spacing="10" styleClass="dashboard-panel">
                 <Label styleClass="section-title" text="Notifications" />
-                <ListView fx:id="notificationsList" prefHeight="150" styleClass="dashboard-list" />
+                <ListView fx:id="notificationsList" minHeight="150" prefHeight="170" styleClass="dashboard-list" VBox.vgrow="ALWAYS" />
             </VBox>
         </VBox>
     </content>

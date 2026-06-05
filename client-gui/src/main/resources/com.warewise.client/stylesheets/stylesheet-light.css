@@ -212,6 +212,14 @@
     -fx-border-color: #E0E0E0;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
+    -fx-min-height: 150px;
+}
+
+.dashboard-list .list-cell,
+.dashboard-list .list-cell:filled,
+.dashboard-list .list-cell .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #222222;
 }
 
 .dashboard-list-text {
@@ -300,6 +308,18 @@
 }
 .text-field:focused, .text-area:focused, .password-field:focused {
     -fx-border-color: #007AFF;
+}
+
+.transparent-text-area,
+.transparent-text-area .content,
+.text-area .content {
+    -fx-background-color: transparent;
+}
+
+.transparent-text-area {
+    -fx-control-inner-background: transparent;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #222222;
 }
 
 /* ============================================================================

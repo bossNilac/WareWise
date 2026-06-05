@@ -35,7 +35,7 @@
         <Spinner fx:id="quantitySpinner" editable="true" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
         <Label text="Reason" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextArea fx:id="reasonArea" prefHeight="90" prefWidth="420" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <TextArea fx:id="reasonArea" prefHeight="90" prefWidth="420" styleClass="transparent-text-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </GridPane>
 
     <HBox spacing="10">

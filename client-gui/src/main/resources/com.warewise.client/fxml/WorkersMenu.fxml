@@ -46,7 +46,7 @@
 
     <!-- Receive Shipments -->
     <Button fx:id="btnReceiveShipments" styleClass="menu-item"
-            text="Receive Shipments"
+            text="Receive Shipment"
             userData="ReceiveShipmentsView.fxml"
             onAction="#handleMenuAction">
         <graphic>
@@ -81,16 +81,6 @@
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="BELL" styleClass="icon"/>
-        </graphic>
-    </Button>
-
-    <!-- Profile -->
-    <Button fx:id="btnProfile" styleClass="menu-item"
-            text="Profile"
-            userData="ProfileView.fxml"
-            onAction="#handleMenuAction">
-        <graphic>
-            <FontAwesomeIconView glyphName="USER" styleClass="icon"/>
         </graphic>
     </Button>
 

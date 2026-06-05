@@ -63,7 +63,7 @@
         <TextField fx:id="inventoryQuantityField" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
 
         <Label text="Inventory description" GridPane.columnIndex="0" GridPane.rowIndex="12"/>
-        <TextArea fx:id="inventoryDescriptionArea" prefHeight="80" prefWidth="320" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="12"/>
+        <TextArea fx:id="inventoryDescriptionArea" prefHeight="80" prefWidth="320" styleClass="transparent-text-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="12"/>
     </GridPane>
 
     <HBox spacing="10">

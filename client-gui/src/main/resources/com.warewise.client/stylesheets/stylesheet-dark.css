@@ -27,22 +27,12 @@
 .form-label {
     -fx-text-fill: #FFFFFF;      /* change to any hex or named colour you like */
 }
-/* PopOver bubble */
 .pop-over .popover-content {
-    -fx-background-color: #3c3f41;
-    -fx-border-color:    #555;
-    -fx-border-radius:    4;
-    -fx-background-radius:4;
-    -fx-padding:          8;
-}
-
-/* PopOver bubble */
-.pop-over .popover-content {
-    -fx-background-color: #F9F9F9;
-    -fx-border-color:    #CCCCCC;
-    -fx-border-radius:    4;
-    -fx-background-radius:4;
-    -fx-padding:          8;
+    -fx-background-color: #2B2B2B;
+    -fx-border-color: #444444;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
 }
 
 
@@ -245,6 +235,14 @@
     -fx-border-color: #333333;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
+    -fx-min-height: 150px;
+}
+
+.dashboard-list .list-cell,
+.dashboard-list .list-cell:filled,
+.dashboard-list .list-cell .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E0E0E0;
 }
 
 .dashboard-list-text {
@@ -320,6 +318,18 @@
 }
 .text-field:focused, .text-area:focused, .password-field:focused {
     -fx-border-color: #4A90E2;
+}
+
+.transparent-text-area,
+.transparent-text-area .content,
+.text-area .content {
+    -fx-background-color: transparent;
+}
+
+.transparent-text-area {
+    -fx-control-inner-background: transparent;
+    -fx-background-color: #2B2B2B;
+    -fx-text-fill: #E0E0E0;
 }
 
 /* -------------------------------
