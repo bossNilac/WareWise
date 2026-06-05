@@ -68,14 +68,18 @@ public class AdminUtil {
     }
 
     public static void doLogin(){
-        String loginResponse = ApiHandler.sendApiCall("POST","auth","login",AdminUtil.getLoginCred());
+        String credentials = AdminUtil.getLoginCred();
+        if (credentials == null) {
+            loggedIn = false;
+            return;
+        }
+        String loginResponse = ApiHandler.sendApiCall("POST","auth","login",credentials);
         ApiResponse response = new ApiResponse(loginResponse);
-        ApiHandler.TOKEN =  response.getData()
-                .substring(1, response.getData().length() - 1);
         if(!response.getSuccess()){
             UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
             loggedIn = false;
         }else {
+            ApiHandler.TOKEN = response.getData();
             loggedIn = true;
         }
     }

@@ -91,8 +91,12 @@ public class UtilityCommands {
     }
 
     public static boolean pingServer() {
-        String loginResponse = ApiHandler.sendApiCall("GET","status","",null);
-        return loginResponse != null;
+        try {
+            String loginResponse = ApiHandler.sendApiCall("GET","status","",null);
+            return loginResponse != null;
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 }
 

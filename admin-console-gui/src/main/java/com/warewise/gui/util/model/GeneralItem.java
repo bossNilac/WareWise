@@ -10,6 +10,9 @@ public class GeneralItem {
     private int supplierId;
     private boolean expires;
 
+    public GeneralItem() {
+    }
+
     public GeneralItem(int id, String name, int setQuantity, String barcode, int categoryId, int supplierId,int price, boolean expires) {
         this.id = id;
         this.name = name;

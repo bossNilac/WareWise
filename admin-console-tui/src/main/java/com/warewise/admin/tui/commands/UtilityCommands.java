@@ -21,6 +21,7 @@ public class UtilityCommands {
         System.out.println(topBorder);
         System.out.println("| 3. DB Action     |");
         System.out.println("| 4. List Users    |");
+        System.out.println("| 5. List Logs     |");
         System.out.println("| 6. Exit          |");
         System.out.println("| 7. Clear screen  |");
         System.out.println("| 0. Setup profile |");

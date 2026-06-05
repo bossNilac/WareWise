@@ -9,6 +9,9 @@ public class Inventory {
     private String lastUpdated;
     private int warehouseId;
 
+    public Inventory() {
+    }
+
     public Inventory(int ID, String name, String description , int quantity,
                      String lastUpdated,int warehouseId) {
         this.ID = ID;

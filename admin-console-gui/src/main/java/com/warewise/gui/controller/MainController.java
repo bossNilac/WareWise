@@ -117,6 +117,10 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        dashboardPane.setMaxWidth(Double.MAX_VALUE);
+        dashboardPane.setMaxHeight(Double.MAX_VALUE);
+        recoverMenuButton.toFront();
+
         dashboardUiElements.addAll(List.of(
                connectedAsLabel, usernameLabel
                  , dashBoardTitleLabel,numberOfUsers,warehousesTextLabel,numberOfWarehouses,usersTextLabel
@@ -168,43 +172,50 @@ public class MainController {
     private void toggleDashboard() {
         TranslateTransition slide = new TranslateTransition(Duration.millis(350), dashboard);
         FadeTransition fade = new FadeTransition(Duration.millis(250), dashboard);
-        ScaleTransition scale = new ScaleTransition(Duration.millis(300), dashboard);
 
         if (isDashboardVisible) {
             fade.setFromValue(1.0);
-            fade.setToValue(0.0); // Smooth fading out
+            fade.setToValue(0.0);
 
-            slide.setToX(250); // Move to the right
-            slide.setInterpolator(Interpolator.EASE_IN); // Fast at start, slow at end
+            slide.setFromX(0);
+            slide.setToX(-dashboard.getWidth());
+            slide.setInterpolator(Interpolator.EASE_IN);
 
-            scale.setToX(0.9);
-            scale.setToY(0.9); // Slight shrink effect for pop-out
+            slide.setOnFinished(event -> {
+                root.setLeft(null);
+                dashboard.setTranslateX(0);
+                dashboard.setOpacity(1.0);
+                recoverMenuButton.setVisible(true);
+                recoverMenuButton.toFront();
+                isDashboardVisible = false;
+                root.requestLayout();
+            });
 
-            slide.setOnFinished(event -> root.setLeft(null));
-
-            // Play animations together
-            new ParallelTransition(slide, fade, scale).play();
-
+            new ParallelTransition(slide, fade).play();
 
         } else {
-            root.setLeft(dashboard); // Add before animation starts
+            recoverMenuButton.setVisible(false);
+            dashboard.setTranslateX(-dashboard.getWidth());
+            dashboard.setOpacity(0.0);
+            root.setLeft(dashboard);
+            root.requestLayout();
 
             fade.setFromValue(0.0);
-            fade.setToValue(1.0); // Smooth fading in
+            fade.setToValue(1.0);
 
-            slide.setFromX(250);
-            slide.setToX(0); // Slide back in
-            slide.setInterpolator(Interpolator.EASE_OUT); // Slow at start, fast at end
+            slide.setFromX(-dashboard.getWidth());
+            slide.setToX(0);
+            slide.setInterpolator(Interpolator.EASE_OUT);
 
-            scale.setFromX(0.9);
-            scale.setFromY(0.9);
-            scale.setToX(1);
-            scale.setToY(1); // Pop-in effect
+            slide.setOnFinished(event -> {
+                dashboard.setTranslateX(0);
+                dashboard.setOpacity(1.0);
+                isDashboardVisible = true;
+                root.requestLayout();
+            });
 
-            new ParallelTransition(slide, fade, scale).play();
+            new ParallelTransition(slide, fade).play();
         }
-        recoverMenuButton.setVisible(isDashboardVisible);
-        isDashboardVisible = !isDashboardVisible;
     }
 
 
@@ -268,7 +279,7 @@ public class MainController {
             case"Inventory":
                 inventoryTable.addEmptyRowForEditing();
                 break;
-            case"Item":
+            case"General Items":
                 itemsTable.addEmptyRowForEditing();
                 break;
             case"Suppliers":
@@ -320,7 +331,7 @@ public class MainController {
                 body      = ParamBuilder.buildParamsInventory(addPressed, inventory);
                 break;
             }
-            case "Item": {
+            case "General Items": {
                 GeneralItem generalItem = (GeneralItem) itemsTable.commitEditingRow();
                 model     = generalItem;
                 endpoint  = ApiHandler.ITEMS;
@@ -385,7 +396,7 @@ public class MainController {
                 case "Inventory":
                     inventoryTable.updateSelectedRow((Inventory) model);
                     break;
-                case "Item":
+                case "General Items":
                     itemsTable.updateSelectedRow((GeneralItem) model);
                     break;
                 case "Suppliers":
@@ -426,7 +437,7 @@ public class MainController {
                     ApiHandler.sendDeleteCall("DELETE_INVENTORY",inventory.getID());
                 }
                 break;
-            case "Item":
+            case "General Items":
                 GeneralItem generalItem = (GeneralItem) itemsTable.deleteSelectedRow();
                 if(generalItem != null){
                     ApiHandler.sendDeleteCall("DELETE_ITEM", generalItem.getId());
@@ -490,7 +501,7 @@ public class MainController {
                     usersTable = new EnhancedTableView<>(usersTableView, WareHouseDataHandler.parsedUsersList);
                     usersTable.refresh();
                     break;
-                case "Item":
+                case "General Items":
                     itemsTable = new EnhancedTableView<>(itemTableView, WareHouseDataHandler.parsedItemsList);
                     itemsTable.refresh();
                     break;
@@ -543,7 +554,15 @@ public class MainController {
     
 
     public void helpAction(ActionEvent actionEvent) {
-        //TODO
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("WareWise Help");
+        alert.setHeaderText("WareWise Admin Console");
+        alert.setContentText("""
+                Use the left menu to switch between Dashboard, Database, and Settings.
+                Open Database to view, add, update, delete, and refresh server data.
+                Use Menu > Login before editing data if automatic login is disabled.
+                """);
+        alert.showAndWait();
     }
 
     public void logInAction(ActionEvent event){
@@ -568,6 +587,9 @@ public class MainController {
 
     private void promptLogin(){
         String[] loginPrompt = LoginPrompt.promptLogin();
+        if (loginPrompt == null) {
+            return;
+        }
         AdminUtil.saveLoginCred(loginPrompt[0],loginPrompt[1]);
         AdminUtil.doLogin();
         setUsernameLabel(loginPrompt[0]);
@@ -576,7 +598,15 @@ public class MainController {
     }
 
     public void aboutAction(ActionEvent actionEvent) {
-        UtilityCommands.openLink("https://github.com/bossNilac/WareWise/blob/master/README.md");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About WareWise");
+        alert.setHeaderText("WareWise App");
+        alert.setContentText("""
+                Portfolio warehouse management project.
+                Author: Calin Baculescu
+                GitHub: https://github.com/bossNilac/WareWise
+                """);
+        alert.showAndWait();
     }
 
     public void toggleSettingsButton(ActionEvent actionEvent){

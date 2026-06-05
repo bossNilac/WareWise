@@ -8,6 +8,9 @@ public class Log {
     private String description;
     private String createdAt;
 
+    public Log() {
+    }
+
     public Log(int ID, String username, String action, String description, String createdAt) {
         this.ID = ID;
         this.username = username;

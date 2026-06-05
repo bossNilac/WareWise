@@ -19,7 +19,7 @@ public class ParamBuilder {
         m.put("password",    user.getPasswordHash());
         m.put("email",       user.getEmail());
         m.put("role",        user.getRole().name());
-        m.put("warehouseId", user.getWarehouseId());
+        m.put("warehouseIds", user.getWarehouseIds());
         return gson.toJson(m);
     }
 
@@ -66,11 +66,13 @@ public class ParamBuilder {
         if (!isAdd) {
             m.put("orderId", ord.getID());
         }
-        m.put("customerName",  ord.getCustomerName());
-        m.put("customerEmail", ord.getCustomerEmail());
+        m.put("general_item_id",  ord.getGeneralItemId());
+        m.put("quantity", ord.getQuantity());
         m.put("status",        ord.getStatus().name());
         m.put("createdAt",     ord.getCreatedAt());
-        m.put("updatedAt",     ord.getUpdatedAt());
+        if (isAdd) {
+            m.put("updatedAt", ord.getUpdatedAt());
+        }
         m.put("userId",        ord.getUserId());
         return gson.toJson(m);
     }
@@ -91,7 +93,7 @@ public class ParamBuilder {
     public static String buildParamsStockAlert(boolean isAdd, StockAlert a) {
         Map<String, Object> m = new LinkedHashMap<>();
         if (!isAdd) {
-            m.put("alertId", a.getID());
+            m.put("stockAlertId", a.getID());
         }
         m.put("productId", a.getProductID());
         m.put("createdAt", a.getCreatedAt());

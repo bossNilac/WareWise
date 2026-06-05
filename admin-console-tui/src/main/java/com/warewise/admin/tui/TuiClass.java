@@ -31,12 +31,11 @@ public class TuiClass {
             throw new RuntimeException(e);
         }
         ApiResponse response = new ApiResponse(loginResponse);
-        ApiHandler.TOKEN =  response.getData()
-                .substring(1, response.getData().length() - 1);
         if(!response.getSuccess()){
             UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
             loggedIn = false;
         }else {
+            ApiHandler.TOKEN = response.getData();
             loggedIn = true;
         }
     }
@@ -97,6 +96,11 @@ public class TuiClass {
                     ApiResponse apiResponse = new ApiResponse(usersResponse);
                     UtilityCommands.displayNotificationPanel(1,apiResponse.getData());
                     break;
+                case "5":
+                    String logsResponse = ApiHandler.sendApiCall("GET",ApiHandler.LOGS,"get_logs",null);
+                    ApiResponse logsApiResponse = new ApiResponse(logsResponse);
+                    UtilityCommands.displayNotificationPanel(1,logsApiResponse.getData());
+                    break;
                 case "6":
                     if (showModalDialog("Exit")) {
                         exit();
@@ -133,7 +137,7 @@ public class TuiClass {
                 case "4":
                     command = handleDelete();
                     System.out.print("Enter ID to delete: ");
-                    int id = scanner.nextInt();
+                    int id = Integer.parseInt(scanner.nextLine());
                     ApiHandler.sendDeleteCall(command, id);
                     break;
                 case "5":
@@ -172,11 +176,11 @@ public class TuiClass {
              case "1" :
                      if(isAdd){
                              body = buildParams(true,null ,null,
-                                     "username", "password", "email","role","warehouseId");
+                                     "username", "password", "email","role","warehouseIds");
                      }
                      else{
                              body = buildParams(false,id ,"userId",
-                                     "username", "password", "email","role","warehouseId");
+                                     "username", "password", "email","role","warehouseIds");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.USERS, command_prefix+"user", body);
                      apiResponse = new ApiResponse(apiCall);
@@ -188,9 +192,9 @@ public class TuiClass {
                          body = buildParams(true,null ,null,
                                  "name", "setQuantity", "barcode","categoryId","supplierId","price","expires");
                      }
-                     else{
+                    else{
                          body = buildParams(false,id ,"itemId",
-                                 "name", "setQuantity", "barcode","categoryId","supplierId,price","expires");
+                                 "name", "setQuantity", "barcode","categoryId","supplierId","price","expires");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.ITEMS, command_prefix+"item", body);
                      apiResponse = new ApiResponse(apiCall);
@@ -225,11 +229,11 @@ public class TuiClass {
                  case "5" :
                      if(isAdd){
                          body = buildParams(true,null ,null,
-                                 "customerName", "customerEmail","status","createdAt","updatedAt","userId");
+                                 "general_item_id", "quantity","status","createdAt","updatedAt","userId");
                      }
                      else{
                          body = buildParams(false,id ,"orderId",
-                                 "customerName", "customerEmail","status","createdAt","updatedAt","userId");
+                                 "general_item_id", "quantity","status","createdAt","userId");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.ORDERS, command_prefix+"order", body);
                      apiResponse = new ApiResponse(apiCall);
@@ -254,7 +258,7 @@ public class TuiClass {
                                  "productId", "createdAt","resolved");
                      }
                      else{
-                         body = buildParams(false,id ,"supplierId",
+                         body = buildParams(false,id ,"stockAlertId",
                                  "productId", "createdAt","resolved");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.STOCK_ALERTS, command_prefix+"stock_alert", body);
@@ -264,11 +268,11 @@ public class TuiClass {
                 case "8" :
                      if(isAdd){
                          body = buildParams(true,null ,null,
-                                 "name;", "address");
+                                 "name", "address");
                      }
                      else{
                          body = buildParams(false,id ,"warehouseId",
-                                 "name;", "address");
+                                 "name", "address");
                      }
                      apiCall = ApiHandler.sendApiCall(method, ApiHandler.WAREHOUSES, command_prefix+"warehouse", body);
                      apiResponse = new ApiResponse(apiCall);
@@ -360,6 +364,13 @@ public class TuiClass {
     }
 
     private static Object parseValue(String input) {
+        if (input.contains(",")) {
+            return java.util.Arrays.stream(input.split(","))
+                    .map(String::trim)
+                    .filter(value -> !value.isEmpty())
+                    .map(Integer::parseInt)
+                    .toList();
+        }
         if (input.equalsIgnoreCase("true") || input.equalsIgnoreCase("false")) {
             return Boolean.parseBoolean(input);
         }

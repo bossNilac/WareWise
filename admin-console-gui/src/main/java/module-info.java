@@ -8,6 +8,7 @@ module com.warewise.gui.controller {
 
 
     opens com.warewise.gui.controller to javafx.fxml;
+    opens com.warewise.gui.util.model to com.google.gson;
     exports com.warewise.gui.controller;
     exports com.warewise.gui;
     opens com.warewise.gui to javafx.fxml;

@@ -49,7 +49,7 @@ public class EnhancedTableView<T> {
         for (Field f : clazz.getDeclaredFields()) {
             String fieldName = f.getName();
             // skip static or synthetic or the ID field
-            if (Modifier.isStatic(f.getModifiers()) || f.isSynthetic() || fieldName.equalsIgnoreCase("id")) {
+            if (Modifier.isStatic(f.getModifiers()) || f.isSynthetic() || fieldName.equalsIgnoreCase("id") || List.class.isAssignableFrom(f.getType())) {
                 continue;
             }
             // build getter name

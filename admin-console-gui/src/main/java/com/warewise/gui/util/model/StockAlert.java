@@ -7,6 +7,9 @@ public class StockAlert {
     private String createdAt;
     private boolean resolved;
 
+    public StockAlert() {
+    }
+
     public int getID() {
         return ID;
     }

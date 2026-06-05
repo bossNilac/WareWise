@@ -53,7 +53,7 @@ public class WareHouseDataHandler {
             case "Users":
                 parsedUsersList = parse(ApiHandler.sendApiCall("GET", ApiHandler.USERS, "get_users", null), User.class);
                 break;
-            case "Item":
+            case "General Items":
                 parsedItemsList = parse(ApiHandler.sendApiCall("GET", ApiHandler.ITEMS, "get_items", null), GeneralItem.class);
                 break;
             case "Category":

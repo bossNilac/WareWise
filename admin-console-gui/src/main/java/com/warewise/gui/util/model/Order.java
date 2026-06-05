@@ -2,11 +2,13 @@ package com.warewise.gui.util.model;
 
 
 import com.warewise.gui.util.enums.OrderStatus;
+import com.google.gson.annotations.SerializedName;
 
 public class Order {
     private int ID;
-    private String customerName;
-    private String customerEmail;
+    @SerializedName("general_item_id")
+    private int generalItemId;
+    private int quantity;
     private OrderStatus status;
     private String createdAt;
     private String updatedAt;
@@ -22,20 +24,23 @@ public class Order {
         this.ID = ID;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Order() {
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public int getGeneralItemId() {
+        return generalItemId;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public void setGeneralItemId(int generalItemId) {
+        this.generalItemId = generalItemId;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public OrderStatus getStatus() {
@@ -62,21 +67,21 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-    public Order(int ID, String customerName, String customerEmail, OrderStatus status,
+    public Order(int ID, int generalItemId, int quantity, OrderStatus status,
                  String createdAt, String updatedAt,int  userId) {
         this.ID = ID;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.generalItemId = generalItemId;
+        this.quantity = quantity;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userId = userId;
     }
 
-    public Order(String customerName, String customerEmail, OrderStatus status,
+    public Order(int generalItemId, int quantity, OrderStatus status,
                  String createdAt, String updatedAt,int userId) {
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.generalItemId = generalItemId;
+        this.quantity = quantity;
         this.status = status;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;

@@ -8,8 +8,10 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
@@ -28,7 +30,15 @@ public class ServerApplication extends javafx.application.Application {
         dashboardHandler = new DashboardHandler();
         fxmlLoader = new FXMLLoader(ServerApplication.class.getResource("main-view.fxml"));
         stage.setTitle("WareWise App");
-        stage.getIcons().add(new Image(System.getProperty("user.home") + "/WareWise/images/logo.png"));
+        URL bundledIcon = ServerApplication.class.getResource("/images/logo.png");
+        if (bundledIcon != null) {
+            stage.getIcons().add(new Image(bundledIcon.toExternalForm()));
+        } else {
+            Path iconPath = Path.of(System.getProperty("user.home"), "WareWise", "images", "logo.png");
+            if (Files.exists(iconPath)) {
+                stage.getIcons().add(new Image(iconPath.toUri().toString()));
+            }
+        }
         // Prevent fullscreen and always on top behavior
         stage.setFullScreen(false);
         stage.setFullScreenExitHint("");

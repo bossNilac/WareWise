@@ -21,6 +21,7 @@ public class ApiHandler {
     public static String STOCK_ALERTS="stock_alerts";
     public static String ORDERS="orders";
     public static String SUPPLIERS="suppliers";
+    public static String LOGS="logs";
 
 
     public static String sendApiCall(String method, String subpath, String command, String string_body) {
@@ -112,8 +113,12 @@ public class ApiHandler {
                 usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.WAREHOUSES, "get_warehouses", null);
                 apiResponse = new ApiResponse(usersResponse);
                 break;
+            case "LIST_LOGS":
+                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.LOGS, "get_logs", null);
+                apiResponse = new ApiResponse(usersResponse);
+                break;
             case "LIST_WAREHOUSE_ITEMS":
-                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.W_ITEMS, "get_warehouses", null);
+                usersResponse = ApiHandler.sendApiCall("GET", ApiHandler.W_ITEMS, "get_items", null);
                 apiResponse = new ApiResponse(usersResponse);
                 break;
             case "":
@@ -160,7 +165,7 @@ public class ApiHandler {
                 usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.WAREHOUSES, value.toLowerCase(), String.valueOf(id));
                 break;
             case "DELETE_WAREHOUSE_ITEM":
-                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.W_ITEMS, value.toLowerCase(), String.valueOf(id));
+                usersResponse = ApiHandler.sendApiCall("DELETE", ApiHandler.W_ITEMS, "delete_item", String.valueOf(id));
                 break;
             case "":
                 return;

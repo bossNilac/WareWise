@@ -9,6 +9,9 @@ public class Supplier {
     private String address;
     private String createdAt;
 
+    public Supplier() {
+    }
+
     public Supplier(int ID, String name, String contactEmail, String contactPhoneNo, String address) {
         this.ID = ID;
         this.name = name;
