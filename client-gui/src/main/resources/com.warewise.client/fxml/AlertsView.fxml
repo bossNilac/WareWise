@@ -27,8 +27,8 @@
     <TableView fx:id="notificationsTable" prefHeight="200" prefWidth="634">
         <columns>
             <TableColumn fx:id="colItemName" text="Item Name" prefWidth="120" />
-            <TableColumn fx:id="colOrderDate" text="Order Date" prefWidth="120" />
-            <TableColumn fx:id="colUserName" text="User" prefWidth="100" />
+            <TableColumn fx:id="colOrderDate" text="Quantity" prefWidth="120" />
+            <TableColumn fx:id="colUserName" text="Status" prefWidth="100" />
             <TableColumn fx:id="colCategory" text="Category" prefWidth="100" />
             <TableColumn fx:id="colInventory" text="Inventory" prefWidth="100" />
             <TableColumn fx:id="colWarehouse" text="Warehouse" prefWidth="100" />
@@ -44,7 +44,7 @@
 
     <TableView fx:id="alertsTableView" editable="true" onKeyPressed="#deleteAlertAction" styleClass="table-view">
         <columns>
-            <TableColumn fx:id="productColumn" prefWidth="200" text="Product" />
+            <TableColumn fx:id="productColumn" prefWidth="200" text="Inventory" />
             <TableColumn fx:id="createdAtColumn" prefWidth="800" text="Created At" />
             <TableColumn fx:id="resolvedColumn" prefWidth="800" text="Resolved" />
         </columns>

@@ -54,13 +54,13 @@
         </graphic>
     </Button>
 
-    <!-- Pick &amp; Ship -->
-    <Button fx:id="btnPickShip" styleClass="menu-item"
-            text="Pick &amp; Ship"
-            userData="PickAndShipView.fxml"
+    <!-- Add Item -->
+    <Button fx:id="btnAddItem" styleClass="menu-item"
+            text="Add Item"
+            userData="AddItemView.fxml"
             onAction="#handleMenuAction">
         <graphic>
-            <FontAwesomeIconView glyphName="CUBE" styleClass="icon"/>
+            <FontAwesomeIconView glyphName="PLUS" styleClass="icon"/>
         </graphic>
     </Button>
 
@@ -91,6 +91,16 @@
             onAction="#handleMenuAction">
         <graphic>
             <FontAwesomeIconView glyphName="USER" styleClass="icon"/>
+        </graphic>
+    </Button>
+
+    <!-- Settings -->
+    <Button fx:id="btnSettings" styleClass="menu-item"
+            text="Settings"
+            userData="SettingsView.fxml"
+            onAction="#handleMenuAction">
+        <graphic>
+            <FontAwesomeIconView glyphName="COG" styleClass="icon"/>
         </graphic>
     </Button>
 

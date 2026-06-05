@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="16"
+      styleClass="dashboard-view"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.warewise.client.controller.ReceiveShipmentsController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <VBox spacing="4">
+        <Label styleClass="section-title" text="Receive Shipment"/>
+        <Label text="Increase stock for inventory in your assigned warehouse."/>
+    </VBox>
+
+    <GridPane hgap="14" vgap="12">
+        <Label text="Inventory" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <ComboBox fx:id="inventoryCombo" prefWidth="420" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Quantity received" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Spinner fx:id="quantitySpinner" editable="true" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Note" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextArea fx:id="noteArea" prefHeight="90" prefWidth="420" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Receive Shipment" onAction="#receiveShipmentAction"/>
+        <Button text="Refresh" onAction="#refreshAction"/>
+    </HBox>
+</VBox>

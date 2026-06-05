@@ -4,7 +4,12 @@ import com.warewise.client.networking.ApiHandler;
 import com.warewise.client.networking.DataHandler;
 import com.warewise.client.networking.ParamBuilder;
 import com.warewise.client.util.AlertUtil;
-import com.warewise.client.util.model.*;
+import com.warewise.client.util.model.Category;
+import com.warewise.client.util.model.GeneralItem;
+import com.warewise.client.util.model.Inventory;
+import com.warewise.client.util.model.LowStockNotification;
+import com.warewise.client.util.model.StockAlert;
+import com.warewise.client.util.model.Warehouse;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,46 +17,37 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.util.converter.DefaultStringConverter;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.warewise.client.networking.ApiHandler.*;
-import static com.warewise.client.networking.ApiHandler.GENERAL_ITEMS;
+import static com.warewise.client.networking.ApiHandler.PATCH;
+import static com.warewise.client.networking.ApiHandler.STOCK_ALERTS;
 import static com.warewise.client.util.AdminUtil.parseResponse;
 
 public class AlertsController implements Initializable {
+    @FXML private TableView<StockAlert> alertsTableView;
+    @FXML private TableColumn<StockAlert, String> productColumn;
+    @FXML private TableColumn<StockAlert, String> createdAtColumn;
+    @FXML private TableColumn<StockAlert, Boolean> resolvedColumn;
 
-    @FXML
-    private TableView<StockAlert> alertsTableView;
-
-    @FXML
-    private TableColumn<StockAlert, String> productColumn;
-    @FXML
-    private TableColumn<StockAlert, String> createdAtColumn;
-    @FXML
-    private TableColumn<StockAlert, Boolean> resolvedColumn;
-
-    @FXML
-    private TextField      productFilterField;
-    @FXML
-    private TextField      dateFilterField;
-    @FXML
-    private ComboBox<String> resolvedFilterCombo;
+    @FXML private TextField productFilterField;
+    @FXML private TextField dateFilterField;
+    @FXML private ComboBox<String> resolvedFilterCombo;
 
     @FXML private TableView<LowStockNotification> notificationsTable;
     @FXML private TableColumn<LowStockNotification, String> colItemName;
@@ -61,131 +57,44 @@ public class AlertsController implements Initializable {
     @FXML private TableColumn<LowStockNotification, String> colInventory;
     @FXML private TableColumn<LowStockNotification, String> colWarehouse;
 
-
     private final ObservableList<LowStockNotification> notificationsData = FXCollections.observableArrayList();
-
-
-
-    ObservableList<String> productNameList;
-
-    private int LOW_STOCK_THRESHOLD = 10;
-    Map<String, GeneralItem> giNameMap;
-
     private final ObservableList<StockAlert> alertsData = FXCollections.observableArrayList();
 
+    private List<StockAlert> masterAlerts = List.of();
+    private Map<Integer, Inventory> inventoryById = Map.of();
+    private Map<Integer, Warehouse> warehouseById = Map.of();
 
     @Override
     public void initialize(URL loc, ResourceBundle res) {
-
         alertsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        notificationsTable .setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // 1) Load all relevant tables
-        DataHandler.initTables("Category");
-        DataHandler.initTables("GeneralItem");
-        DataHandler.initTables("Inventory");
-        DataHandler.initTables("WarehouseItem");
-        DataHandler.initTables("Warehouse");
-        DataHandler.initTables("Orders");
-        DataHandler.initTables("Users");
-        DataHandler.initTables("Alerts");
-
-
-        List<Category> categories = DataHandler.parsedCategoriesList;
-        List<GeneralItem> generalItems = DataHandler.parsedItemsList;
-        List<Inventory> stockRecords = DataHandler.parsedInventoryList;
-        List<WarehouseItem> orderItems = DataHandler.parsedWarehouseItemsList;
-        List<Order> orders = DataHandler.parsedOrdersList;
-        List<User> users = DataHandler.parsedUsersList;
-        List<Warehouse> warehouses = DataHandler.parsedWarehousesList;
-
-        ObservableList<String> notifications = FXCollections.observableArrayList();
-
-
-        Map<Integer, User> idToUser = users.stream()
-                .collect(Collectors.toMap(User::getID, u -> u));
-        Map<Integer, GeneralItem> giMap = generalItems.stream()
-                .collect(Collectors.toMap(GeneralItem::getId, gi -> gi));
-
-        giNameMap = generalItems.stream()
-                .collect(Collectors.toMap(GeneralItem::getName, gi -> gi));
-
-        productNameList = FXCollections.observableArrayList(giNameMap.keySet());
-
-        Map<Integer, Order> orderMap = orders.stream()
-                .collect(Collectors.toMap(Order::getID, gi -> gi));
-
-        Map<Integer, Category> categoriesMap = categories.stream()
-                .collect(Collectors.toMap(Category::getID, gi -> gi));
-
-        Map<Integer, Inventory> inventoriesMap = stockRecords.stream()
-                .collect(Collectors.toMap(Inventory::getID, gi -> gi));
-
-        Map<Integer, Warehouse> warehousesMap = warehouses.stream()
-                .collect(Collectors.toMap(Warehouse::getID, gi -> gi));
-
-        List<StockAlert> masterAlerts = DataHandler.parsedAlertsList;
+        notificationsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         resolvedFilterCombo.setItems(FXCollections.observableArrayList("All", "Yes", "No"));
         resolvedFilterCombo.setValue("All");
 
-        Runnable applyFilters = () -> {
-            String prodText = productFilterField.getText().trim().toLowerCase();
-            String dateText = dateFilterField.getText().trim();
-            String resText  = resolvedFilterCombo.getValue();
+        productFilterField.textProperty().addListener((obs, oldValue, newValue) -> applyAlertFilters());
+        dateFilterField.textProperty().addListener((obs, oldValue, newValue) -> applyAlertFilters());
+        resolvedFilterCombo.valueProperty().addListener((obs, oldValue, newValue) -> applyAlertFilters());
 
-            List<StockAlert> filtered = masterAlerts.stream()
-                    .filter(a -> {
-                        // 1) product name filter (lookup via your productColumn logic):
-                        GeneralItem gi = giNameMap.get(productColumn.getCellData(a));
-                        String name = gi != null ? gi.getName().toLowerCase() : "";
-                        boolean okProd = prodText.isEmpty() || name.contains(prodText);
+        configureAlertTable();
+        configureNotificationTable();
+        loadData();
+    }
 
-                        // 2) date filter
-                        boolean okDate = dateText.isEmpty()
-                                || a.getCreatedAt().startsWith(dateText);
-
-                        // 3) resolved filter
-                        boolean okRes = resText.equals("All")
-                                || (resText.equals("Yes") && a.getResolved())
-                                || (resText.equals("No")  && !a.getResolved());
-
-                        return okProd && okDate && okRes;
-                    })
-                    .collect(Collectors.toList());
-
-            alertsData.setAll(filtered);
-            alertsTableView.setItems(alertsData);
-        };
-
-        productFilterField.textProperty()
-                .addListener((obs,old,nw) -> applyFilters.run());
-        dateFilterField.textProperty()
-                .addListener((obs,old,nw) -> applyFilters.run());
-        resolvedFilterCombo.valueProperty()
-                .addListener((obs,old,nw) -> applyFilters.run());
-
-// initial load with no filters
-        applyFilters.run();
-
-
-
-
-        // Bind table columns to Category properties
+    private void configureAlertTable() {
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-        resolvedColumn.setCellValueFactory(new PropertyValueFactory<>("resolved"));
-
+        productColumn.setCellValueFactory(cellData -> {
+            Inventory inventory = inventoryById.get(cellData.getValue().getProductID());
+            return new SimpleStringProperty(inventory == null ? "Inventory " + cellData.getValue().getProductID() : inventory.getName());
+        });
         resolvedColumn.setCellValueFactory(cellData -> {
             StockAlert item = cellData.getValue();
             SimpleBooleanProperty prop = new SimpleBooleanProperty(item.getResolved());
             prop.addListener((obs, oldVal, newVal) -> {
                 item.setResolved(newVal);
-                // you can call your boolean update helper directly here
                 updateAlertBoolean(new TableColumn.CellEditEvent<>(
                         alertsTableView,
-                        new TablePosition<>(alertsTableView,
-                                alertsTableView.getItems().indexOf(item),
-                                resolvedColumn),
+                        new TablePosition<>(alertsTableView, alertsTableView.getItems().indexOf(item), resolvedColumn),
                         TableColumn.editCommitEvent(),
                         newVal
                 ));
@@ -193,52 +102,84 @@ public class AlertsController implements Initializable {
             return prop;
         });
         resolvedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(resolvedColumn));
-
-        productColumn.setCellValueFactory(cellData -> {
-            int id = cellData.getValue().getProductID();
-            String name = giMap.containsKey(id)
-                    ? giMap.get(id).getName()
-                    : "";
-            return new SimpleStringProperty(name);
-        });
-        productColumn.setCellFactory(ComboBoxTableCell.forTableColumn(
-                new DefaultStringConverter(), productNameList
-        ));
-
-        alertsData.setAll(DataHandler.parsedAlertsList);
         alertsTableView.setItems(alertsData);
+    }
 
-
-        for (WarehouseItem oi : orderItems) {
-            if (oi.getQuantity() <= LOW_STOCK_THRESHOLD) {
-                GeneralItem gi = giMap.get(oi.getGeneralItemId());
-                Order order = orderMap.get(oi.getOrderID());
-                User user = idToUser.get(order.getUserId());
-                Category category = categoriesMap.get(gi.getCategoryId());
-                Inventory inventory = inventoriesMap.get(oi.getInventoryID());
-                Warehouse warehouse = warehousesMap.get(inventory.getWarehouseId());
-
-                notificationsData.add(new LowStockNotification(
-                        gi != null ? gi.getName() : "Unknown item",
-                        order != null ? order.getUpdatedAt() : "No order date",
-                        user != null ? user.getUsername() : "No user on order",
-                        category != null ? category.getName() : "No category on Item",
-                        inventory != null ? inventory.getName() : "No inventory for Item",
-                        warehouse != null ? warehouse.getName() : "No warehouse for Item"
-                ));
-            }
-        }
-
+    private void configureNotificationTable() {
         colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         colOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         colUserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
         colInventory.setCellValueFactory(new PropertyValueFactory<>("inventoryName"));
         colWarehouse.setCellValueFactory(new PropertyValueFactory<>("warehouseName"));
-
         notificationsTable.setItems(notificationsData);
+    }
 
+    private void loadData() {
+        DataHandler.initTables("Category");
+        DataHandler.initTables("GeneralItem");
+        DataHandler.initTables("Inventory");
+        DataHandler.initTables("Warehouse");
+        DataHandler.initTables("Alerts");
 
+        List<Category> categories = DataHandler.parsedCategoriesList == null ? List.of() : DataHandler.parsedCategoriesList;
+        List<GeneralItem> generalItems = DataHandler.parsedItemsList == null ? List.of() : DataHandler.parsedItemsList;
+        List<Inventory> inventories = DataHandler.parsedInventoryList == null ? List.of() : DataHandler.parsedInventoryList;
+        List<Warehouse> warehouses = DataHandler.parsedWarehousesList == null ? List.of() : DataHandler.parsedWarehousesList;
+        masterAlerts = DataHandler.parsedAlertsList == null ? List.of() : DataHandler.parsedAlertsList;
+
+        Map<Integer, Category> categoryById = categories.stream()
+                .collect(Collectors.toMap(Category::getID, Function.identity(), (first, second) -> first));
+        Map<String, GeneralItem> itemByName = generalItems.stream()
+                .collect(Collectors.toMap(item -> item.getName().toLowerCase(), Function.identity(), (first, second) -> first));
+        inventoryById = inventories.stream()
+                .collect(Collectors.toMap(Inventory::getID, Function.identity(), (first, second) -> first));
+        warehouseById = warehouses.stream()
+                .collect(Collectors.toMap(Warehouse::getID, Function.identity(), (first, second) -> first));
+
+        notificationsData.setAll(inventories.stream()
+                .filter(inventory -> inventory.getQuantity() <= DataHandler.LOW_STOCK_THRESHOLD)
+                .map(inventory -> {
+                    GeneralItem item = itemByName.get(inventory.getName().toLowerCase());
+                    Category category = item == null ? null : categoryById.get(item.getCategoryId());
+                    return new LowStockNotification(
+                            inventory.getID(),
+                            inventory.getName(),
+                            String.valueOf(inventory.getQuantity()),
+                            inventory.getQuantity() == 0 ? "Out of stock" : "Low stock",
+                            category == null ? "Uncategorized" : category.getName(),
+                            inventory.getName(),
+                            warehouseName(inventory.getWarehouseId())
+                    );
+                })
+                .toList());
+
+        applyAlertFilters();
+    }
+
+    private void applyAlertFilters() {
+        String productText = productFilterField.getText() == null ? "" : productFilterField.getText().trim().toLowerCase();
+        String dateText = dateFilterField.getText() == null ? "" : dateFilterField.getText().trim();
+        String resolvedText = resolvedFilterCombo.getValue() == null ? "All" : resolvedFilterCombo.getValue();
+
+        alertsData.setAll(masterAlerts.stream()
+                .filter(alert -> {
+                    Inventory inventory = inventoryById.get(alert.getProductID());
+                    String inventoryName = inventory == null ? "" : inventory.getName().toLowerCase();
+                    boolean productMatches = productText.isEmpty() || inventoryName.contains(productText);
+                    boolean dateMatches = dateText.isEmpty()
+                            || (alert.getCreatedAt() != null && alert.getCreatedAt().startsWith(dateText));
+                    boolean resolvedMatches = "All".equals(resolvedText)
+                            || ("Yes".equals(resolvedText) && alert.getResolved())
+                            || ("No".equals(resolvedText) && !alert.getResolved());
+                    return productMatches && dateMatches && resolvedMatches;
+                })
+                .toList());
+    }
+
+    private String warehouseName(int warehouseId) {
+        Warehouse warehouse = warehouseById.get(warehouseId);
+        return warehouse == null ? "Warehouse " + warehouseId : warehouse.getName();
     }
 
     private void updateAlertBoolean(TableColumn.CellEditEvent<StockAlert, Boolean> t) {
@@ -254,20 +195,19 @@ public class AlertsController implements Initializable {
 
     public void deleteAlertAction(KeyEvent keyEvent) {
         final StockAlert selectedItem = alertsTableView.getSelectionModel().getSelectedItem();
-        if(keyEvent.getCode().equals(KeyCode.DELETE) && selectedItem !=null){
-            if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Alert")) {
-                ApiHandler.sendDeleteCall("DELETE_STOCK_ALERT",selectedItem.getID());
+        if (keyEvent.getCode().equals(KeyCode.DELETE) && selectedItem != null) {
+            if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE, "Alert")) {
+                ApiHandler.sendDeleteCall("DELETE_STOCK_ALERT", selectedItem.getID());
                 refreshTable();
             }
         }
     }
 
-
-    public void deleteAlertActionEvent(ActionEvent actionEvent){
+    public void deleteAlertActionEvent(ActionEvent actionEvent) {
         final StockAlert selectedItem = alertsTableView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            if(AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE,"Alert")) {
-                ApiHandler.sendDeleteCall("DELETE_STOCK_ALERT",selectedItem.getID());
+            if (AlertUtil.showYesNoAlert(AlertUtil.AlertType.DELETE, "Alert")) {
+                ApiHandler.sendDeleteCall("DELETE_STOCK_ALERT", selectedItem.getID());
                 refreshTable();
             }
         }
@@ -275,25 +215,26 @@ public class AlertsController implements Initializable {
 
     public void refreshTable() {
         DataHandler.initTables("Alerts");
-        alertsData.setAll(DataHandler.parsedAlertsList);
+        masterAlerts = DataHandler.parsedAlertsList == null ? List.of() : DataHandler.parsedAlertsList;
+        applyAlertFilters();
     }
-
 
     public void createAlert(ActionEvent actionEvent) {
-        LowStockNotification sel = notificationsTable.getSelectionModel().getSelectedItem();
-        if (sel == null) return;
-        // lookup GeneralItem by name
-        GeneralItem item = giNameMap.get(sel.getItemName());
-        if (item == null) return;
+        LowStockNotification selected = notificationsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        boolean alreadyOpen = masterAlerts.stream()
+                .anyMatch(alert -> alert.getProductID() == selected.getInventoryId() && !alert.getResolved());
+        if (alreadyOpen) {
+            return;
+        }
 
-        StockAlert stockAlert = new StockAlert(
-                item.getId(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
-                false
-        );
+        StockAlert stockAlert = new StockAlert(selected.getInventoryId(), LocalDateTime.now().toString(), false);
         String param = ParamBuilder.buildParamsStockAlert(true, stockAlert);
-        ApiHandler.sendApiCall(ApiHandler.POST, ApiHandler.STOCK_ALERTS,
-                "add_stock_alert", param);
+        String response = ApiHandler.sendApiCall(ApiHandler.POST, ApiHandler.STOCK_ALERTS, "add_stock_alert", param);
+        if (parseResponse(response)) {
+            loadData();
+        }
     }
-
 }

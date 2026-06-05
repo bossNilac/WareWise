@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="16"
+      styleClass="dashboard-view"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.warewise.client.controller.AddItemController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <VBox spacing="4">
+        <Label styleClass="section-title" text="Add Item"/>
+        <Label text="Create a catalog item and optionally add it to real warehouse inventory."/>
+    </VBox>
+
+    <GridPane hgap="14" vgap="10">
+        <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="nameField" prefWidth="320" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Barcode" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="barcodeField" prefWidth="320" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Category" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="categoryCombo" prefWidth="320" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="New category" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="newCategoryField" prefWidth="320" promptText="Optional" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Category description" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField fx:id="categoryDescriptionField" prefWidth="320" promptText="Used only for a new category" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Supplier" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <ComboBox fx:id="supplierCombo" prefWidth="320" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+        <Label text="Price" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <TextField fx:id="priceField" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+        <Label text="Set quantity" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+        <TextField fx:id="setQuantityField" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+        <Label text="Expires" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+        <CheckBox fx:id="expiresCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+        <Label text="Actual inventory" GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+        <CheckBox fx:id="addToInventoryCheckBox" text="Add this item to warehouse inventory now" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+
+        <Label text="Warehouse" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+        <ComboBox fx:id="warehouseCombo" prefWidth="320" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+
+        <Label text="Inventory quantity" GridPane.columnIndex="0" GridPane.rowIndex="11"/>
+        <TextField fx:id="inventoryQuantityField" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+
+        <Label text="Inventory description" GridPane.columnIndex="0" GridPane.rowIndex="12"/>
+        <TextArea fx:id="inventoryDescriptionArea" prefHeight="80" prefWidth="320" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="12"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Save Item" onAction="#saveItemAction"/>
+        <Button text="Clear" onAction="#clearAction"/>
+    </HBox>
+</VBox>
