@@ -7,6 +7,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import warewise.server.api.ApiSecurityFilter;
 import warewise.server.common.handler.UserHandler;
 import warewise.server.common.model.User;
 
@@ -21,6 +22,7 @@ public class Main {
         ResourceConfig rc = new ResourceConfig()
                 // IMPORTANT: this matches your screenshot
                 .packages("warewise.server.api.resources")
+                .register(ApiSecurityFilter.class)
                 .register(JacksonFeature.class)
                 // Logs every request + response status to console
                 .register(new LoggingFeature(Logger.getLogger("Jersey"), Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 8192));

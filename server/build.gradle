@@ -29,10 +29,6 @@ application {
 }
 
 dependencies {
-    // Not strictly needed for Grizzly (since you won’t deploy to a servlet container),
-    // but harmless if some code references servlet APIs.
-    compileOnly('jakarta.servlet:jakarta.servlet-api:6.1.0')
-
     // Jersey (JAX-RS)
     implementation('org.glassfish.jersey.core:jersey-server:4.0.0-M1')
 

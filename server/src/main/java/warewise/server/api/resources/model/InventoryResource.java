@@ -1,12 +1,18 @@
 package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import warewise.server.api.AuthContext;
 import warewise.server.api.response.ApiResponse;
 import warewise.server.common.handler.InventoryHandler;
 import warewise.server.common.handler.JsonSerializer;
 import warewise.server.common.model.Inventory;
+import warewise.server.common.model.User;
+
+import java.util.List;
 
 /**
  * REST resource providing endpoints to manage inventory items.
@@ -18,16 +24,26 @@ import warewise.server.common.model.Inventory;
 public class InventoryResource {
     @GET
     @Path("/get_inventory")
-    public Response getInventory() {
-        String data = JsonSerializer.serializeListToJson(
-                InventoryHandler.getInstance().getAllInventories());
+    public Response getInventory(@Context HttpHeaders headers) {
+        User user = AuthContext.currentUser(headers);
+        List<Inventory> inventories = AuthContext.filterByWarehouse(
+                user,
+                InventoryHandler.getInstance().getAllInventories(),
+                Inventory::getWarehouseId
+        );
+        String data = JsonSerializer.serializeListToJson(inventories);
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
 
     @POST
     @Path("/add_inventory")
-    public Response addInventory(AddRequest req) {
+    public Response addInventory(AddRequest req, @Context HttpHeaders headers) {
+        User user = AuthContext.currentUser(headers);
+        if (!AuthContext.canAccessWarehouse(user, req.warehouseId)) {
+            ApiResponse<Void> resp = new ApiResponse<>(false, "Warehouse not allowed", null);
+            return Response.status(Response.Status.FORBIDDEN).entity(resp).build();
+        }
         Inventory newInv = new Inventory(
                 req.name,
                 req.description,
@@ -42,7 +58,7 @@ public class InventoryResource {
 
     @PATCH
     @Path("/update_inventory")
-    public Response updateInventory(UpdateRequest req) {
+    public Response updateInventory(UpdateRequest req, @Context HttpHeaders headers) {
         if (req.inventoryId == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "inventoryId required", null);
             return Response.status(Response.Status.BAD_REQUEST).entity(resp).build();
@@ -52,6 +68,13 @@ public class InventoryResource {
         if (inventory == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Inventory not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
+        }
+        User user = AuthContext.currentUser(headers);
+        Integer targetWarehouseId = req.warehouseId == null ? inventory.getWarehouseId() : req.warehouseId;
+        if (!AuthContext.canAccessWarehouse(user, inventory.getWarehouseId())
+                || !AuthContext.canAccessWarehouse(user, targetWarehouseId)) {
+            ApiResponse<Void> resp = new ApiResponse<>(false, "Warehouse not allowed", null);
+            return Response.status(Response.Status.FORBIDDEN).entity(resp).build();
         }
 
         if (req.name != null) inventory.setName(req.name);
@@ -68,11 +91,15 @@ public class InventoryResource {
 
     @DELETE
     @Path("/delete_inventory/{inventoryId}")
-    public Response deleteInventory(@PathParam("inventoryId") int inventoryId) {
+    public Response deleteInventory(@PathParam("inventoryId") int inventoryId, @Context HttpHeaders headers) {
         Inventory inventory = InventoryHandler.getInstance().getInventory(inventoryId);
         if (inventory == null) {
             ApiResponse<Void> resp = new ApiResponse<>(false, "Inventory not found", null);
             return Response.status(Response.Status.NOT_FOUND).entity(resp).build();
+        }
+        if (!AuthContext.canAccessWarehouse(AuthContext.currentUser(headers), inventory.getWarehouseId())) {
+            ApiResponse<Void> resp = new ApiResponse<>(false, "Warehouse not allowed", null);
+            return Response.status(Response.Status.FORBIDDEN).entity(resp).build();
         }
 
         InventoryHandler.getInstance().deleteInventory(inventoryId);

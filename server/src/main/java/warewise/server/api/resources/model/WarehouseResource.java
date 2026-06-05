@@ -1,12 +1,18 @@
 package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import warewise.server.api.AuthContext;
 import warewise.server.api.response.ApiResponse;
 import warewise.server.common.handler.JsonSerializer;
 import warewise.server.common.handler.WarehouseHandler;
+import warewise.server.common.model.User;
 import warewise.server.common.model.Warehouse;
+
+import java.util.List;
 
 /**
  * REST resource providing endpoints to manage warehouses.
@@ -19,9 +25,15 @@ public class WarehouseResource {
 
     @GET
     @Path("/get_warehouses")
-    public Response getWarehouses() {
-        String data = JsonSerializer.serializeListToJson(
-                WarehouseHandler.getInstance().getAllWarehouses());
+    public Response getWarehouses(@Context HttpHeaders headers) {
+        User user = AuthContext.currentUser(headers);
+        List<Warehouse> warehouses = WarehouseHandler.getInstance().getAllWarehouses();
+        if (!AuthContext.isAdmin(user)) {
+            warehouses = warehouses.stream()
+                    .filter(warehouse -> AuthContext.canAccessWarehouse(user, warehouse.getWarehouse_id()))
+                    .toList();
+        }
+        String data = JsonSerializer.serializeListToJson(warehouses);
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }

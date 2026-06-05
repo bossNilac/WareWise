@@ -131,6 +131,33 @@ public class UserHandler {
         return user;
     }
 
+    public User getUserByUsername(String username) {
+        if (username == null || username.isBlank()) {
+            return null;
+        }
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        User user = null;
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT user_id, username, password_hash, email, created_at, role FROM users WHERE username = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                user = readUser(rs, getWarehouseIds(connection, userId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs, stmt, connection);
+        }
+        return user;
+    }
+
     public List<User> getAllUsers() {
         Connection connection = null;
         Statement stmt = null;

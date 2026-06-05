@@ -1,12 +1,22 @@
 package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import warewise.server.api.AuthContext;
+import warewise.server.common.handler.InventoryHandler;
 import warewise.server.api.response.ApiResponse;
 import warewise.server.common.handler.WarehouseItemHandler;
 import warewise.server.common.handler.JsonSerializer;
+import warewise.server.common.model.Inventory;
+import warewise.server.common.model.User;
 import warewise.server.common.model.WarehouseItem;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * REST resource providing endpoints to manage items.
@@ -19,9 +29,21 @@ public class WarehouseItemResource {
 
     @GET
     @Path("/get_items")
-    public Response getItems() {
-        String data = JsonSerializer.serializeListToJson(
-                WarehouseItemHandler.getInstance().getAllItems());
+    public Response getItems(@Context HttpHeaders headers) {
+        User user = AuthContext.currentUser(headers);
+        List<WarehouseItem> items = WarehouseItemHandler.getInstance().getAllItems();
+        if (!AuthContext.isAdmin(user)) {
+            Map<Integer, Inventory> inventoryById = InventoryHandler.getInstance().getAllInventories()
+                    .stream()
+                    .collect(Collectors.toMap(Inventory::getID, inventory -> inventory, (first, second) -> first));
+            items = items.stream()
+                    .filter(item -> {
+                        Inventory inventory = inventoryById.get(item.getInventoryID());
+                        return inventory != null && AuthContext.canAccessWarehouse(user, inventory.getWarehouseId());
+                    })
+                    .toList();
+        }
+        String data = JsonSerializer.serializeListToJson(items);
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }

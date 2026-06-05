@@ -1,9 +1,12 @@
 package warewise.server.api.resources.model;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import warewise.server.api.NotificationService;
+import warewise.server.api.AuthContext;
 import warewise.server.common.encryption.Encrypt;
 import warewise.server.common.handler.JsonSerializer;
 import warewise.server.common.model.User;
@@ -33,8 +36,15 @@ public class UserResource {
      * @return a {@link Response} containing all users as JSON.
      */@GET
     @Path("/get_users")
-    public Response get_users() {
-        String data = JsonSerializer.serializeListToJson(UserHandler.getInstance().getAllUsers(),List.of("passwordHash"));
+    public Response get_users(@Context HttpHeaders headers) {
+        User currentUser = AuthContext.currentUser(headers);
+        List<User> users = UserHandler.getInstance().getAllUsers();
+        if (!AuthContext.isAdmin(currentUser) && !AuthContext.isManager(currentUser)) {
+            users = currentUser == null ? List.of() : users.stream()
+                    .filter(user -> user.getID() == currentUser.getID())
+                    .toList();
+        }
+        String data = JsonSerializer.serializeListToJson(users,List.of("passwordHash"));
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
         return Response.status(Response.Status.OK).entity(resp).build();
     }
@@ -46,8 +56,14 @@ public class UserResource {
      * @return a {@link Response} containing filtered users.
      */@GET
     @Path("/get_users/{role}")
-    public Response get_users_by_role(@PathParam("role") String role) {
+    public Response get_users_by_role(@PathParam("role") String role, @Context HttpHeaders headers) {
+        User currentUser = AuthContext.currentUser(headers);
         List<User> dat = UserHandler.getInstance().getAllUsers();
+        if (!AuthContext.isAdmin(currentUser) && !AuthContext.isManager(currentUser)) {
+            dat = currentUser == null ? List.of() : dat.stream()
+                    .filter(user -> user.getID() == currentUser.getID())
+                    .toList();
+        }
         dat.removeIf(u -> !u.getRole().name().equals(role));
         String data = JsonSerializer.serializeListToJson(dat);
         ApiResponse<String> resp = new ApiResponse<>(true, "Success", data);
