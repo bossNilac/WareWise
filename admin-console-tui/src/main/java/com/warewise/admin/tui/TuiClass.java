@@ -35,8 +35,15 @@ public class TuiClass {
             UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
             loggedIn = false;
         }else {
-            ApiHandler.TOKEN = response.getData();
-            loggedIn = true;
+            if (!AdminUtil.applyLoginSession(response.getData())) {
+                UtilityCommands.displayNotificationPanel(3,"Login response was invalid");
+                loggedIn = false;
+            } else if (!"ADMIN".equals(AdminUtil.getSessionRole())) {
+                UtilityCommands.displayNotificationPanel(3,"Admin console requires an ADMIN account");
+                AdminUtil.logOut();
+            } else {
+                loggedIn = true;
+            }
         }
     }
 
@@ -103,6 +110,9 @@ public class TuiClass {
                     break;
                 case "6":
                     if (showModalDialog("Exit")) {
+                        if (loggedIn) {
+                            AdminUtil.logOut();
+                        }
                         exit();
                     } else {
                         break;

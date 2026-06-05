@@ -28,6 +28,10 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <CheckBox fx:id="rememberMeCheckbox" text="Remember Me"/>
             </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="logoutButton" text="Log out" onAction="#logoutAction"/>
+            </HBox>
         </VBox>
     </top>
 </BorderPane>

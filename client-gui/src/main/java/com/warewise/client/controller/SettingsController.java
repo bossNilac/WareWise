@@ -1,11 +1,17 @@
 package com.warewise.client.controller;
 
 import com.warewise.client.util.ConfigManager;
+import com.warewise.client.apps.LoginApp;
+import com.warewise.client.networking.ApiHandler;
+import com.warewise.client.util.AdminUtil;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
+import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +23,7 @@ public class SettingsController implements Initializable {
     @FXML private ComboBox<String> refreshRateDropdown;
     @FXML private ComboBox<String> logoutTimerDropdown;
     @FXML private CheckBox rememberMeCheckbox;
+    @FXML private Button logoutButton;
 
     private boolean isDarkMode;
 
@@ -87,6 +94,26 @@ public class SettingsController implements Initializable {
         boolean rememberMe = rememberMeCheckbox.isSelected();
         ConfigManager.setProperty("rememberMe", String.valueOf(rememberMe));
         System.out.println("Remember Me Set To: " + rememberMe);
+    }
+
+    @FXML
+    private void logoutAction(ActionEvent event) {
+        AdminUtil.logOut();
+        ApiHandler.TOKEN = null;
+        AdminUtil.sessionUsername = null;
+        AdminUtil.sessionRole = null;
+        AdminUtil.userId = -1;
+        ConfigManager.setProperty("rememberMe", "false");
+        ConfigManager.setProperty("username", "null");
+        ConfigManager.setProperty("password", "null");
+
+        try {
+            Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+            currentStage.close();
+            new LoginApp().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

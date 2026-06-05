@@ -155,12 +155,12 @@ public class MainController {
         }
 
         if(loggedIn){
-            refreshToTableAction(null);
             boolean flag = checkIfAdmin();
             while(!flag){
                 promptLogin();
                 flag = checkIfAdmin();
             }
+            refreshToTableAction(null);
         }
 
     }
@@ -242,6 +242,7 @@ public class MainController {
                     throw new RuntimeException(e);
                 }
                 usernameLabel.setText("N/A");
+                areAllTableInit = false;
                 UtilityCommands.displayNotificationPanel(1, "Logged out!");
                 isLogin = false;
             }

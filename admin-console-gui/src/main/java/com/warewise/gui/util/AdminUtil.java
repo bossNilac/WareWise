@@ -1,10 +1,11 @@
 package com.warewise.gui.util;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.warewise.gui.networking.ApiHandler;
 import com.warewise.gui.networking.ApiResponse;
-import com.warewise.gui.networking.WareHouseDataHandler;
 import com.warewise.gui.util.enums.UserRole;
-import com.warewise.gui.util.model.User;
 
 import java.io.*;
 
@@ -12,6 +13,8 @@ public class AdminUtil {
 
     public static boolean loggedIn = false;
     public static  String sessionUsername = null;
+    public static int userId = -1;
+    public static UserRole sessionRole = null;
     public static final String CREDENTIALS_FILE = System.getProperty("user.home") + "/WareWise/user_credentials.json";
 
     public static void notLoggedInError(){
@@ -79,30 +82,64 @@ public class AdminUtil {
             UtilityCommands.displayNotificationPanel(3,"Login Failed,wrong login credentials");
             loggedIn = false;
         }else {
-            ApiHandler.TOKEN = response.getData();
+            if (!applyLoginSession(response.getData())) {
+                UtilityCommands.displayNotificationPanel(3,"Login response was invalid");
+                loggedIn = false;
+                return;
+            }
             loggedIn = true;
         }
     }
 
     public static void logOut(){
+        if (ApiHandler.TOKEN == null) {
+            clearSession();
+            return;
+        }
         String loginResponse = ApiHandler.sendApiCall("GET","auth","logout",null);
         ApiResponse response = new ApiResponse(loginResponse);
         if(!response.getSuccess()){
             UtilityCommands.displayNotificationPanel(3,"Logout failed ");
-            loggedIn = true;
+            clearSession();
         }else {
-            loggedIn = false;
+            clearSession();
         }
     }
 
+    private static void clearSession() {
+        loggedIn = false;
+        ApiHandler.TOKEN = null;
+        sessionUsername = null;
+        sessionRole = null;
+        userId = -1;
+    }
+
     public static boolean checkIfAdmin(){
-        for (User u : WareHouseDataHandler.parsedUsersList) {
-            if(u.getUsername().equals(sessionUsername) && u.getRole() != UserRole.ADMIN){
-                UtilityCommands.displayWarning("You are not logged in as an Administrator ",false);
-                return false;
-            }
+        if (sessionRole != UserRole.ADMIN) {
+            UtilityCommands.displayWarning("You are not logged in as an Administrator ",false);
+            return false;
         }
         return true;
+    }
+
+    private static boolean applyLoginSession(String data) {
+        try {
+            JsonArray session = JsonParser.parseString(data).getAsJsonArray();
+            if (session.size() < 3) {
+                return false;
+            }
+            ApiHandler.TOKEN = stringAt(session, 0);
+            sessionRole = UserRole.fromLabel(stringAt(session, 1));
+            userId = session.get(2).getAsInt();
+            return ApiHandler.TOKEN != null && !ApiHandler.TOKEN.isBlank();
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    private static String stringAt(JsonArray array, int index) {
+        JsonElement value = array.get(index);
+        return value == null || value.isJsonNull() ? null : value.getAsString();
     }
 
 }
