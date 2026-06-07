@@ -3,13 +3,18 @@ import type { FormEvent } from "react";
 import { login, pingServer } from "../api";
 import type { Notice } from "../lib/notifications";
 import type { Session } from "../types";
+import { CheckField } from "../components/ui";
 
 export default function LoginPage({
   onLogin,
   notify,
+  remember,
+  onRememberChange,
 }: {
-  onLogin: (session: Session) => void;
+  onLogin: (session: Session, remember?: boolean) => void;
   notify: (notice: Notice) => void;
+  remember: boolean;
+  onRememberChange: (remember: boolean) => void;
 }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +31,7 @@ export default function LoginPage({
         setError("Server offline!");
         return;
       }
-      onLogin(await login(username.trim(), password));
+      onLogin(await login(username.trim(), password), remember);
     } catch {
       setError("Wrong username or password");
       notify({ tone: "error", text: "Wrong username or password" });
@@ -43,6 +48,7 @@ export default function LoginPage({
         <p>Sign in to your warehouse workspace</p>
         <label>Username<input value={username} onChange={(event) => setUsername(event.target.value)} placeholder="Username" /></label>
         <label>Password<input value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Password" type="password" /></label>
+        <CheckField label="Remember Me" checked={remember} onChange={onRememberChange} />
         <button className="primary-button" disabled={submitting} type="submit">{submitting ? "Signing in" : "Sign in"}</button>
         {error ? <div className="login-error">{error}</div> : null}
       </form>

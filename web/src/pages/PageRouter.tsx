@@ -1,5 +1,6 @@
 import type { PageKey } from "../lib/navigation";
 import type { Notice } from "../lib/notifications";
+import type { ThemeMode } from "../hooks/useTheme";
 import type { Session, WareWiseData } from "../types";
 import AdminConsolePage from "./admin/AdminConsolePage";
 import AlertsPage from "./worker/AlertsPage";
@@ -26,7 +27,18 @@ export default function PageRouter({
   refresh,
   notify,
   goTo,
-}: PageProps & { page: PageKey; goTo: (page: PageKey) => void }) {
+  theme,
+  setTheme,
+  remember,
+  setRemember,
+}: PageProps & {
+  page: PageKey;
+  goTo: (page: PageKey) => void;
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
+  remember: boolean;
+  setRemember: (remember: boolean) => void;
+}) {
   const props = { session, data, refresh, notify };
   switch (page) {
     case "dashboard":
@@ -58,6 +70,6 @@ export default function PageRouter({
     case "admin":
       return <AdminConsolePage {...props} />;
     case "settings":
-      return <SettingsPage session={session} />;
+      return <SettingsPage session={session} theme={theme} setTheme={setTheme} remember={remember} setRemember={setRemember} />;
   }
 }
